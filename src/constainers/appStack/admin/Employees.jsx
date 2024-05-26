@@ -19,21 +19,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { AppContext } from "../../../context";
 import Loader from "../../../components/Loader";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; 
+import "react-toastify/dist/ReactToastify.css";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-import ImageCompressor from 'image-compressor.js';
+import ImageCompressor from "image-compressor.js";
 import axios from "axios";
 import swal from "sweetalert";
 import { Pagination } from "antd";
-import { getEmployees } from "../../../services/employee/Employee";
+import { addEmployee, getEmployees } from "../../../services/employee/Employee";
 
-const Employees=()=> {
+const Employees = () => {
   const { user } = useContext(AppContext);
   const [imageError, setImageError] = useState("");
   const [nameError, setNameError] = useState("");
   const [priceError, setPriceError] = useState("");
   const [discountError, setDiscountError] = useState("");
-  const [titleError, setTitleError] = useState(""); 
+  const [titleError, setTitleError] = useState("");
   const [flavorError, setflavorError] = useState("");
   const [descError, setDescError] = useState("");
   const [catError, setCatError] = useState("");
@@ -46,12 +46,6 @@ const Employees=()=> {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-
-  
-
-
-
-
 
   const [options, setOptions] = useState([
     {
@@ -68,13 +62,13 @@ const Employees=()=> {
 
   const [inputValues, setInputValues] = useState({
     name: "",
-    email:"",
+    email: "",
     description: "",
     contactNo: "",
     profession: "",
-    image:"",
+    image: "",
+    category:"",
   });
-
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -105,24 +99,23 @@ const Employees=()=> {
     getEmployeesData();
   }, [currentPage]);
 
-   const productDelete = () =>{
+  const productDelete = () => {
     // deleteProduct(user.token, deleteId).then((res)=>{
     //  if(res.status === 200){
     //   console.table( "product deleted")
     //   // const updatedProducts = productData.filter((product) => product._id !== deleteId);
     //   //   setProductData(updatedProducts);
-
     //   const updatedProducts = productData.filter((product)=> product._id !== deleteId)
     //   setProductData(updatedProducts)
-    //  } 
+    //  }
     // }).catch((error)=>{
     //   toast.error(error)
     // })
-   }
+  };
 
   const getEmployeesData = () => {
-    setIsLoading(true)
-    getEmployees(user.token,currentPage)
+    setIsLoading(true);
+    getEmployees(user.token, currentPage)
       .then((res) => {
         // console.log(res?.data?.data, "productssssss")
         setIsLoading(false);
@@ -130,14 +123,12 @@ const Employees=()=> {
           let data = res?.data?.data;
           setEmployeeData(data);
           let cPage = res?.data?.currentPage;
-        let tPage = res?.data?.totalPages;
-        tPage = tPage *pageSize;
-        // console.log("Current: ", cPage)
-        // console.log("Total: ", tPage) 
-        setCurrentPage(cPage);
-        setTotalPages(tPage);
-
-       
+          let tPage = res?.data?.totalPages;
+          tPage = tPage * pageSize;
+          // console.log("Current: ", cPage)
+          // console.log("Total: ", tPage)
+          setCurrentPage(cPage);
+          setTotalPages(tPage);
         }
       })
       .catch((error) => {
@@ -149,70 +140,59 @@ const Employees=()=> {
   };
 
   const handleAddProductss = () => {
-    const { name, email, description, profession,image } = inputValues;
+    const { name, email, description, profession, image, contactNo,category } =
+      inputValues;
 
     let body = {
       name,
       email,
       description,
       profession,
-      image:image
+      image: image,
+      contactNo,
+      category
     };
     let hasError = false;
 
     if (name == "") {
-      setNameError("Product name is required");
-      hasError = true;
+      toast.error("Name is required");
+    } else if (email == "") {
+      toast.error("Email is required");
+    } else if (contactNo == "") {
+      toast.error("Email is required");
+    } else if (profession == "") {
+      toast.error("Email is required");
+    } else if (category == "") {
+      toast.error("Category is required");
+    } else if (image == "") {
+      toast.error("Image is required");
     } else {
-      setNameError("");
+      setIsLoading(true);
+      addEmployee(user.token, body)
+        .then((res) => {
+          console.log(res,"resppppppppppppppp");
+          setIsLoading(false);
+          if (res.status === 200) {
+            getEmployeesData();
+            toggle();
+            toast.success(res?.data?.message);
+          }else{
+            setIsLoading(false);
+            toast.error("Something went wrong");
+          }
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          toast.error("Something went wrong");
+        });
     }
-   
-    // if (!price) {
-    //   setPriceError("Price is required");
-    //   hasError = true;
-    // } else {
-    //   setPriceError("");
-    // }
-    // if (!image) {
-    //   setImageError("Image is required");
-    //   hasError = true;
-    // } else {
-    //   setImageError("");
-    // }
-    // if (!category) {
-    //   setCatError("Category is required");
-    //   hasError = true;
-    // } else {
-    //   setCatError("");
-    // }
-
-    // if (!discount) {
-    //   setDiscountError("Discount is required");
-    //   hasError = true;
-    // } else {
-    //   setDiscountError("");
-    // }
-    // setIsLoading(true)
-    // addProduct(user.token, body)
-    //   .then((res) => {
-    //     setIsLoading(true)
-    //     if (res.status === 200) {
-    //       getProductsData();
-    //       toggle();
-    //       toast.success("Product added successfully");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     setIsLoading(true)
-    //     toast.error(error);
-    //   });
   };
 
   const handleImageUpload = () => {
     fileInputRef.current.click();
   };
 
-  const handleFileSelect = async(e) => {
+  const handleFileSelect = async (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       const imageCompressor = new ImageCompressor();
@@ -229,12 +209,12 @@ const Employees=()=> {
         // let res = await axios.post("https://pizzafollia.com/upload.php", form);
         if (res.status == 200) {
           setIsLoading(false);
-          console.log(res,'urlllllllllllllll');
+          console.log(res, "urlllllllllllllll");
           setInputValues({
             ...inputValues,
-            image:res?.data?.url
-          })
-        }else{
+            image: res?.data?.url,
+          });
+        } else {
           setIsLoading(false);
         }
       } catch (error) {
@@ -280,36 +260,33 @@ const Employees=()=> {
   };
 
   const toggle = () => setModal(!modal);
-  const updateToggle = () =>{
-     setUpdateModal(!updateModal);
-    }
+  const updateToggle = () => {
+    setUpdateModal(!updateModal);
+  };
   const deleteToggle = (id) => {
-    setDeleteId(id)
+    setDeleteId(id);
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this imaginary file!",
-      icon: "warning", 
+      icon: "warning",
       buttons: true,
       dangerMode: true,
-    })
-    .then((willDelete) => {
+    }).then((willDelete) => {
       if (willDelete) {
-        productDelete()
-        swal("Poof! Your Product  has been deleted!", { 
+        productDelete();
+        swal("Poof! Your Product  has been deleted!", {
           icon: "success",
         });
       } else {
         swal("Your Product is safe!");
       }
-    })
-  }
+    });
+  };
 
   return (
     <>
       <NavigationDrawer>
-      {isLoading &&
-        <Loader isLoading={isLoading} />
-      }
+        {isLoading && <Loader isLoading={isLoading} />}
         <div>
           <ToastContainer
             position="top-right"
@@ -351,11 +328,25 @@ const Employees=()=> {
                 className="p-4"
                 style={{ maxHeight: "60vh", overflowY: "auto" }}
               >
+                {
+               inputValues?.image ? 
+               <div className=" d-flex align-items-center justify-content-center" onClick={handleImageUpload}>
+                   <img
+                            src={inputValues.image}
+                            alt="product image"
+                            className="img-fluid rounded-circle"
+                            height={"120px"}
+                            width={"120px"}
+                          />
+               </div>
+                :
                 <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
                   <i onClick={handleImageUpload}>
                     <CameraAltIcon className="camera-icon" />
                   </i>
                 </div>
+                  
+                }
                 {/* Hidden input for file selection */}
                 <input
                   type="file"
@@ -398,7 +389,8 @@ const Employees=()=> {
                     helperText={discountError}
                     value={inputValues.contactNo}
                     onChange={(e) => handleOnChange(e)}
-                    name="discount"
+                    name="contactNo"
+                    type={"numeric"}
                   />
                   <TextFeilds
                     label="Profession"
@@ -410,6 +402,20 @@ const Employees=()=> {
                     onChange={(e) => handleOnChange(e)}
                     name="profession"
                   />
+                   <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    value={inputValues.category}
+                    name="category"
+                    onChange={(e) => handleOnChange(e)}
+                    id="category"
+                    error={!!catError}
+                    helperText={catError}
+                  >
+                    <option selected>Category</option>
+                    <option value="1">Saloon</option>
+                    <option value="2">Workshop</option>
+                  </select>
                   <div class="mb-3 mt-3">
                     <textarea
                       class="form-control"
@@ -423,6 +429,7 @@ const Employees=()=> {
                       helperText={descError}
                     ></textarea>
                   </div>
+                 
                 </div>
               </ModalBody>
               <ModalFooter>
@@ -432,77 +439,84 @@ const Employees=()=> {
               </ModalFooter>
             </Modal>
           </div>
-          
 
           <TableContainer component={Paper}>
-  <Table sx={{ minWidth: 650 }} aria-label="simple table">
-    <TableHead>
-      <TableRow>
-        <TableCell align="center">Name</TableCell>
-        <TableCell align="center">Emial</TableCell>
-        <TableCell align="center">Contact No</TableCell>
-        <TableCell align="center">Profession</TableCell>
-        <TableCell align="center">Image</TableCell>
-        <TableCell align="center">Edit</TableCell>
-        <TableCell align="center">Delete</TableCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {employeeData.map((item, index) =>  (
-        <TableRow
-          key={index}
-          sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-        >
-          <TableCell component="th" scope="row" align="center">
-            {item.name}
-          </TableCell>
-          <TableCell align="center">{item.email}</TableCell>
-          <TableCell align="center">{item.contactNo}</TableCell>
-          <TableCell align="center">{item.profession}</TableCell>
-          <TableCell align="center">
-            <div className="products_images ">
-              <Link to={item.image} target="_blank"> 
-              <img
-                src={item.image}
-                alt="product image"
-                className="img-fluid  rounded-circle"
-                height={"40px"}
-                width={"40px"}
-              />
-              </Link>
-            </div>
-          </TableCell>
-          <TableCell align="center">
-            <div className="text-success edit-product " onClick={updateToggle}>
-              <BorderColorIcon />
-            </div>
-          </TableCell>
-          <TableCell align="center">
-            <div className="text-danger edit-product" onClick={() => deleteToggle(item._id)}>  
-              <DeleteIcon />
-            </div>
-          </TableCell>
-        </TableRow>
-      ))}
-    </TableBody>
-  </Table>
-</TableContainer>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">Name</TableCell>
+                  <TableCell align="center">Emial</TableCell>
+                  <TableCell align="center">Contact No</TableCell>
+                  <TableCell align="center">Profession</TableCell>
+                  <TableCell align="center">Category</TableCell>
+                  <TableCell align="center">Image</TableCell>
+                  <TableCell align="center">Edit</TableCell>
+                  <TableCell align="center">Delete</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {employeeData.map((item, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row" align="center">
+                      {item.name}
+                    </TableCell>
+                    <TableCell align="center">{item.email}</TableCell>
+                    <TableCell align="center">{item.contactNo}</TableCell>
+                    <TableCell align="center">{item.profession}</TableCell>
+                    <TableCell align="center">{item.category}</TableCell>
+                    <TableCell align="center">
+                      <div className="products_images ">
+                        <Link to={item.image} target="_blank">
+                          <img
+                            src={item.image}
+                            alt="product image"
+                            className="img-fluid  rounded-circle"
+                            height={"40px"}
+                            width={"40px"}
+                          />
+                        </Link>
+                      </div>
+                    </TableCell>
+                    <TableCell align="center">
+                      <div
+                        className="text-success edit-product "
+                        onClick={updateToggle}
+                      >
+                        <BorderColorIcon />
+                      </div>
+                    </TableCell>
+                    <TableCell align="center">
+                      <div
+                        className="text-danger edit-product"
+                        onClick={() => deleteToggle(item._id)}
+                      >
+                        <DeleteIcon />
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-<Pagination
-          className="pagination"
-          total={totalPages}
-          current={currentPage}
-          onChange={(page) => {
-            setCurrentPage(page);
-          }}
-        />
+          <Pagination
+            className="pagination"
+            total={totalPages}
+            current={currentPage}
+            onChange={(page) => {
+              setCurrentPage(page);
+            }}
+          />
 
-
-
-
- 
           <div className="add-product-modal ">
-            <Modal isOpen={updateModal} toggle={updateToggle} className="pt-5 w-100">
+            <Modal
+              isOpen={updateModal}
+              toggle={updateToggle}
+              className="pt-5 w-100"
+            >
               <ModalHeader toggle={updateToggle}>UPDATE PRODUCTS</ModalHeader>
               <ModalBody
                 className="p-4"
@@ -656,12 +670,11 @@ const Employees=()=> {
                 </div>
               </ModalFooter>
             </Modal>
-          </div> 
-          
+          </div>
         </div>
       </NavigationDrawer>
     </>
   );
-}
+};
 
-export default Employees
+export default Employees;

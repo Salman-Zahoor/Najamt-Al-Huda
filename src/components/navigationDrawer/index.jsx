@@ -42,10 +42,8 @@ import {
   GlobalDialogContentStyle,
 } from "./style"; // 
 import { AppContext } from "../../context";
-import profile from "../../assets/makeup.jpg"
-import logo from "../../assets/logo2.png"
-import Employees from "../../constainers/appStack/admin/Employees";
-
+import profile from "../../assets/makeup.jpg";
+import logo from "../../assets/logo2.png";
 
 
 

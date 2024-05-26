@@ -21,4 +21,8 @@ export const endPoints = {
     getEmployees:"getEmployees",
     getEmployeesbyCategory:"getEmployeesbyCategory",
     deleteEmployee:"deleteEmployee",
+    addEmployee:"addEmployee",
+    deleteEmployee:"deleteEmployee",
+    updateEmployee:"updateEmployee",
+    
 };
