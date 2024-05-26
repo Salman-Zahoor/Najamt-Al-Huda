@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import logo2 from "../../assets/logo2.png";
 import UAE from "../../assets/uae.png";
 import ENGLISH from "../../assets/english.png";
-import massage from "../../assets/massage.jpg";
-
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import HorizontalLinearStepper from "../../components/Stepper";
 
 const SingleProduct = () => {
   return (
@@ -117,24 +118,54 @@ const SingleProduct = () => {
         </div>
       </nav>
 
-
-
       {/* SINGLE PAGE */}
-
       <div className="single-page-container section-height p-5">
-        <div className="container">
-            <div className="row">
-                <div className="col-md-6">
-                    <div className="product-image bg-danger">
-                      <img src={massage} alt="massage" />
-                    </div>
-                </div>
-                <div className="col-md-6">
-                    <div className="single-product-content">
-                        
-                    </div>
-                </div>
+        <div className="container single-page-background">
+          <div className="row">
+            <div className="col-md-8">
+              <Container className="">
+                <Box
+                  sx={{ 
+                    bgcolor: "#E9BEC4",
+                    borderRadius: "10px",
+                    height: "89vh",
+                  }}
+                  className="p-4 scrollable"
+                >
+                  <HorizontalLinearStepper />
+                </Box>
+              </Container>
             </div>
+            <div className="col-md-4">
+            <div className="row">
+                <div className="col-md-12">
+                <div className="price-card p-3">
+                  <h4>Booking Details</h4>
+                  <div className="user-address mt-3 d-flex align-items-center justify-content-between">
+                    <p className="fw-bold">Address</p> 
+                    <p className="w-50">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, quo?</p>
+                  </div>
+                  <div className="selected-service d-flex align-items-center justify-content-between">
+                  <p className="fw-bold">Service</p> 
+                    <p className="w-50">Hair Treatment</p>
+                  </div>
+                </div>
+                </div>
+              </div>
+              <div className="row mt-4">
+                <div className="col-md-12">
+                  <div className="price-card p-3"> 
+                    <h4>Payment Summary</h4>
+                    <div className="user-address mt-3 d-flex align-items-center justify-content-between">
+                      <p className="fw-bold">Total</p>
+                      <p className="w-50 fw-bold text-end">AED 50.00</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
         </div>
       </div>
     </>

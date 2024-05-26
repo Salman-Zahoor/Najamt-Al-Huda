@@ -1,3 +1,4 @@
+
 * {
   padding: 0;
   margin: 0;
@@ -373,11 +374,92 @@ background-repeat: no-repeat;
   border-image: fill 0 linear-gradient(#0001,#000);
   filter: blur(35px);
 }
+/* carousel */
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center !important;
+  gap: 50px;
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  gap: 59px;
+}
+
+.carousel-image {
+  width: 150px;
+  height: 200px;
+  margin: 0 10px;
+}
+
+
+
+.prev-button {
+  margin-right: 10px;
+  background: none !important;
+  border: none !important;
+  font-size: 1.7rem !important;
+}
+
+.next-button {
+  margin-left: 10px;
+  background: none !important;
+  border: none !important;
+  font-size: 1.7rem !important;
+}
+
 /* single page */
-.product-image img{
+.steps-head{
+  background-color: var(--white);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 10px;
+}
+.payment-form {
+  background-color: var(--section-bg);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 8px;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.product-image img {
   /* max-width: 400px; */
-  height: 350px;
-  width: 550px;
+  height: 450px;
+  width: 650px;
+}
+.price-card{
+  background-color: var(--white);
+  /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.08);
+}
+.product {
+  background: url(/src/assets/professional.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 627px;
+  height: 239px;
+  margin-bottom: 3rem;
+  border-radius: 10px;
+}
+.scrollable{
+  overflow-y:auto;
+}
+img.single-image {
+  width: 400px !important;
+  height: 300px;
+  border-radius: 10px !important;
+}
+
+.product-price span{
+  font-size: 23px;
+  font-weight: bold;
+  color: var(--secondary-color);
 }
 /* about page */
 .about-page-container{
@@ -450,6 +532,15 @@ padding: 15px;
   align-items: center;
   justify-content: center;
 }
+
+.css-nun8wc-MuiButtonBase-root-MuiButton-root {
+  color: var(--white) !important;
+  background-color: var(--yellow-color) !important;
+}
+.css-1d7q9z5-MuiButtonBase-root-MuiButton-root{
+  background-color: var(--yellow-color) !important;
+  color: var(--white) !important;
+}
 .mail-icon i{
   font-size: 16rem !important;
 }
@@ -487,6 +578,8 @@ padding: 15px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
   border-radius: 4px;
 }
+
+
 
 @media screen and (max-width: 480px){
   .MuiDrawer-root.MuiDrawer-docked.css-1r4mfv4-MuiDrawer-docked {
