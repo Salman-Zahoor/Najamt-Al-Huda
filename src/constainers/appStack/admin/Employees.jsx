@@ -72,6 +72,7 @@ const Employees=()=> {
     description: "",
     contactNo: "",
     profession: "",
+    image:"",
   });
 
 
@@ -148,54 +149,50 @@ const Employees=()=> {
   };
 
   const handleAddProductss = () => {
-    const { name, price, description, discount } = inputValues;
+    const { name, email, description, profession,image } = inputValues;
 
     let body = {
       name,
-      price,
+      email,
       description,
-      discount,
-      category: "Special Offers",
-      date: new Date(),
-      image:
-        "https://admin.broadwaypizza.com.pk/Images/ProductImages/special111111.jpg",
-      options: options,
+      profession,
+      image:image
     };
     let hasError = false;
 
-    if (!name.trim()) {
+    if (name == "") {
       setNameError("Product name is required");
       hasError = true;
     } else {
       setNameError("");
     }
+   
+    // if (!price) {
+    //   setPriceError("Price is required");
+    //   hasError = true;
+    // } else {
+    //   setPriceError("");
+    // }
+    // if (!image) {
+    //   setImageError("Image is required");
+    //   hasError = true;
+    // } else {
+    //   setImageError("");
+    // }
+    // if (!category) {
+    //   setCatError("Category is required");
+    //   hasError = true;
+    // } else {
+    //   setCatError("");
+    // }
 
-    if (!price) {
-      setPriceError("Price is required");
-      hasError = true;
-    } else {
-      setPriceError("");
-    }
-    if (!image) {
-      setImageError("Image is required");
-      hasError = true;
-    } else {
-      setImageError("");
-    }
-    if (!category) {
-      setCatError("Category is required");
-      hasError = true;
-    } else {
-      setCatError("");
-    }
-
-    if (!discount) {
-      setDiscountError("Discount is required");
-      hasError = true;
-    } else {
-      setDiscountError("");
-    }
-    setIsLoading(true)
+    // if (!discount) {
+    //   setDiscountError("Discount is required");
+    //   hasError = true;
+    // } else {
+    //   setDiscountError("");
+    // }
+    // setIsLoading(true)
     // addProduct(user.token, body)
     //   .then((res) => {
     //     setIsLoading(true)
@@ -373,7 +370,7 @@ const Employees=()=> {
 
                 <div className="text-fields mt-3">
                   <TextFeilds
-                    label="Product Name"
+                    label="Employee Name"
                     size="small"
                     value={inputValues.name}
                     onChange={(e) => handleOnChange(e)}
@@ -384,103 +381,35 @@ const Employees=()=> {
                   />
 
                   <TextFeilds
-                    label="Price"
+                    label="Email"
                     size="small"
                     id="price"
                     error={!!priceError}
                     helperText={priceError}
-                    value={inputValues.price}
+                    value={inputValues.email}
                     onChange={(e) => handleOnChange(e)}
-                    name="price"
+                    name="email"
                   />
                   <TextFeilds
-                    label="Discount"
+                    label="Contact No"
                     size="small"
                     id="discount"
                     error={!!discountError}
                     helperText={discountError}
-                    value={inputValues.discount}
+                    value={inputValues.contactNo}
                     onChange={(e) => handleOnChange(e)}
                     name="discount"
                   />
-                  {options.map((item, index) => {
-                    return (
-                      <>
-                        {/* main field */}
-                        <div className="">
-                          <TextFeilds
-                            label="Title"
-                            size="small"
-                            key={index}
-                            value={item.title}
-                            name="title"
-                            onChange={(e) => handleOnChangeOptions(e, index)}
-                          />
-                          <div className=" d-flex align-items-center justify-content-end">
-                            <span
-                              className="mx-end text-primary"
-                              onClick={() => handleOnAdd()}
-                            >
-                              <AddCircleOutlineIcon />
-                            </span>
-                            <span
-                              className="mx-end text-danger"
-                              onClick={() => handleRemove(index)}
-                            >
-                              <DeleteIcon />
-                            </span>
-                          </div>
-                          {item.subOptions.map((CurElem, salman) => (
-                            <>
-                              {/* flavours field */}
-                              <div className="d-flex align-items-center justify-content-start ">
-                                <TextFeilds
-                                  label="flavour"
-                                  size="small"
-                                  className="w-100  text-end"
-                                  key={salman}
-                                  name="name"
-                                  value={CurElem.name}
-                                  onChange={(e) =>
-                                    handleOnChangeSuboptions(e, index, salman)
-                                  }
-                                />
-                                <p
-                                  className="mx-end text-primary"
-                                  onClick={() => handleOnAddFlavour(index)}
-                                >
-                                  <AddCircleOutlineIcon />
-                                </p>
-                                <p
-                                  className="mx-end text-danger"
-                                  onClick={() =>
-                                    handleRemoveFlavour(index, salman)
-                                  }
-                                >
-                                  <DeleteIcon />
-                                </p>
-                              </div>
-                            </>
-                          ))}
-                        </div>
-                      </>
-                    );
-                  })}
-                  <select
-                    class="form-select"
-                    aria-label="Default select example"
-                    value={inputValues.category}
-                    name="category"
+                  <TextFeilds
+                    label="Profession"
+                    size="small"
+                    id="discount"
+                    error={!!discountError}
+                    helperText={discountError}
+                    value={inputValues.profession}
                     onChange={(e) => handleOnChange(e)}
-                    id="category"
-                    error={!!catError}
-                    helperText={catError}
-                  >
-                    <option selected>Category</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
+                    name="profession"
+                  />
                   <div class="mb-3 mt-3">
                     <textarea
                       class="form-control"
