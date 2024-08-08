@@ -14,6 +14,9 @@ import Team from './constainers/appStack/Team'
 import Contact from './constainers/appStack/Contact'
 import { AuthRoutes } from './routes/authroutes.jsx'
 import Employees from './constainers/appStack/admin/Employees.jsx'
+import Help from './constainers/appStack/Help.jsx'
+import Privacy from './constainers/appStack/Privacy.jsx'
+
 
 
 function App() {
@@ -45,6 +48,8 @@ function App() {
       <Route path='/team' element={<Team/>}/>
       <Route path='/contact' element={<Contact/>}/>
       <Route path='/products/:id' element={<SingleProduct/>}/>
+      <Route path='/help&support' element={<Help/>}/>
+      <Route path='/privacy&policy' element={<Privacy/>}/>
 
       {/* Dashboard Routes */}
       <Route path='admin/login' element={<Login/>}/>

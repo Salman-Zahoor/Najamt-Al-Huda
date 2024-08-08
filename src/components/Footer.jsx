@@ -39,7 +39,7 @@ const Footer = () => {
                     <i class="fa-solid fa-phone fs-2 location"></i>
                     <div className="text-white">
                     <h5>Call Us</h5>
-                    <span>+971 123 38998</span>
+                    <span><a href='tel:+97112338998' className='text-white'>+97112338998</a></span>
                     </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ const Footer = () => {
                     <i class="fa-solid fa-envelope-open fs-2 location"></i>
                     <div className="text-white">
                     <h5>Email</h5>
-                    <span>Nahws@gmail.com</span>
+                    <span><a href='mailto:Nahws@gmail.com' className='text-white'>Nahws@gmail.com</a></span>
                     </div>
                     </div>
                 </div>
@@ -61,13 +61,13 @@ const Footer = () => {
                     <div className="row ">
                         <div className="col-md-6">
                             <div className="copy-right">
-                                <span className='text-white'>© 2021, Melier Kit by Tokomoo.</span>
+                                <span className='text-white'>© 2024</span>
                             </div>
                         </div>
                         <div className="col-md-6">
                             <div className="privacy d-flex align-items-center justify-content-end gap-3">
-                               <a href="#" className='text-white'>Help & Support</a>
-                               <a href="#" className='text-white'>Privacy Policy</a>
+                               <a href='/help&support' className='text-white'>Help & Support</a>
+                               <a href='/privacy&policy' className='text-white'>Privacy Policy</a>
                             </div>
                         </div>
                     </div>

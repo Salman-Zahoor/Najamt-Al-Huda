@@ -245,7 +245,12 @@ nav.navbar.navbar-expand-lg.p-3 {
   justify-content: space-between;
 }
 .about-btn{
-  background-color: var(--secondary-color) !important;
+  background-color: var(--yellow-color) !important;
+  color: var(--black) !important;
+}
+.view-all-btn{
+  background-color: var(--yellow-color) !important;
+  color: var(--black) !important;
 }
 img.rounded-img {
   border-radius: 9px;
@@ -284,6 +289,7 @@ img.pro-1 {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   max-width: 300px;
   height: 260px;
+  border-radius:1rem ;
 }
 .our-card i{
   font-size: 4rem;
@@ -516,6 +522,7 @@ padding: 15px;
   background-color: var(--white);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   margin-top: -2rem;
+  border-radius: 1rem;
 }
 .count-bar{
   border-right: 1px solid rgba(248, 248, 248, 0.881);
@@ -565,6 +572,7 @@ padding: 15px;
 }
 .send{
   background-color: var(--yellow-color) !important;
+  color: var(--black) !important;
 }
 .contact{
   background: url('./assets/about-bg.png');
@@ -575,9 +583,11 @@ padding: 15px;
 .location-card {
   width: 239px;
   height: 80px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset; */
   border-radius: 4px;
 }
+
 
 
 

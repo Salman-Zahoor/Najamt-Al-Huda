@@ -59,7 +59,7 @@ const Home = (args) => {
                   <h1 className="fs-2">
                     Women's Salon & Beauty <br /> Services At Home In The UAE
                   </h1>
-                  <Buttons name="Services" className="book-app mt-3" />
+                  <Link class="nav-link text-white" to="/services" > <Buttons name="Services" className="book-app mt-3" /></Link>
                 </div>
               </div>
             </div>
@@ -88,7 +88,7 @@ const Home = (args) => {
                   ipsam eligendi consequuntur rerum architecto quasi dolores
                   voluptas, deleniti placeat.
                 </p>
-                <Buttons name="About Us" className="about-btn" />
+                <Link class="nav-link" to="/about-us" ><Buttons name="About Us" className="about-btn" /></Link>
               </div>
             </div>
             <div className="col-md-3">
@@ -190,9 +190,7 @@ const Home = (args) => {
         </div>
 
         <div className="view-services mx-auto text-center mt-4">
-            <Buttons
-            name="View All Services"
-            />
+        <Link class="nav-link" to="/services" > <Buttons name="View All Services" className="view-all-btn"/></Link>
         </div>
       </div>
       <div className="why-us section-height d-flex align-items-center justify-content-center flex-column">

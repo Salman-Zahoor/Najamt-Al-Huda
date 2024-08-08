@@ -30,10 +30,19 @@ const Navbar = () => {
           </div>
           <div className="col-md-8 text-end">
             <div className="social-icons d-flex align-items-center justify-content-end gap-3 text-white">
-            <i class="fa-brands fa-facebook-f"></i>
-            <i class="fa-brands fa-x-twitter"></i>
-            <i class="fa-brands fa-behance"></i>
-            <i class="fa-brands fa-instagram"></i>
+            <a href="https://www.facebook.com" target="_blank">
+            <i class="fa-brands fa-facebook-f text-white"></i>
+            </a>
+            <a href="https://www.twitter.com" target="_blank">
+            <i class="fa-brands fa-x-twitter text-white"></i>
+            </a>
+            <a href="https://www.behance.net" target="_blank">
+            <i class="fa-brands fa-behance text-white"></i>
+            </a>
+            <a href="https://www.instagram.com" target="_blank">
+            <i class="fa-brands fa-instagram text-white"></i>
+            </a>
+
             <div className="book-now border-left">
           {/* <Buttons
           name="Book Now"
