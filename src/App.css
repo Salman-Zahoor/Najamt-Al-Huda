@@ -63,6 +63,37 @@ a {
   font-weight: 600;
   font-size: 15px;
 }
+.category-slider-container {
+  width: 80%;
+  margin: 0 auto;
+}
+.team-card-active{
+  width: 125px;
+  border-radius: 10px;
+  border: 1px dotted rgb(78, 75, 75);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+.category-button {
+  padding: 10px 30px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+button.category-button {
+  background-color: white;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  border: none;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  min-width: 180px;
+  transition: all 0.4s ease-in-out;
+}
 .forgot-password{
   font-size: 12px;
   cursor: pointer;
