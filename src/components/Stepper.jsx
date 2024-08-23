@@ -11,7 +11,7 @@ import PaymentMethod from './PaymentMethod';
 
 const steps = ['Service Info', 'Appointment Schedule', 'Payment Gateway'];
 
-export default function HorizontalLinearStepper() {
+export default function HorizontalLinearStepper({singlePageData}) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
@@ -90,7 +90,7 @@ export default function HorizontalLinearStepper() {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          {activeStep === 0 && <Faqs/>}
+          {activeStep === 0 && <Faqs singlePageData={singlePageData}/>}
           {activeStep === 1 && <ProfessionalsSlider/>} 
           {activeStep === 2 && <PaymentMethod/>}
           {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}

@@ -1,13 +1,29 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import logo2 from "../../assets/logo2.png";
 import UAE from "../../assets/uae.png";
 import ENGLISH from "../../assets/english.png";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import HorizontalLinearStepper from "../../components/Stepper";
+import { getSingleServiceData } from "../../services/products/Products";
 
 const SingleProduct = () => {
+  const {id} = useParams();
+  const [singlePageData, setSinglePageData] = useState([]);
+  
+  useEffect(()=>{
+    getSingleServiceData(id).then((res)=>{
+      console.log(res, 'sadsad')
+      if(res?.status === 200){
+        let data = res?.data?.data;
+         setSinglePageData(data)
+      }
+    }).catch((error)=>{
+      console.log(error)
+    })
+  },[])
+
   return (
     <>
       <div className="top-navbar bg-dark">
@@ -132,33 +148,47 @@ const SingleProduct = () => {
                   }}
                   className="p-4 scrollable"
                 >
-                  <HorizontalLinearStepper />
+                  <HorizontalLinearStepper singlePageData={singlePageData}/>
                 </Box>
               </Container>
             </div>
             <div className="col-md-4">
             <div className="row">
                 <div className="col-md-12">
-                <div className="price-card p-3">
+                <div className="price-card p-3" style={{minHeight:'30%', overflowY:'scroll'}}>
+                  <h4  className="">Include Services : </h4>
+                  <div className="text-start d-flex align-items-center justify-content-start flex-column" >
+                    {singlePageData?.features?.length > 0 ?  (
+                      singlePageData?.features?.map((item, index)=>{
+                        <span>{item?.feature}</span>
+                      })
+                    ) : (
+                      <div className="d-flex align-items-center justify-content-center">
+                        <span className="mb-5">Not Found</span>
+                        </div>
+                    )}
+                  </div>
+                </div>
+                <div className="price-card p-3 mt-3">
                   <h4>Booking Details</h4>
-                  <div className="user-address mt-3 d-flex align-items-center justify-content-between">
+                  {/* <div className="user-address mt-3 d-flex align-items-center justify-content-between">
                     <p className="fw-bold">Address</p> 
                     <p className="w-50">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, quo?</p>
-                  </div>
-                  <div className="selected-service d-flex align-items-center justify-content-between">
+                  </div> */}
+                  <div className="selected-service mt-4 d-flex align-items-center justify-content-between">
                   <p className="fw-bold">Service</p> 
-                    <p className="w-50">Hair Treatment</p>
+                    <p className="w-50">{singlePageData?.name}</p>
                   </div>
                 </div>
                 </div>
               </div>
-              <div className="row mt-4">
+              <div className="row">
                 <div className="col-md-12">
-                  <div className="price-card p-3"> 
+                  <div className="price-card price__card p-3"> 
                     <h4>Payment Summary</h4>
                     <div className="user-address mt-3 d-flex align-items-center justify-content-between">
                       <p className="fw-bold">Total</p>
-                      <p className="w-50 fw-bold text-end">AED 50.00</p>
+                      <p className="w-50 fw-bold text-end">AED {singlePageData.price}</p>
                     </div>
                   </div>
                 </div>

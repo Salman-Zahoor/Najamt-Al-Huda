@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar'
 import ServiceSection from '../../components/ServiceSection'
 import Box from "@mui/material/Box";
@@ -14,6 +14,7 @@ import massage from "../../assets/massage.jpg";
 import Buttons from '../../components/Buttons';
 import makeup from "../../assets/makeup.jpg"
 import ServiceSlider from '../../components/ServiceSlider';
+import { getAllUserServices, getUserCategories } from '../../services/products/Products';
 
 
 const products = [
@@ -54,11 +55,32 @@ const products = [
 ]
 
 
+
+
 const Services = () => {
     const history = useNavigate();
+    const [getAllServices, setGetAllServices] = useState([])
     const handleSinglePage = (productId) =>{
         navigate(`/products/${productId}`);
     };
+
+    useEffect(()=>{
+      handleUserAllServices()
+    },[])
+    
+    const handleUserAllServices = () =>{
+      getAllUserServices().then((res)=>{
+       if(res?.status === 200){
+        const data = res?.data?.data
+        setGetAllServices(data)
+       } 
+      }).catch((error)=>{
+        console.log(error)
+      })
+    }
+
+   
+
   return (
     <>
     
@@ -89,29 +111,29 @@ const Services = () => {
           </p>
         </div>
                
-        <ServiceSlider/>
+        <ServiceSlider getAllServices={getAllServices} setGetAllServices={setGetAllServices}/>
         <div className="service_cards"> 
         <div className="container d-flex align-items-center justify-content-center">
             <div className="row  d-flex align-items-center justify-content-center">
-            {products.map((product)=>(
-                <div className="col-md-4 mb-5" key={product.id}>
+            {getAllServices.map((product, index)=>(
+                <div className="col-md-4 mb-5" key={index}>
                 <div class="card " style={{width:"18rem"}}>
-                <img src={product.image} class="card-img-top" alt={product.name}/>
+                <img src={product?.image} class="card-img-top" alt={product?.name}/>
                 <div class="card-body p-3"> 
                     <div className="d-flex align-items-center justify-content-between">
-                    <h5 class=" pt-2 ">{product.name}</h5>
-                    <span className="price fw-bold">{product.price}</span>
+                    <h5 class=" pt-2 ">{product?.name}</h5>
+                    <span className="price fw-bold">{product?.price}</span>
                     </div>
                 <ul class=" card-ul pt-1">
-                    {product.features.map((feature,index)=>(
-                        <li class="" key={index}>{feature}</li>
+                    {product?.feature?.map((feature,index)=>(
+                        <li class="" key={index}>{feature?.feature}</li>
                     ))}
                 </ul>
                     <div className="text-center pb-2">
-                    <Link to={`/products/${product.id}`}>
+                    <Link to={`/products/${product?._id}`}>
                     <Buttons
                     name="Book Now"
-                    onClick={() => handleSinglePage(product.id)}
+                    onClick={() => handleSinglePage(product?._id)}
                     className="w-75 card-book "
                     />
                     </Link>
