@@ -24,5 +24,10 @@ export const endPoints = {
     addEmployee:"addEmployee",
     // deleteEmployee:"deleteEmployee",
     updateEmployee:"updateEmployee",
+    getCategory:'getCategory',
+    getAllServicesUser:'getAllServicesUser',
+    getServicesbyCategory:'getServicesbyCategory',
+    getServiceDetailsById:'getServiceDetailsById',
+    getEmployeesByUser:'getEmployeesByUser',
     
 };

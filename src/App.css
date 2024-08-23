@@ -11,6 +11,23 @@
   --white:#fff;
   --section-bg:#FFF9F9;
 }
+::-webkit-scrollbar {
+  width: 8px; 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-color); 
+  border-radius: 10px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--black); 
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px; 
+}
 h1{
   font-size: 60px;
   font-family: Teko,sans-serif !important;
@@ -484,8 +501,46 @@ background-repeat: no-repeat;
   margin-bottom: 3rem;
   border-radius: 10px;
 }
+.price-card::-webkit-scrollbar {
+  width: 5px; 
+}
+
+.price-card::-webkit-scrollbar-thumb {
+  background-color: #a6a4a4; 
+  border-radius: 10px; 
+}
+
+.price-card::-webkit-scrollbar-thumb:hover {
+  background-color: #555; 
+}
+
+.price-card::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px; 
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 5px !important; 
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #a6a4a4 !important; 
+  border-radius: 10px !important; 
+}
+
+.scrollable::-webkit-scrollbar-thumb:hover {
+  background-color: #555 !important; 
+}
+
+.scrollable::-webkit-scrollbar-track {
+  background: #f1f1f1 !important; 
+  border-radius: 10px !important; 
+}
 .scrollable{
   overflow-y:auto;
+}
+.price-card.price__card.p-3 {
+  margin-top: 1rem !important;
 }
 img.single-image {
   width: 400px !important;

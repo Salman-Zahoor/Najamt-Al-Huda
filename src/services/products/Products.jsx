@@ -1,5 +1,5 @@
 import Api from "../index";
-import { endPoints, requestType } from "../../constants/variables";
+import { endPoints, requestType } from "../../constants/Variables";
 
 
 // Login
@@ -18,18 +18,18 @@ export const deleteProduct = (token, id) => {
 }
  
 // Category 
-export const addCategory = (token, body) =>{
-    return Api (`${endPoints.createCategory}`, body, requestType.POST,token)
-}
-export const getCategory = (token, page) =>{
-    return Api(`${endPoints.getAllCategories}?page=${page}`, null, requestType.GET, token)
-}
-export const editCategory = (token,body,id) =>{
-    return Api(`${endPoints.updateCategory}/${id}`, body, requestType.PUT, token)
-}
-export const deleteCategories = (token, id) =>{
-    return Api(`${endPoints.deleteCategory}/${id}`, null, requestType.DELETE, token)
-}
+// export const addCategory = (token, body) =>{
+//     return Api (`${endPoints.createCategory}`, body, requestType.POST,token)
+// }
+// export const getCategory = (token, page) =>{
+//     return Api(`${endPoints.getAllCategories}?page=${page}`, null, requestType.GET, token)
+// }
+// export const editCategory = (token,body,id) =>{
+//     return Api(`${endPoints.updateCategory}/${id}`, body, requestType.PUT, token)
+// }
+// export const deleteCategories = (token, id) =>{
+//     return Api(`${endPoints.deleteCategory}/${id}`, null, requestType.DELETE, token)
+// }
 
 
 // BANNERS 
@@ -42,6 +42,21 @@ export const getBanners = (token) =>{
 export const addBanners = (token,body) =>{
     return Api(`${endPoints.addBanner}`, body, requestType.POST, token)
 }
-export const deleteBanners = (token,id) =>{npm 
+export const deleteBanners = (token,id) =>{
     return Api(`${endPoints.deleteBanner}/${id}`, null, requestType.DELETE, token)
 }
+
+
+    //   :::USER SIDE SERVICES CATEGORIES::: 
+    export const getUserCategories = () =>{
+        return Api(`${endPoints.getCategory}`, null, requestType.GET, null)
+    }
+    export const getAllUserServices = () =>{
+        return Api(`${endPoints.getAllServicesUser}`, null, requestType.GET, null) 
+    }
+    export const getUserServiceByCategory = (params) =>{
+        return Api(`${endPoints.getServicesbyCategory}`, params, requestType.POST, null)
+    }
+    export const getSingleServiceData = (id) =>{
+        return Api(`${endPoints.getServiceDetailsById}/${id}`, null, requestType.GET, null)
+    }

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { getUserCategories, getUserServiceByCategory } from '../services/products/Products';
 // import { clientCategory } from '../services/products/Products';
 // import { breakpoints } from '@mui/system';
 
-const ServiceSlider = () => {
-  const [categories, setCategories] = useState([]);
+const ServiceSlider = ({setGetAllServices}) => {
+  const [userGetCat, setUserGetCat] = useState([])
 
   const settings = {
     centerMode: true,
@@ -30,38 +31,59 @@ const ServiceSlider = () => {
     ]
   };
 
-//   useEffect(() => {
-//     getCategory();
-//   }, []);
+ 
+  useEffect(()=>{
+    handleGetCategories()
+   },[])
 
-  
-  const services = [
-    {
-        name:'Hair Service'
-    },
-    {
-        name:'Skin Service'
-    },
-    {
-        name:'SPA Service'
-    },
-    {
-        name:'Massage Service'
-    },
-    {
-        name:'Massage Service'
-    },
-  ]
+
+   const handleGetCategories = () =>{
+     getUserCategories().then((res)=>{
+       if(res?.status === 200) {
+         const data = res?.data?.data
+         setUserGetCat(data)
+       }
+     }).catch((error)=>{
+      console.log(error)
+     })
+   }
+
+
+
+   
+
+   const handleOnClickCategory = (categoryId) =>{
+
+        let payload = {
+            category : categoryId,
+        }
+        getUserServiceByCategory(payload).then((res)=>{
+            if(res?.status === 200){
+                const data = res?.data?.data
+            setGetAllServices(data)
+           }
+        }).catch((error)=>{
+         console.log(error)
+        })
+   }
 
   return ( 
     <div className="category-slider-container mb-5">
-      {/* <h4 className='text-center mb-4 underline'>CATEGORIES</h4> */}
-      {services?.length > 4 ? (
+      {userGetCat?.length > 4 ? (
         <Slider {...settings} className=''>
-          {services?.map((item,index) => (
+          <div className='p-3'>
+              <button
+                className="category-button"
+                // onClick={()=>handleOnClickCategory(item._id)}
+              >
+                All
+              </button>
+            </div>
+          {userGetCat?.map((item,index) => (
             <div className='p-3' key={index}>
               <button
                 className="category-button"
+                onClick={()=>handleOnClickCategory(item._id)}
               >
                 {item.name}
               </button>
@@ -69,10 +91,10 @@ const ServiceSlider = () => {
           ))}
         </Slider>
       ) : (
-        services?.map((item,index) => (
+        userGetCat?.map((item,index) => (
           <div className='p-3' key={index}>
             <button
-             className="category-button"
+             className="category-button "
             >
               {item.name}
             </button>
