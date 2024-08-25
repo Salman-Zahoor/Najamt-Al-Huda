@@ -136,7 +136,7 @@ const SingleProduct = () => {
 
       {/* SINGLE PAGE */}
       <div className="single-page-container section-height p-5">
-        <div className="container single-page-background">
+        <div className="container-fluid single-page-background">
           <div className="row">
             <div className="col-md-8">
               <Container className="">

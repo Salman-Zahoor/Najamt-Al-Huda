@@ -12,31 +12,22 @@ export default function BasicDateTimePicker() {
     setSelectedDateTime(newDateTime);
 
     if (newDateTime) {
-      const formattedDateTime = newDateTime.format("YYYY-MM-DD hh:mm:ss A");
-      // console.log(formattedDateTime, 'timeeeeee');
+      const formattedDateTime = newDateTime.format("YYYY-MM-DD HH:mm:ss");
+      console.log(formattedDateTime, 'Selected DateTime');
     }
   };
 
-  const shouldDisableDate = (date) => {
-    return date.day() === 5;
-  };
-
-  const shouldDisableTime = (timeValue, clockType) => {
-    if (clockType === "hours") {
-      return timeValue < 10 || timeValue > 22;
-    }
-    return false;
-  };
+ 
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={["DateTimePicker"]}>
         <DateTimePicker
-          label="Basic date time picker"
+          label="Book your service"
           value={selectedDateTime}
           onChange={handleDateTimeChange}
-          shouldDisableDate={shouldDisableDate}
-          shouldDisableTime={shouldDisableTime}
+          // shouldDisableDate={shouldDisableDate}
+          // shouldDisableTime={shouldDisableTime}
         />
       </DemoContainer>
     </LocalizationProvider>

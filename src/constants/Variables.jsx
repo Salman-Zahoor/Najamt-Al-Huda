@@ -29,5 +29,6 @@ export const endPoints = {
     getServicesbyCategory:'getServicesbyCategory',
     getServiceDetailsById:'getServiceDetailsById',
     getEmployeesByUser:'getEmployeesByUser',
+    checkBooking:'checkBooking',
     
 };

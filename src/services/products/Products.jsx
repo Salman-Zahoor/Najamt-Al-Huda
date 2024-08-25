@@ -60,3 +60,14 @@ export const deleteBanners = (token,id) =>{
     export const getSingleServiceData = (id) =>{
         return Api(`${endPoints.getServiceDetailsById}/${id}`, null, requestType.GET, null)
     }
+
+
+    // EMPOYEES CLIENT SIDE
+    export const getEmployeesClientSide = () =>{
+        return Api(`${endPoints.getEmployeesByUser}`, null, requestType.GET, null)
+    }
+
+    // EMPOYEES CLIENT SIDE
+    export const checkBooking = (params) =>{
+        return Api(`${endPoints.checkBooking}`, params, requestType.POST, null)
+    }

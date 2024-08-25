@@ -84,15 +84,53 @@ a {
   width: 80%;
   margin: 0 auto;
 }
-.team-card-active{
-  width: 125px;
-  border-radius: 10px;
-  border: 1px dotted rgb(78, 75, 75);
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  background-color: white;
+
+.category-slider-container {
+  width: 100%; /* Ensure the container takes full width */
+  overflow: hidden; /* Hide any overflow */
+}
+
+.slick-track {
+  display: flex;
+  flex-direction: row; 
+}
+.team-card.active {
+  background-color: var(--white);
+  color: var(--black);
+  border: none;
+}
+.slick-slide {
+  display: flex; /* Flex display to align content */
+  justify-content: center;
+  align-items: center;
+}
+
+/* .team-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+} */
+
+.team-card{
+  background-color: transparent;
+  width: 185px !important;
+  min-height: 150px;
   cursor: pointer;
+  border-radius: 10px;
+  border: 1px dotted var(--black);
   transition: all 0.3s ease-in;
 }
+.team-card:hover{
+  background-color: var(--white);
+  width: 130px;
+  min-height: 150px;
+  border-radius: 10px;
+  border: 0;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
 .category-button {
   padding: 10px 30px;
   background-color: white;
