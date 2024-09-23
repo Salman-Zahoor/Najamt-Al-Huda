@@ -102,7 +102,7 @@ const Login = () => {
               <div className="form-container p-5">
               <div className="form">
                 <div className="d-flex align-items-center justify-content-between mb-3">
-                <h5 className="text">WELCOME BACK Salman!</h5>
+                <h5 className="text">WELCOME BACK!</h5>
                 <img src={lock} alt="password" className="lock" />
                 </div>
                 <TextFeilds

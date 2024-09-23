@@ -3,15 +3,16 @@ import { Avatar } from "@mui/material";
 import Slider from "react-slick";
 import BasicDateTimePicker from "./DateAndTime";
 import { checkBooking, getEmployeesClientSide } from "../services/products/Products";
-
-const ProfessionalsSlider = ({teamId, setTeamId,setSelectedDateTime,selectedDateTime,handleDateTimeChange}) => {
+import logo2 from "../assets/logo2.png"
+const ProfessionalsSlider = ({teamId, setTeamId,setSelectedDateTime,selectedDateTime,isAutoAssign,setIsAutoAssign}) => {
   console.log(teamId, 'neeeeew')
-  const [activeIndex, setActiveIndex] = useState(1); 
+  const [activeIndex, setActiveIndex] = useState(-1); 
   const [team, setTeam] = useState([]); 
 
-  const [isAutoAssign, setIsAutoAssign]= useState(false);
 
-
+  const handleDateTimeChange = (newDateTime) => {
+    setSelectedDateTime(newDateTime);
+  };
   var settings = {
     dots: false,
     infinite: true,
@@ -59,6 +60,11 @@ const ProfessionalsSlider = ({teamId, setTeamId,setSelectedDateTime,selectedDate
 
     
   const handleCardClick = (index, id) => {
+    if (id=="auto") {
+      setActiveIndex(index);
+      setIsAutoAssign(true)
+      return
+    }
     setActiveIndex(index);
     setTeamId(id); 
   };
@@ -75,6 +81,31 @@ const ProfessionalsSlider = ({teamId, setTeamId,setSelectedDateTime,selectedDate
           <div className="row d-flex align-items-center justify-content-center">
             <div className="col-md-12">
               <Slider {...settings}>
+              <div
+                    className={`team-card p-2 text-center ${
+                      isAutoAssign === true ? "active" : ""
+                    }`}
+                    key={100}
+                    onClick={()=> handleCardClick(100,"auto")}
+                    style={{
+                      backgroundColor:isAutoAssign === true ? "#007bff" : "#f8f9fa",
+                      color: isAutoAssign === true ? "#ffffff" : "#000000",
+                    }}
+                  >
+                    <div className="imagesss text-center m-auto">
+                      <Avatar
+                        alt={"Auto"}
+                        sx={{ width: 80, height: 80 }}
+                        className="m-auto"
+                        src={logo2}
+                      />
+                    </div>
+                    <h5 className="text-center mt-3">Auto Assign</h5>
+                     <div className="d-flex flex-column">
+                     {/* <small className="">{item.email}</small> */}
+                     <span className="fs-6">Employee</span>
+                     </div>
+                  </div>
                 {team.map((item, index) => (
                   <div
                     className={`team-card p-2 text-center ${

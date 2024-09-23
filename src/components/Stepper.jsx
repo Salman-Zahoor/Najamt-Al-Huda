@@ -1,24 +1,30 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Faqs from './Faqs';
-import ProfessionalsSlider from './ProfessionalsSlider';
-import PaymentMethod from './PaymentMethod';
-import { checkBooking } from '../services/products/Products';
-import { message } from 'antd';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Faqs from "./Faqs";
+import ProfessionalsSlider from "./ProfessionalsSlider";
+import PaymentMethod from "./PaymentMethod";
+import { checkBooking } from "../services/products/Products";
+import { message } from "antd";
 
-const steps = ['Service Info', 'Appointment Schedule', 'Payment Gateway'];
+const steps = ["Service Info", "Appointment Schedule", "Payment Gateway"];
 
-export default function HorizontalLinearStepper({singlePageData}) {
+export default function HorizontalLinearStepper({ singlePageData }) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-  const [teamId, setTeamId] = React.useState(null); 
+  const [teamId, setTeamId] = React.useState(null);
   const [selectedDateTime, setSelectedDateTime] = React.useState(null);
-
+  const [isAutoAssign, setIsAutoAssign] = React.useState(true);
+  const [userDetails, setUserDetails] = React.useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
   const isStepOptional = (step) => {
     return step === 1;
   };
@@ -30,7 +36,7 @@ export default function HorizontalLinearStepper({singlePageData}) {
   const handleNext = () => {
     if (activeStep === 1 && !selectedDateTime) {
       message.error('Please select a time and date')
-      return; 
+      return;
     }
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
@@ -39,7 +45,7 @@ export default function HorizontalLinearStepper({singlePageData}) {
     }
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
-    handleCheckBooking()
+    handleCheckBooking();
   };
 
   const handleBack = () => {
@@ -65,34 +71,24 @@ export default function HorizontalLinearStepper({singlePageData}) {
     setActiveStep(0);
   };
 
-
   // handle check booking
   const handleCheckBooking = () => {
-    
     let payload = {
-      selectedTime:selectedDateTime,
-      employeeId:teamId,
-      autoAssign:''
-    } 
-    checkBooking(payload).then(()=>{
-       
-    }).catch((error)=>{
-      console.log(error)
-    })
-  }
-
-  const handleDateTimeChange = (newDateTime) => {
-    setSelectedDateTime(newDateTime);
-
-    if (newDateTime) {
-      const formattedDateTime = newDateTime.format("YYYY-MM-DD HH:mm:ss");
-      console.log(formattedDateTime, 'Selected DateTime new');
-    }
+      selectedTime: selectedDateTime,
+      employeeId: teamId,
+      autoAssign: isAutoAssign,
+    };
+    checkBooking(payload)
+      .then((res) => {
+        console.log(res, "hey-resssssssssssssssssss");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: "100%" }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {};
@@ -117,23 +113,31 @@ export default function HorizontalLinearStepper({singlePageData}) {
           <Typography sx={{ mt: 2, mb: 1 }}>
             All steps completed - you&apos;re finished
           </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Box sx={{ flex: "1 1 auto" }} />
             <Button onClick={handleReset}>Reset</Button>
           </Box>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          {activeStep === 0 && <Faqs singlePageData={singlePageData}/>}
-          {activeStep === 1 && <ProfessionalsSlider 
-           setTeamId={setTeamId}
-           teamId={teamId}
-           selectedDateTime={selectedDateTime}
-           setSelectedDateTime={setSelectedDateTime}
-           handleDateTimeChange={handleDateTimeChange}
-           />} 
-          {activeStep === 2 && <PaymentMethod/>}
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+          {activeStep === 0 && <Faqs singlePageData={singlePageData} />}
+          {activeStep === 1 && (
+            <ProfessionalsSlider
+              setTeamId={setTeamId}
+              teamId={teamId}
+              selectedDateTime={selectedDateTime}
+              setSelectedDateTime={setSelectedDateTime}
+              isAutoAssign={isAutoAssign}
+              setIsAutoAssign={setIsAutoAssign}
+            />
+          )}
+          {activeStep === 2 && (
+            <PaymentMethod
+              userDetails={userDetails}
+              setUserDetails={setUserDetails}
+            />
+          )}
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
               color="inherit"
               disabled={activeStep === 0}
@@ -142,7 +146,7 @@ export default function HorizontalLinearStepper({singlePageData}) {
             >
               Back
             </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
+            <Box sx={{ flex: "1 1 auto" }} />
             {/* {isStepOptional(activeStep) && (
               <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                 Skip
@@ -150,7 +154,7 @@ export default function HorizontalLinearStepper({singlePageData}) {
             )} */}
 
             <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              {activeStep === steps.length - 1 ? "Finish" : "Next"}
             </Button>
           </Box>
         </React.Fragment>

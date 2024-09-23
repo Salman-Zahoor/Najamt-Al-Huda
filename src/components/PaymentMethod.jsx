@@ -2,13 +2,20 @@ import React from 'react'
 import TextFeilds from './TextFeilds'
 import Buttons from './Buttons'
 
-const PaymentMethod = () => {
+const PaymentMethod = ({ userDetails,setUserDetails}) => {
+
+  const onChnageHandle=(e)=>{
+    setUserDetails({
+      ...userDetails,
+      [e.target.name]: e.target.value
+    })
+  }
   return (
     <>
-      <div className="steps-head text-center p-2 mt-4">
-      <span className='fw-bold'>Payment Method</span>
+      <div className="steps-head text-center p-2 mt-2">
+      <span className='fw-bold'>User Details</span>
       </div>
-      <div className="payment-form mt-4">
+      <div className="payment-form mt-2">
        <div className="container">
         <div className="row">
             <div className="col-md-6">
@@ -17,56 +24,40 @@ const PaymentMethod = () => {
            type='text'
            label='User Name'
            className='username w-100'
-           name='username'
+           name='name'
+            onChange={(e)=>onChnageHandle(e)}
         />
             </div>
             <div className="col-md-6">
             <TextFeilds
-           id='cardNumber'
+           id='email'
            type='text'
-           label='Card Number'
+           label='Email'
            className='cardNumber w-100'
-           name='cardNumber'
+           name='email'
+           onChange={(e)=>onChnageHandle(e)}
         />
             </div>
         </div>
         <div className="row">
             <div className="col-md-6">
             <TextFeilds
-           id='expirayDate'
+           id='phone'
            type='text'
-           label='Expiration Date'
+           label='Phone No'
            className='expiry w-100'
-           name='expiry'
+           name='phone'
+           onChange={(e)=>onChnageHandle(e)}
         />
             </div>
             <div className="col-md-6">
             <TextFeilds
-           id='cvv'
+           id='address'
            type='text'
-           label='CVV'
+           label='Address'
            className='cvv w-100'
-           name='cvv'
-        />
-            </div>
-        </div>
-        <div className="row">
-            <div className="col-md-6">
-            <TextFeilds
-           id='country'
-           type='text'
-           label='Country'
-           className='country w-100'
-           name='country'
-        />
-            </div>
-            <div className="col-md-6">
-            <TextFeilds
-           id='zip'
-           type='text'
-           label='Zip'
-           className='zip w-100'
-           name='zip'
+           name='address'
+           onChange={(e)=>onChnageHandle(e)}
         />
             </div>
         </div>

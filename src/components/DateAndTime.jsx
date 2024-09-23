@@ -5,7 +5,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
 
-export default function BasicDateTimePicker({selectedDateTime,handleDateTimeChange}) {
+export default function BasicDateTimePicker({selectedDateTime,onDateTimeChange}) {
   // const [selectedDateTime, setSelectedDateTime] = useState(null);
 
   // const handleDateTimeChange = (newDateTime) => {
@@ -25,7 +25,7 @@ export default function BasicDateTimePicker({selectedDateTime,handleDateTimeChan
         <DateTimePicker
           label="Book your service"
           value={selectedDateTime}
-          onChange={handleDateTimeChange}
+          onChange={onDateTimeChange}
           // shouldDisableDate={shouldDisableDate}
           // shouldDisableTime={shouldDisableTime}
         />

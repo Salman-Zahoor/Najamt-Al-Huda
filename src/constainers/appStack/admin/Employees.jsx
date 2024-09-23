@@ -259,9 +259,36 @@ const Employees = () => {
     setOptions(dummy);
   };
 
-  const toggle = () => setModal(!modal);
-  const updateToggle = () => {
-    setUpdateModal(!updateModal);
+  const toggle = () => {
+    setInputValues({
+      name: "",
+      email: "",
+      description: "",
+      contactNo: "",
+      profession: "",
+      image: "",
+      category:"",
+    })
+    setModal(!modal);
+  }
+
+  const updateToggle = (item) => {
+    if (item) {
+      setUpdateModal(!updateModal);
+      setInputValues({
+        name:item?.name,
+        email:item?.email,
+        description:item?.description,
+        contactNo:item?.contactNo,
+        profession:item?.profession,
+        image:item?.image,
+        category:item?.category,
+  
+      })
+    }else{
+      setUpdateModal(!updateModal)
+    }
+   
   };
   const deleteToggle = (id) => {
     setDeleteId(id);
@@ -324,6 +351,127 @@ const Employees = () => {
           <div className="add-product-modal ">
             <Modal isOpen={modal} toggle={toggle} className="pt-5 w-100">
               <ModalHeader toggle={toggle}>ADD Employees</ModalHeader>
+              <ModalBody
+                className="p-4"
+                style={{ maxHeight: "60vh", overflowY: "auto" }}
+              >
+                {
+               inputValues?.image ? 
+               <div className=" d-flex align-items-center justify-content-center" onClick={handleImageUpload}>
+                   <img
+                            src={inputValues.image}
+                            alt="product image"
+                            className="img-fluid rounded-circle"
+                            height={"100px"}
+                            width={"120px"}
+                          />
+               </div>
+                :
+                <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
+                  <i onClick={handleImageUpload}>
+                    <CameraAltIcon className="camera-icon" />
+                  </i>
+                </div>
+                  
+                }
+                {/* Hidden input for file selection */}
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  ref={fileInputRef}
+                  onChange={handleFileSelect}
+                  id="image"
+                  error={!!imageError}
+                  helperText={imageError}
+                />
+
+                <div className="text-fields mt-3">
+                  <TextFeilds
+                    label="Employee Name"
+                    size="small"
+                    value={inputValues.name}
+                    onChange={(e) => handleOnChange(e)}
+                    name="name"
+                    id="name"
+                    error={!!nameError}
+                    helperText={nameError}
+                  />
+
+                  <TextFeilds
+                    label="Email"
+                    size="small"
+                    id="price"
+                    error={!!priceError}
+                    helperText={priceError}
+                    value={inputValues.email}
+                    onChange={(e) => handleOnChange(e)}
+                    name="email"
+                  />
+                  <TextFeilds
+                    label="Contact No"
+                    size="small"
+                    id="discount"
+                    error={!!discountError}
+                    helperText={discountError}
+                    value={inputValues.contactNo}
+                    onChange={(e) => handleOnChange(e)}
+                    name="contactNo"
+                    type={"numeric"}
+                  />
+                  <TextFeilds
+                    label="Profession"
+                    size="small"
+                    id="discount"
+                    error={!!discountError}
+                    helperText={discountError}
+                    value={inputValues.profession}
+                    onChange={(e) => handleOnChange(e)}
+                    name="profession"
+                  />
+                   <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    value={inputValues.category}
+                    name="category"
+                    onChange={(e) => handleOnChange(e)}
+                    id="category"
+                    error={!!catError}
+                    helperText={catError}
+                  >
+                    <option selected>Category</option>
+                    <option value="1">Saloon</option>
+                    <option value="2">Workshop</option>
+                  </select>
+                  <div class="mb-3 mt-3">
+                    <textarea
+                      class="form-control"
+                      id="description"
+                      placeholder="Description"
+                      rows="3"
+                      value={inputValues.description}
+                      onChange={(e) => handleOnChange(e)}
+                      name="description"
+                      error={!!descError}
+                      helperText={descError}
+                    ></textarea>
+                  </div>
+                 
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <div onClick={handleAddProductss}>
+                  <Buttons name="Create" />
+                </div>
+              </ModalFooter>
+            </Modal>
+          </div>
+
+
+
+          <div className="add-product-modal ">
+            <Modal isOpen={updateModal} toggle={()=>updateToggle(null)} className="pt-5 w-100">
+              <ModalHeader toggle={()=>updateToggle(null)}>Update Employees</ModalHeader>
               <ModalBody
                 className="p-4"
                 style={{ maxHeight: "60vh", overflowY: "auto" }}
@@ -439,7 +587,6 @@ const Employees = () => {
               </ModalFooter>
             </Modal>
           </div>
-
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
@@ -483,7 +630,7 @@ const Employees = () => {
                     <TableCell align="center">
                       <div
                         className="text-success edit-product "
-                        onClick={updateToggle}
+                        onClick={()=>updateToggle(item)}
                       >
                         <BorderColorIcon />
                       </div>
@@ -510,167 +657,6 @@ const Employees = () => {
               setCurrentPage(page);
             }}
           />
-
-          <div className="add-product-modal ">
-            <Modal
-              isOpen={updateModal}
-              toggle={updateToggle}
-              className="pt-5 w-100"
-            >
-              <ModalHeader toggle={updateToggle}>UPDATE PRODUCTS</ModalHeader>
-              <ModalBody
-                className="p-4"
-                style={{ maxHeight: "60vh", overflowY: "auto" }}
-              >
-                <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
-                  <i onClick={handleImageUpload}>
-                    <CameraAltIcon className="camera-icon" />
-                  </i>
-                </div>
-                {/* Hidden input for file selection */}
-                <input
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  ref={fileInputRef}
-                  onChange={handleFileSelect}
-                  id="image"
-                  error={!!imageError}
-                  helperText={imageError}
-                />
-
-                <div className="text-fields mt-3">
-                  <TextFeilds
-                    label="Product Name"
-                    size="small"
-                    value={inputValues.name}
-                    onChange={(e) => handleOnChange(e)}
-                    name="name"
-                    id="name"
-                    error={!!nameError}
-                    helperText={nameError}
-                  />
-
-                  <TextFeilds
-                    label="Price"
-                    size="small"
-                    id="price"
-                    error={!!priceError}
-                    helperText={priceError}
-                    value={inputValues.price}
-                    onChange={(e) => handleOnChange(e)}
-                    name="price"
-                  />
-                  <TextFeilds
-                    label="Discount"
-                    size="small"
-                    id="discount"
-                    error={!!discountError}
-                    helperText={discountError}
-                    value={inputValues.discount}
-                    onChange={(e) => handleOnChange(e)}
-                    name="discount"
-                  />
-                  {options.map((item, index) => {
-                    return (
-                      <>
-                        {/* main field */}
-                        <div className="">
-                          <TextFeilds
-                            label="Title"
-                            size="small"
-                            key={index}
-                            value={item.title}
-                            name="title"
-                            onChange={(e) => handleOnChangeOptions(e, index)}
-                          />
-                          <div className=" d-flex align-items-center justify-content-end">
-                            <span
-                              className="mx-end text-primary"
-                              onClick={() => handleOnAdd()}
-                            >
-                              <AddCircleOutlineIcon />
-                            </span>
-                            <span
-                              className="mx-end text-danger"
-                              onClick={() => handleRemove(index)}
-                            >
-                              <DeleteIcon />
-                            </span>
-                          </div>
-                          {item.subOptions.map((CurElem, salman) => (
-                            <>
-                              {/* flavours field */}
-                              <div className="d-flex align-items-center justify-content-start ">
-                                <TextFeilds
-                                  label="flavour"
-                                  size="small"
-                                  className="w-100  text-end"
-                                  key={salman}
-                                  name="name"
-                                  value={CurElem.name}
-                                  onChange={(e) =>
-                                    handleOnChangeSuboptions(e, index, salman)
-                                  }
-                                />
-                                <p
-                                  className="mx-end text-primary"
-                                  onClick={() => handleOnAddFlavour(index)}
-                                >
-                                  <AddCircleOutlineIcon />
-                                </p>
-                                <p
-                                  className="mx-end text-danger"
-                                  onClick={() =>
-                                    handleRemoveFlavour(index, salman)
-                                  }
-                                >
-                                  <DeleteIcon />
-                                </p>
-                              </div>
-                            </>
-                          ))}
-                        </div>
-                      </>
-                    );
-                  })}
-                  <select
-                    class="form-select"
-                    aria-label="Default select example"
-                    value={inputValues.category}
-                    name="category"
-                    onChange={(e) => handleOnChange(e)}
-                    id="category"
-                    error={!!catError}
-                    helperText={catError}
-                  >
-                    <option selected>Category</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                  <div class="mb-3 mt-3">
-                    <textarea
-                      class="form-control"
-                      id="description"
-                      placeholder="Description"
-                      rows="3"
-                      value={inputValues.description}
-                      onChange={(e) => handleOnChange(e)}
-                      name="description"
-                      error={!!descError}
-                      helperText={descError}
-                    ></textarea>
-                  </div>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <div onClick={handleAddProductss}>
-                  <Buttons name="Update" />
-                </div>
-              </ModalFooter>
-            </Modal>
-          </div>
         </div>
       </NavigationDrawer>
     </>
