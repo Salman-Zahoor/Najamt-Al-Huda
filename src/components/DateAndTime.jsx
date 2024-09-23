@@ -5,17 +5,17 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
 
-export default function BasicDateTimePicker() {
-  const [selectedDateTime, setSelectedDateTime] = useState(null);
+export default function BasicDateTimePicker({selectedDateTime,handleDateTimeChange}) {
+  // const [selectedDateTime, setSelectedDateTime] = useState(null);
 
-  const handleDateTimeChange = (newDateTime) => {
-    setSelectedDateTime(newDateTime);
+  // const handleDateTimeChange = (newDateTime) => {
+  //   setSelectedDateTime(newDateTime);
 
-    if (newDateTime) {
-      const formattedDateTime = newDateTime.format("YYYY-MM-DD HH:mm:ss");
-      console.log(formattedDateTime, 'Selected DateTime');
-    }
-  };
+  //   if (newDateTime) {
+  //     const formattedDateTime = newDateTime.format("YYYY-MM-DD HH:mm:ss");
+  //     console.log(formattedDateTime, 'Selected DateTime');
+  //   }
+  // };
 
  
 

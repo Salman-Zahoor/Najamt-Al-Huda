@@ -4,11 +4,13 @@ import Slider from "react-slick";
 import BasicDateTimePicker from "./DateAndTime";
 import { checkBooking, getEmployeesClientSide } from "../services/products/Products";
 
-const ProfessionalsSlider = () => {
+const ProfessionalsSlider = ({teamId, setTeamId,setSelectedDateTime,selectedDateTime,handleDateTimeChange}) => {
+  console.log(teamId, 'neeeeew')
   const [activeIndex, setActiveIndex] = useState(1); 
   const [team, setTeam] = useState([]); 
-  const [teamId, setTeamId] = useState(null); 
+
   const [isAutoAssign, setIsAutoAssign]= useState(false);
+
 
   var settings = {
     dots: false,
@@ -53,21 +55,15 @@ const ProfessionalsSlider = () => {
   };
 
 
-    // handle check booking
-    const handleCheckBooking = () => {
-      checkBooking().then(()=>{
- 
-      }).catch((error)=>{
-        console.log(error)
-      })
-    }
+    
 
+    
   const handleCardClick = (index, id) => {
     setActiveIndex(index);
     setTeamId(id); 
-    console.log("Active card ID:", id); 
   };
-
+ 
+ 
   return (
     <>
       <div className="steps-head text-center p-2 mt-4">
@@ -116,7 +112,10 @@ const ProfessionalsSlider = () => {
         <div className="steps-head text-center p-2 mb-2">
           <span className="fw-bold">When would you like your service?</span>
         </div>
-        <BasicDateTimePicker />
+        <BasicDateTimePicker 
+        selectedDateTime={selectedDateTime}
+        onDateTimeChange={handleDateTimeChange}
+        />
       </div>
     </>
   );

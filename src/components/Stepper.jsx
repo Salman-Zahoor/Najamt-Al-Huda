@@ -8,12 +8,16 @@ import Typography from '@mui/material/Typography';
 import Faqs from './Faqs';
 import ProfessionalsSlider from './ProfessionalsSlider';
 import PaymentMethod from './PaymentMethod';
+import { checkBooking } from '../services/products/Products';
+import { message } from 'antd';
 
 const steps = ['Service Info', 'Appointment Schedule', 'Payment Gateway'];
 
 export default function HorizontalLinearStepper({singlePageData}) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
+  const [teamId, setTeamId] = React.useState(null); 
+  const [selectedDateTime, setSelectedDateTime] = React.useState(null);
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -24,14 +28,18 @@ export default function HorizontalLinearStepper({singlePageData}) {
   };
 
   const handleNext = () => {
+    if (activeStep === 1 && !selectedDateTime) {
+      message.error('Please select a time and date')
+      return; 
+    }
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
+    handleCheckBooking()
   };
 
   const handleBack = () => {
@@ -56,6 +64,32 @@ export default function HorizontalLinearStepper({singlePageData}) {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+
+  // handle check booking
+  const handleCheckBooking = () => {
+    
+    let payload = {
+      selectedTime:selectedDateTime,
+      employeeId:teamId,
+      autoAssign:''
+    } 
+    checkBooking(payload).then(()=>{
+       
+    }).catch((error)=>{
+      console.log(error)
+    })
+  }
+
+  const handleDateTimeChange = (newDateTime) => {
+    setSelectedDateTime(newDateTime);
+
+    if (newDateTime) {
+      const formattedDateTime = newDateTime.format("YYYY-MM-DD HH:mm:ss");
+      console.log(formattedDateTime, 'Selected DateTime new');
+    }
+  };
+
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -91,9 +125,14 @@ export default function HorizontalLinearStepper({singlePageData}) {
       ) : (
         <React.Fragment>
           {activeStep === 0 && <Faqs singlePageData={singlePageData}/>}
-          {activeStep === 1 && <ProfessionalsSlider/>} 
+          {activeStep === 1 && <ProfessionalsSlider 
+           setTeamId={setTeamId}
+           teamId={teamId}
+           selectedDateTime={selectedDateTime}
+           setSelectedDateTime={setSelectedDateTime}
+           handleDateTimeChange={handleDateTimeChange}
+           />} 
           {activeStep === 2 && <PaymentMethod/>}
-          {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"

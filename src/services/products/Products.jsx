@@ -67,7 +67,7 @@ export const deleteBanners = (token,id) =>{
         return Api(`${endPoints.getEmployeesByUser}`, null, requestType.GET, null)
     }
 
-    // EMPOYEES CLIENT SIDE
+    // check booking
     export const checkBooking = (params) =>{
         return Api(`${endPoints.checkBooking}`, params, requestType.POST, null)
     }
