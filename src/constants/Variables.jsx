@@ -30,5 +30,18 @@ export const endPoints = {
     getServiceDetailsById:'getServiceDetailsById',
     getEmployeesByUser:'getEmployeesByUser',
     checkBooking:'checkBooking',
+
+
+    //services
+    addServices:"addServices",
+    getAllServices:"getAllServices",
+    deleteService:"deleteService",
+    updateService:"updateService",
+
+    // categories
+    getAllCategories:"getAllCategories",
+    createCategory:"createCategory",
+    updateCategory:"updateCategory",
+    deleteCategory:"deleteCategory",
     
 };

@@ -26,8 +26,9 @@ import axios from "axios";
 import swal from "sweetalert";
 import { Pagination } from "antd";
 import { addEmployee, deleteEmployee, getEmployees, updateEmployee } from "../../../services/employee/Employee";
+import { getAllServices } from "../../../services/admin/Admin";
 
-const Employees = () => {
+const ServicesAdmin = () => {
   const { user } = useContext(AppContext);
   const [imageError, setImageError] = useState("");
   const [nameError, setNameError] = useState("");
@@ -63,12 +64,17 @@ const Employees = () => {
   const [inputValues, setInputValues] = useState({
     id:"",
     name: "",
-    email: "",
     description: "",
-    contactNo: "",
-    profession: "",
-    image: "",
+    date: "",
+    discount: "",
+    priceOptions:[],
+    faqs:[{
+      question:"",
+      answer:"",
+    }],
     category:"",
+    features:[],
+    image: "",
   });
 
   const handleOnChange = (e) => {
@@ -115,7 +121,7 @@ const Employees = () => {
 
   const getEmployeesData = () => {
     setIsLoading(true);
-    getEmployees(user.token, currentPage)
+    getAllServices(user.token, currentPage)
       .then((res) => {
         // console.log(res?.data?.data, "productssssss")
         setIsLoading(false);
@@ -310,15 +316,18 @@ const Employees = () => {
 
   const toggle = () => {
     setInputValues({
-      name: "",
-      email: "",
-      description: "",
-      contactNo: "",
-      profession: "",
-      image: "",
-      category:"",
+    id:"",
+    name: "",
+    description: "",
+    date: "",
+    discount: "",
+    priceOptions:[],
+    faqs:[],
+    category:"",
+    features:[],
+    image: "",
     })
-    setModal(false);
+    setModal(!modal);
     setUpdateModal(false)
   }
 
@@ -384,7 +393,7 @@ const Employees = () => {
                     <Link to="/dashboard" className="mt-1">
                       Dashboard /{" "}
                     </Link>
-                    <span className="  fs-3">Employees</span>
+                    <span className="  fs-3">Servies</span>
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -398,7 +407,7 @@ const Employees = () => {
 
           <div className="add-product-modal ">
             <Modal isOpen={modal} toggle={toggle} className="pt-5 w-100">
-              <ModalHeader toggle={toggle}>ADD Employees</ModalHeader>
+              <ModalHeader toggle={toggle}>ADD Services</ModalHeader>
               <ModalBody
                 className="p-4"
                 style={{ maxHeight: "60vh", overflowY: "auto" }}
@@ -436,7 +445,7 @@ const Employees = () => {
 
                 <div className="text-fields mt-3">
                   <TextFeilds
-                    label="Employee Name"
+                    label="Service Title"
                     size="small"
                     value={inputValues.name}
                     onChange={(e) => handleOnChange(e)}
@@ -447,35 +456,26 @@ const Employees = () => {
                   />
 
                   <TextFeilds
-                    label="Email"
+                    label="Price"
                     size="small"
                     id="price"
                     error={!!priceError}
                     helperText={priceError}
                     value={inputValues.email}
                     onChange={(e) => handleOnChange(e)}
-                    name="email"
+                    name="price"
+                    type={"numeric"}
                   />
                   <TextFeilds
-                    label="Contact No"
+                    label="discount"
                     size="small"
                     id="discount"
                     error={!!discountError}
                     helperText={discountError}
                     value={inputValues.contactNo}
                     onChange={(e) => handleOnChange(e)}
-                    name="contactNo"
+                    name="discount"
                     type={"numeric"}
-                  />
-                  <TextFeilds
-                    label="Profession"
-                    size="small"
-                    id="discount"
-                    error={!!discountError}
-                    helperText={discountError}
-                    value={inputValues.profession}
-                    onChange={(e) => handleOnChange(e)}
-                    name="profession"
                   />
                    <select
                     class="form-select"
@@ -491,6 +491,33 @@ const Employees = () => {
                     <option value="Saloon">Saloon</option>
                     <option value="Workshop">Workshop</option>
                   </select>
+
+                  {inputValues?.faqs?.map((item, ind) => {
+  return (
+    <React.Fragment key={ind}>
+      <TextFeilds
+        label="Question"
+        size="small"
+        id={`question-${ind}`}
+        value={item?.question}
+        onChange={(e) => handleOnChange(e, ind)}
+        name="question"
+      />
+      <TextFeilds
+        label="Answer"
+        size="small"
+        id={`answer-${ind}`}
+        value={item?.answer}
+        onChange={(e) => handleOnChange(e, ind)}
+        name="answer"
+      />
+    </React.Fragment>
+  );
+})}
+
+                  <div >
+                  <Buttons name="Add More Faqs" />
+                </div>
                   <div class="mb-3 mt-3">
                     <textarea
                       class="form-control"
@@ -640,10 +667,9 @@ const Employees = () => {
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Name</TableCell>
-                  <TableCell align="center">Emial</TableCell>
-                  <TableCell align="center">Contact No</TableCell>
-                  <TableCell align="center">Profession</TableCell>
+                  <TableCell align="center">Price</TableCell>
                   <TableCell align="center">Category</TableCell>
+                  <TableCell align="center">descroption</TableCell>
                   <TableCell align="center">Image</TableCell>
                   <TableCell align="center">Edit</TableCell>
                   <TableCell align="center">Delete</TableCell>
@@ -658,10 +684,9 @@ const Employees = () => {
                     <TableCell component="th" scope="row" align="center">
                       {item.name}
                     </TableCell>
-                    <TableCell align="center">{item.email}</TableCell>
-                    <TableCell align="center">{item.contactNo}</TableCell>
-                    <TableCell align="center">{item.profession}</TableCell>
+                    <TableCell align="center">{item?.price} AED</TableCell>
                     <TableCell align="center">{item.category}</TableCell>
+                    <TableCell align="center">{item?.description?.slice(0, 20)}</TableCell>
                     <TableCell align="center">
                       <div className="products_images ">
                         <Link to={item.image} target="_blank">
@@ -711,4 +736,4 @@ const Employees = () => {
   );
 };
 
-export default Employees;
+export default ServicesAdmin;
