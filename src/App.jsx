@@ -16,7 +16,8 @@ import { AuthRoutes } from './routes/authroutes.jsx'
 import Employees from './constainers/appStack/admin/Employees.jsx'
 import Help from './constainers/appStack/Help.jsx'
 import Privacy from './constainers/appStack/Privacy.jsx'
-
+import ServicesAdmin from "./constainers/appStack/admin/ServicesAdmin.jsx"
+import Category from "./constainers/appStack/admin/Category.jsx"
 
 
 function App() {
@@ -56,6 +57,8 @@ function App() {
       <Route path="/" element={<AuthRoutes />}>
       <Route path='/dashboard' element={<Dashboard/>}/>
       <Route path='/employees' element={<Employees/>}/>
+      <Route path='/adminServices' element={<ServicesAdmin/>}/>
+      <Route path='/category' element={<Category/>}/>
       </Route>
     </Routes>
     <Footer/>

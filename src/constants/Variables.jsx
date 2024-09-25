@@ -33,7 +33,7 @@ export const endPoints = {
 
 
     //services
-    addServices:"addServices",
+    addServices:"addService",
     getAllServices:"getAllServices",
     deleteService:"deleteService",
     updateService:"updateService",

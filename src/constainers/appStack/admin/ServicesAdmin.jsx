@@ -25,8 +25,13 @@ import ImageCompressor from "image-compressor.js";
 import axios from "axios";
 import swal from "sweetalert";
 import { Pagination } from "antd";
-import { addEmployee, deleteEmployee, getEmployees, updateEmployee } from "../../../services/employee/Employee";
-import { getAllServices } from "../../../services/admin/Admin";
+import {
+  addEmployee,
+  deleteEmployee,
+  getEmployees,
+  updateEmployee,
+} from "../../../services/employee/Employee";
+import { addServices, deleteService, getAllServices, updateService } from "../../../services/admin/Admin";
 
 const ServicesAdmin = () => {
   const { user } = useContext(AppContext);
@@ -48,35 +53,31 @@ const ServicesAdmin = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  const [options, setOptions] = useState([
-    {
-      title: "",
-      isOpened: false,
-      subOptions: [
-        {
-          name: "",
-          isSelected: false,
-        },
-      ],
-    },
-  ]);
-
   const [inputValues, setInputValues] = useState({
-    id:"",
+    id: "",
     name: "",
     description: "",
-    date: "",
+    price:"",
     discount: "",
-    priceOptions:[],
-    faqs:[{
-      question:"",
-      answer:"",
+    priceOptions: [{
+      price:"",
+      option:""
     }],
-    category:"",
-    features:[],
+    faqs: [
+      {
+        question: "",
+        answer: "",
+      },
+    ],
+    category: "",
+    features: [{
+      feature:""
+    }],
     image: "",
   });
 
+
+  
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValues({
@@ -84,21 +85,24 @@ const ServicesAdmin = () => {
       [name]: value,
     });
   };
-
-  const handleOnChangeOptions = (e, mainIndex) => {
+ 
+  const handleOnChangeUpdate = (e, mainIndex, stateName) => {
     const { name, value } = e.target;
-    let dummy = [...options];
-    dummy[mainIndex].title = value;
-    console.log(dummy, "dummmmmmmmmmmmm");
-    setOptions(dummy);
-  };
-
-  const handleOnChangeSuboptions = (e, mainIndex, subIndex) => {
-    const { name, value } = e.target;
-    let dummy = [...options];
-    dummy[mainIndex].subOptions[subIndex].name = value;
-    console.log(dummy, "dummmmmmmmmmmmm");
-    setOptions(dummy);
+  
+    // Access the dynamic state property using bracket notation
+    const updatedState = [...inputValues[stateName]];
+  
+    // Update the specific object at the given index (mainIndex)
+    updatedState[mainIndex] = {
+      ...updatedState[mainIndex],
+      [name]: value,
+    };
+  
+    // Update the state with the modified dynamic property
+    setInputValues({
+      ...inputValues,
+      [stateName]: updatedState,  // Use bracket notation to dynamically update the state
+    });
   };
   const fileInputRef = useRef(null);
 
@@ -107,16 +111,18 @@ const ServicesAdmin = () => {
   }, [currentPage]);
 
   const productDelete = (deleteId) => {
-    deleteEmployee(user.token, deleteId).then((res)=>{
-     if(res.status === 200){
-      swal("Poof! Your Employee  has been deleted!", {
-        icon: "success",
+    deleteService(user.token, deleteId)
+      .then((res) => {
+        if (res.status === 200) {
+          swal("Poof! Your service has been deleted!", {
+            icon: "success",
+          });
+          getEmployeesData();
+        }
+      })
+      .catch((error) => {
+        toast.error("Somwthing went wrong");
       });
-      getEmployeesData();
-     }
-    }).catch((error)=>{
-      toast.error("Somwthing went wrong")
-    })
   };
 
   const getEmployeesData = () => {
@@ -146,103 +152,140 @@ const ServicesAdmin = () => {
   };
 
   const handleUpdateProductss = () => {
-    const { name, email, description, profession, image, contactNo,category } =
-      inputValues;
-
-    let body = {
-      name,
-      email,
-      description,
-      profession,
-      image: image,
-      contactNo,
-      category
-    };
+    const { name, category, priceOptions, description, price, faqs, features, image, discount } = inputValues;
+  
+    let body = { name, category, priceOptions, description, price, faqs, features, image, discount };
+  
     let hasError = false;
-
-    if (name == "") {
+  
+    // Validate required fields
+    if (name.trim() === "") {
       toast.error("Name is required");
-    } else if (email == "") {
-      toast.error("Email is required");
-    } else if (contactNo == "") {
-      toast.error("Email is required");
-    } else if (profession == "") {
-      toast.error("Email is required");
-    } else if (category == "") {
+      hasError = true;
+    } else if (category.trim() === "") {
       toast.error("Category is required");
-    } else if (image == "") {
+      hasError = true;
+    } else if (image.trim() === "") {
       toast.error("Image is required");
-    } else {
-      setIsLoading(true);
-      updateEmployee(user.token,inputValues?.id,body)
-        .then((res) => {
-          console.log(res,"resppppppppppppppp");
-          setIsLoading(false);
-          if (res.status === 200) {
-            getEmployeesData();
-            toggle();
-            toast.success(res?.data?.message);
-          }else{
-            setIsLoading(false);
-            toast.error("Something went wrong");
-          }
-        })
-        .catch((error) => {
-          setIsLoading(false);
-          toast.error("Something went wrong");
-        });
+      hasError = true;
+    } else if (description.trim() === "") {
+      toast.error("Description is required");
+      hasError = true;
+    } else if (price.trim() === "") {
+      toast.error("Price is required");
+      hasError = true;  
     }
+    // Validate FAQs
+    for (let i = 0; i < faqs.length; i++) {
+      if (!faqs[i].question.trim()) {
+        toast.error(`Question is required for FAQ #${i + 1}`);
+        hasError = true;
+        return
+      }
+      if (!faqs[i].answer.trim()) {
+        toast.error(`Answer is required for FAQ #${i + 1}`);
+        hasError = true;
+        return
+      }
+    }
+    // If there is an error, stop the function here
+    if (hasError) {
+      return;
+    }
+  
+    // No validation errors, proceed with submission
+    setIsLoading(true);
+    updateService(user.token,inputValues?.id,body)
+      .then((res) => {
+        console.log(res, "response");
+        setIsLoading(false);
+        if (res.status === 200) {
+          getEmployeesData();
+          setUpdateModal(false)
+          toast.success(res?.data?.message);
+        } else {
+        
+          toast.error("Something went wrong");
+        }
+      })
+      .catch((error) => {
+        console.log(error,"errrrooooooooooooooo");
+        
+        setIsLoading(false);
+        toast.error("Something went wrong");
+      });
   };
 
   const handleAddProductss = () => {
-    const { name, email, description, profession, image, contactNo,category } =
-      inputValues;
-
-    let body = {
-      name,
-      email,
-      description,
-      profession,
-      image: image,
-      contactNo,
-      category
-    };
+    const { name, category, priceOptions, description, price, faqs, features, image, discount } = inputValues;
+  
+    let body = { name, category, priceOptions, description, price, faqs, features, image, discount,date: new Date() };
+  
     let hasError = false;
-
-    if (name == "") {
+  
+    // Validate required fields
+    if (name.trim() === "") {
       toast.error("Name is required");
-    } else if (email == "") {
-      toast.error("Email is required");
-    } else if (contactNo == "") {
-      toast.error("Email is required");
-    } else if (profession == "") {
-      toast.error("Email is required");
-    } else if (category == "") {
+      hasError = true;
+      return
+    } else if (category.trim() === "") {
       toast.error("Category is required");
-    } else if (image == "") {
+      hasError = true;
+      return
+    } else if (image.trim() === "") {
       toast.error("Image is required");
-    } else {
-      setIsLoading(true);
-      addEmployee(user.token, body)
-        .then((res) => {
-          console.log(res,"resppppppppppppppp");
-          setIsLoading(false);
-          if (res.status === 200) {
-            getEmployeesData();
-            toggle();
-            toast.success(res?.data?.message);
-          }else{
-            setIsLoading(false);
-            toast.error("Something went wrong");
-          }
-        })
-        .catch((error) => {
-          setIsLoading(false);
-          toast.error("Something went wrong");
-        });
+      hasError = true;
+      return
+    } else if (description.trim() === "") {
+      toast.error("Description is required");
+      hasError = true;
+      return
+    } else if (price.trim() === "") {
+      toast.error("Price is required");
+      hasError = true;  
+      return
     }
+    // Validate FAQs
+    for (let i = 0; i < faqs.length; i++) {
+      if (!faqs[i].question.trim()) {
+        toast.error(`Question is required for FAQ #${i + 1}`);
+        hasError = true;
+        return
+      }
+      if (!faqs[i].answer.trim()) {
+        toast.error(`Answer is required for FAQ #${i + 1}`);
+        hasError = true;
+        return
+      }
+    }
+    // If there is an error, stop the function here
+    if (hasError) {
+      return;
+    }
+  
+    // No validation errors, proceed with submission
+    setIsLoading(true);
+    addServices(user.token, body)
+      .then((res) => {
+        console.log(res, "response");
+        setIsLoading(false);
+        if (res.status === 200) {
+          getEmployeesData();
+          toggle();
+          toast.success(res?.data?.message);
+        } else {
+          toast.error("Something went wrong");
+        }
+      })
+      .catch((error) => {
+        console.log(error,"errrrooooooooooooooo");
+        
+        setIsLoading(false);
+        toast.error("Something went wrong");
+      });
   };
   
+
   const handleImageUpload = () => {
     fileInputRef.current.click();
   };
@@ -278,77 +321,110 @@ const ServicesAdmin = () => {
     }
   };
 
-  const handleRemove = (index) => {
-    let mummy = [...options];
-    mummy.splice(index, 1);
-    setOptions(mummy);
-  };
-  const handleRemoveFlavour = (index, subIndex) => {
-    let mummy = [...options];
-    mummy[index].subOptions.splice(subIndex, 1);
-    setOptions(mummy);
+  const handleOnAdd = async () => {
+    const dummy = inputValues?.faqs;
+    const obj = {
+      question: "",
+      answer: "",
+    };
+    dummy?.push(obj);
+    setInputValues({
+      ...inputValues,
+      faqs: dummy,
+    });
   };
 
-  const handleOnAdd = () => {
-    const dummy = [...options];
-    let obj = {
-      title: "",
-      isOpened: false,
-      subOptions: [
-        {
-          name: "",
-          isSelected: false,
-        },
-      ],
-    };
-    dummy.push(obj);
-    setOptions(dummy);
+
+  
+
+  const handleRemove = (index,name) => {
+    const dummy = inputValues[name];
+    if (dummy.length <= 1) {
+      toast.error(`${name} can't be less then 1`);
+      return
+    }
+    dummy?.splice(index,1);
+    setInputValues({
+      ...inputValues,
+      [name]: dummy,
+    });
   };
-  const handleOnAddFlavour = (optionIndex) => {
-    const dummy = [...options];
-    let obj = {
-      name: "",
-      isSelected: false,
+ 
+
+  const handleOnAddFeature = async () => {
+    const dummy = inputValues?.features;
+    const obj = {
+      question: "",
+      answer: "",
     };
-    dummy[optionIndex].subOptions.push(obj);
-    setOptions(dummy);
+    dummy?.push(obj);
+    setInputValues({
+      ...inputValues,
+      features: dummy,
+    });
+  };
+
+  const handleOnAddPriceOpt = async () => {
+    const dummy = inputValues?.priceOptions;
+    const obj = {
+      price:"",
+      option:""
+    };
+    dummy?.push(obj);
+    setInputValues({
+      ...inputValues,
+      priceOptions: dummy,
+    });
   };
 
   const toggle = () => {
     setInputValues({
-    id:"",
-    name: "",
-    description: "",
-    date: "",
-    discount: "",
-    priceOptions:[],
-    faqs:[],
-    category:"",
-    features:[],
-    image: "",
-    })
+      id: "",
+      name: "",
+      description: "",
+      date: "",
+      discount: "",
+      priceOptions: [
+        {
+        price:"",
+        option:""
+      }
+    ],
+      faqs: [
+        {
+          question: "",
+          answer: "",
+        },
+      ],
+      category: "",
+      features: [
+        {
+        feature:""
+        }
+    ],
+      image: "",
+    });
     setModal(!modal);
-    setUpdateModal(false)
-  }
+    setUpdateModal(false);
+  };
 
   const updateToggle = (item) => {
     if (item) {
       setUpdateModal(!updateModal);
       setInputValues({
-        id:item?._id,
-        name:item?.name,
-        email:item?.email,
-        description:item?.description,
-        contactNo:item?.contactNo,
-        profession:item?.profession,
-        image:item?.image,
-        category:item?.category,
-  
-      })
-    }else{
-      setUpdateModal(!updateModal)
+        id: item?._id,
+        name: item?.name,
+        description: item?.description,
+        image: item?.image,
+        category: item?.category,
+        price:item?.price,
+        priceOptions:item?.priceOptions,
+        faqs:item?.faqs,
+        features:item?.features,
+      });
+    } else {
+      setUpdateModal(!updateModal);
     }
-   
   };
   const deleteToggle = (id) => {
     setDeleteId(id);
@@ -412,25 +488,26 @@ const ServicesAdmin = () => {
                 className="p-4"
                 style={{ maxHeight: "60vh", overflowY: "auto" }}
               >
-                {
-               inputValues?.image ? 
-               <div className=" d-flex align-items-center justify-content-center" onClick={handleImageUpload}>
-                   <img
-                            src={inputValues.image}
-                            alt="product image"
-                            className="img-fluid rounded-circle"
-                            height={"100px"}
-                            width={"120px"}
-                          />
-               </div>
-                :
-                <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
-                  <i onClick={handleImageUpload}>
-                    <CameraAltIcon className="camera-icon" />
-                  </i>
-                </div>
-                  
-                }
+                {inputValues?.image ? (
+                  <div
+                    className=" d-flex align-items-center justify-content-center"
+                    onClick={handleImageUpload}
+                  >
+                    <img
+                      src={inputValues.image}
+                      alt="product image"
+                      className="img-fluid rounded-circle"
+                      height={"100px"}
+                      width={"120px"}
+                    />
+                  </div>
+                ) : (
+                  <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
+                    <i onClick={handleImageUpload}>
+                      <CameraAltIcon className="camera-icon" />
+                    </i>
+                  </div>
+                )}
                 {/* Hidden input for file selection */}
                 <input
                   type="file"
@@ -461,7 +538,7 @@ const ServicesAdmin = () => {
                     id="price"
                     error={!!priceError}
                     helperText={priceError}
-                    value={inputValues.email}
+                    value={inputValues.price}
                     onChange={(e) => handleOnChange(e)}
                     name="price"
                     type={"numeric"}
@@ -472,12 +549,12 @@ const ServicesAdmin = () => {
                     id="discount"
                     error={!!discountError}
                     helperText={discountError}
-                    value={inputValues.contactNo}
+                    value={inputValues.discount}
                     onChange={(e) => handleOnChange(e)}
                     name="discount"
                     type={"numeric"}
                   />
-                   <select
+                  <select
                     class="form-select"
                     aria-label="Default select example"
                     value={inputValues.category}
@@ -491,33 +568,6 @@ const ServicesAdmin = () => {
                     <option value="Saloon">Saloon</option>
                     <option value="Workshop">Workshop</option>
                   </select>
-
-                  {inputValues?.faqs?.map((item, ind) => {
-  return (
-    <React.Fragment key={ind}>
-      <TextFeilds
-        label="Question"
-        size="small"
-        id={`question-${ind}`}
-        value={item?.question}
-        onChange={(e) => handleOnChange(e, ind)}
-        name="question"
-      />
-      <TextFeilds
-        label="Answer"
-        size="small"
-        id={`answer-${ind}`}
-        value={item?.answer}
-        onChange={(e) => handleOnChange(e, ind)}
-        name="answer"
-      />
-    </React.Fragment>
-  );
-})}
-
-                  <div >
-                  <Buttons name="Add More Faqs" />
-                </div>
                   <div class="mb-3 mt-3">
                     <textarea
                       class="form-control"
@@ -531,7 +581,88 @@ const ServicesAdmin = () => {
                       helperText={descError}
                     ></textarea>
                   </div>
-                 
+                  {inputValues?.faqs?.map((item, ind) => {
+                    return (
+                      <React.Fragment key={ind}>
+                        <TextFeilds
+                          label="Question"
+                          size="small"
+                          id={`question-${ind}`}
+                          value={item?.question}
+                          onChange={(e) => handleOnChangeUpdate(e, ind,"faqs")}
+                          name="question"
+                        />
+                        <TextFeilds
+                          label="Answer"
+                          size="small"
+                          id={`answer-${ind}`}
+                          value={item?.answer}
+                          onChange={(e) => handleOnChangeUpdate(e, ind,"faqs")}
+                          name="answer"
+                        />
+
+                  <div onClick={()=>handleRemove(ind,"faqs")}>
+                    <Buttons name="Remove Faqs" />
+                  </div>
+                      </React.Fragment>
+                    );
+                  })}
+
+                  <div onClick={handleOnAdd}>
+                    <Buttons name="Add More Faqs" />
+                  </div>
+
+                  {inputValues?.features?.map((item, ind) => {
+                    return (
+                      <React.Fragment key={ind}>
+                        <TextFeilds
+                          label="feature"
+                          size="small"
+                          id={`feature-${ind}`}
+                          value={item?.feature}
+                          onChange={(e) => handleOnChangeUpdate(e, ind,"features")}
+                          name="feature"
+                        />
+                  <div onClick={()=>handleRemove(ind,"features")}>
+                    <Buttons name="Remove Feature" />
+                  </div>
+                      </React.Fragment>
+                    );
+                  })}
+
+                  <div onClick={handleOnAddFeature}>
+                    <Buttons name="Add More Features" />
+                  </div>
+
+                  {inputValues?.priceOptions?.map((item, ind) => {
+                    return (
+                      <React.Fragment key={ind}>
+                        <TextFeilds
+                          label="Option"
+                          size="small"
+                          id={`option-${ind}`}
+                          value={item?.option}
+                          onChange={(e) => handleOnChangeUpdate(e, ind,"priceOptions")}
+                          name="option"
+                        />
+                        <TextFeilds
+                          label="Price"
+                          size="small"
+                          id={`price-${ind}`}
+                          value={item?.price}
+                          onChange={(e) => handleOnChangeUpdate(e, ind,"priceOptions")}
+                          name="price"
+                        />
+                  <div onClick={()=>handleRemove(ind,"priceOptions")}>
+                    <Buttons name="Remove Price Options" />
+                  </div>
+                      </React.Fragment>
+                    );
+                  })}
+
+                  <div onClick={handleOnAddPriceOpt}>
+                    <Buttons name="Add More Options" />
+                  </div>
                 </div>
               </ModalBody>
               <ModalFooter>
@@ -542,34 +673,39 @@ const ServicesAdmin = () => {
             </Modal>
           </div>
 
-
-
           <div className="add-product-modal ">
-            <Modal isOpen={updateModal} toggle={()=>updateToggle(null)} className="pt-5 w-100">
-              <ModalHeader toggle={()=>updateToggle(null)}>Update Employees</ModalHeader>
+            <Modal
+              isOpen={updateModal}
+              toggle={() => updateToggle(null)}
+              className="pt-5 w-100"
+            >
+              <ModalHeader toggle={() => updateToggle(null)}>
+                Update Service
+              </ModalHeader>
               <ModalBody
                 className="p-4"
                 style={{ maxHeight: "60vh", overflowY: "auto" }}
               >
-                {
-               inputValues?.image ? 
-               <div className=" d-flex align-items-center justify-content-center" onClick={handleImageUpload}>
-                   <img
-                            src={inputValues.image}
-                            alt="product image"
-                            className="img-fluid rounded-circle"
-                            height={"120px"}
-                            width={"120px"}
-                          />
-               </div>
-                :
-                <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
-                  <i onClick={handleImageUpload}>
-                    <CameraAltIcon className="camera-icon" />
-                  </i>
-                </div>
-                  
-                }
+              {inputValues?.image ? (
+                  <div
+                    className=" d-flex align-items-center justify-content-center"
+                    onClick={handleImageUpload}
+                  >
+                    <img
+                      src={inputValues.image}
+                      alt="product image"
+                      className="img-fluid rounded-circle"
+                      height={"100px"}
+                      width={"120px"}
+                    />
+                  </div>
+                ) : (
+                  <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
+                    <i onClick={handleImageUpload}>
+                      <CameraAltIcon className="camera-icon" />
+                    </i>
+                  </div>
+                )}
                 {/* Hidden input for file selection */}
                 <input
                   type="file"
@@ -584,7 +720,7 @@ const ServicesAdmin = () => {
 
                 <div className="text-fields mt-3">
                   <TextFeilds
-                    label="Employee Name"
+                    label="Service Title"
                     size="small"
                     value={inputValues.name}
                     onChange={(e) => handleOnChange(e)}
@@ -595,37 +731,28 @@ const ServicesAdmin = () => {
                   />
 
                   <TextFeilds
-                    label="Email"
+                    label="Price"
                     size="small"
                     id="price"
                     error={!!priceError}
                     helperText={priceError}
-                    value={inputValues.email}
+                    value={inputValues.price}
                     onChange={(e) => handleOnChange(e)}
-                    name="email"
-                  />
-                  <TextFeilds
-                    label="Contact No"
-                    size="small"
-                    id="discount"
-                    error={!!discountError}
-                    helperText={discountError}
-                    value={inputValues.contactNo}
-                    onChange={(e) => handleOnChange(e)}
-                    name="contactNo"
+                    name="price"
                     type={"numeric"}
                   />
                   <TextFeilds
-                    label="Profession"
+                    label="discount"
                     size="small"
                     id="discount"
                     error={!!discountError}
                     helperText={discountError}
-                    value={inputValues.profession}
+                    value={inputValues.discount}
                     onChange={(e) => handleOnChange(e)}
-                    name="profession"
+                    name="discount"
+                    type={"numeric"}
                   />
-                   <select
+                  <select
                     class="form-select"
                     aria-label="Default select example"
                     value={inputValues.category}
@@ -636,7 +763,7 @@ const ServicesAdmin = () => {
                     helperText={catError}
                   >
                     <option selected>Category</option>
-                    <option value="Saloon1">Saloon</option>
+                    <option value="Saloon">Saloon</option>
                     <option value="Workshop">Workshop</option>
                   </select>
                   <div class="mb-3 mt-3">
@@ -652,7 +779,88 @@ const ServicesAdmin = () => {
                       helperText={descError}
                     ></textarea>
                   </div>
-                 
+                  {inputValues?.faqs?.map((item, ind) => {
+                    return (
+                      <React.Fragment key={ind}>
+                        <TextFeilds
+                          label="Question"
+                          size="small"
+                          id={`question-${ind}`}
+                          value={item?.question}
+                          onChange={(e) => handleOnChangeUpdate(e, ind,"faqs")}
+                          name="question"
+                        />
+                        <TextFeilds
+                          label="Answer"
+                          size="small"
+                          id={`answer-${ind}`}
+                          value={item?.answer}
+                          onChange={(e) => handleOnChangeUpdate(e, ind,"faqs")}
+                          name="answer"
+                        />
+
+                  <div onClick={()=>handleRemove(ind,"faqs")}>
+                    <Buttons name="Remove Faqs" />
+                  </div>
+                      </React.Fragment>
+                    );
+                  })}
+
+                  <div onClick={handleOnAdd}>
+                    <Buttons name="Add More Faqs" />
+                  </div>
+
+                  {inputValues?.features?.map((item, ind) => {
+                    return (
+                      <React.Fragment key={ind}>
+                        <TextFeilds
+                          label="feature"
+                          size="small"
+                          id={`feature-${ind}`}
+                          value={item?.feature}
+                          onChange={(e) => handleOnChangeUpdate(e, ind,"features")}
+                          name="feature"
+                        />
+                  <div onClick={()=>handleRemove(ind,"features")}>
+                    <Buttons name="Remove Feature" />
+                  </div>
+                      </React.Fragment>
+                    );
+                  })}
+
+                  <div onClick={handleOnAddFeature}>
+                    <Buttons name="Add More Features" />
+                  </div>
+
+                  {inputValues?.priceOptions?.map((item, ind) => {
+                    return (
+                      <React.Fragment key={ind}>
+                        <TextFeilds
+                          label="Option"
+                          size="small"
+                          id={`option-${ind}`}
+                          value={item?.option}
+                          onChange={(e) => handleOnChangeUpdate(e, ind,"priceOptions")}
+                          name="option"
+                        />
+                        <TextFeilds
+                          label="Price"
+                          size="small"
+                          id={`price-${ind}`}
+                          value={item?.price}
+                          onChange={(e) => handleOnChangeUpdate(e, ind,"priceOptions")}
+                          name="price"
+                        />
+                  <div onClick={()=>handleRemove(ind,"priceOptions")}>
+                    <Buttons name="Remove Price Options" />
+                  </div>
+                      </React.Fragment>
+                    );
+                  })}
+
+                  <div onClick={handleOnAddPriceOpt}>
+                    <Buttons name="Add More Options" />
+                  </div>
                 </div>
               </ModalBody>
               <ModalFooter>
@@ -686,7 +894,9 @@ const ServicesAdmin = () => {
                     </TableCell>
                     <TableCell align="center">{item?.price} AED</TableCell>
                     <TableCell align="center">{item.category}</TableCell>
-                    <TableCell align="center">{item?.description?.slice(0, 20)}</TableCell>
+                    <TableCell align="center">
+                      {item?.description?.slice(0, 20)}
+                    </TableCell>
                     <TableCell align="center">
                       <div className="products_images ">
                         <Link to={item.image} target="_blank">
@@ -703,7 +913,7 @@ const ServicesAdmin = () => {
                     <TableCell align="center">
                       <div
                         className="text-success edit-product "
-                        onClick={()=>updateToggle(item)}
+                        onClick={() => updateToggle(item)}
                       >
                         <BorderColorIcon />
                       </div>
