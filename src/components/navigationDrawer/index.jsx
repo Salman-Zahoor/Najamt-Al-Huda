@@ -90,6 +90,16 @@ export default function NavigationDrawer(props) {
       path: "/employees",
       label: "Employees",
     },
+    {
+      icon: <Dashboard/>,
+      path: "/adminServices",
+      label: "Srvices",
+    },
+    {
+      icon: <Dashboard/>,
+      path: "/category",
+      label: "Category",
+    },
     
     
     

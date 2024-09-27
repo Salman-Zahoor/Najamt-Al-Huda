@@ -15,6 +15,7 @@ import Buttons from '../../components/Buttons';
 import makeup from "../../assets/makeup.jpg"
 import ServiceSlider from '../../components/ServiceSlider';
 import { getAllUserServices, getUserCategories } from '../../services/products/Products';
+import WhyChooseUsContainer from '../../components/WhyChooseUsContainer';
 
 
 const products = [
@@ -89,9 +90,9 @@ const Services = () => {
   <Navbar />
   <div className="service-hero-content  d-flex align-items-center justify-content-center flex-column">
     <div className="container">
-      <div className="row ">
-        <div className="col-md-6 flex-column text-white">
-          <h1 className="mt-5">OUR <br /> SERVICES</h1>
+      <div className="row">
+        <div className="col-md-6  flex-column text-white">
+          <h1 className="mt-5" data-aos="fade-down"  data-aos-duration="800" data-aos-delay="500">OUR SERVICES</h1>
         </div>
       </div>
     </div>
@@ -151,51 +152,7 @@ const Services = () => {
 
 
 
-      <div className="why-us section-height d-flex align-items-center justify-content-center flex-column">
-      <div className="heading mx-auto text-center">
-          <span className="reveal-text ">WHY CHOOSE US</span>
-          <h2 className="fw-bold">THERE ARE SO MANY REASONS <br /> TO LOVE NAJAMT-UL-HUDA!</h2>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam,
-            aperiam <br />
-            earum odio mollitia ad error!
-          </p>
-        </div>
-        <div className="why-us-container mt-3">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-3 ">
-                <div className="our-card p-3 text-center d-flex align-items-center justify-content-center flex-column">
-                <i class="fa-solid fa-star location"></i>
-                <h5 className="fw-bold">Top rated professionals</h5>
-                <p className="pb-2">Our professionals are reliable & well-trained, with an average rating of 4.78 out of 5!</p>
-                </div>
-              </div>
-              <div className="col-md-3 ">
-                <div className="our-card p-3 text-center d-flex align-items-center justify-content-center flex-column">
-                <i class="fa-regular fa-calendar-check location "></i>
-                <h5 className="fw-bold">Same-day availability</h5>
-                <p className="pb-3">Book in less than 60 seconds, and even select same-day slots.</p>
-                </div>
-              </div>
-              <div className="col-md-3 ">
-                <div className="our-card p-3 text-center d-flex align-items-center justify-content-center flex-column">
-                <i class="fa-solid fa-ranking-star location"></i>
-                <h5 className="fw-bold">Top quality</h5>
-                <p className="pb-3">Our professionals are equipped with the best tools.</p>
-                </div>
-              </div>
-              <div className="col-md-3 ">
-                <div className="our-card p-3 text-center d-flex align-items-center justify-content-center flex-column">
-                <i class="fa-solid fa-mask location"></i>
-                <h5 className="fw-bold">Super app</h5>
-                <p className="pb-3">Being a Super app means we’ve got the widest range of home services</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <WhyChooseUsContainer/>
     </>
   )
 }

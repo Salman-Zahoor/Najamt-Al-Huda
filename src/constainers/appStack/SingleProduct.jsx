@@ -13,8 +13,8 @@ const SingleProduct = () => {
   const [singlePageData, setSinglePageData] = useState([]);
   
   useEffect(()=>{
+    window.scrollTo(0, 0);
     getSingleServiceData(id).then((res)=>{
-      console.log(res, 'sadsad')
       if(res?.status === 200){
         let data = res?.data?.data;
          setSinglePageData(data)

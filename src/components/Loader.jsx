@@ -1,6 +1,5 @@
 import { useState } from "react";
-import  SyncLoader  from "react-spinners/SyncLoader";
-// import ClipLoader from "react-spinners/ClipLoader";
+import loader from "../assets/loader.gif"
 
 
 
@@ -9,13 +8,7 @@ const Loader=({isLoading})=>{
 
   return (
     <div className="loader" style={{ display: isLoading ? "flex" : "none" }}>
-      <SyncLoader
-        color={color}
-        loading={isLoading}
-        size={20}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
+       <img src={loader} alt="loader" loading={isLoading} className='' width={100} height={100} />
     </div>
   );
 }
