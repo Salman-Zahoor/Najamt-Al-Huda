@@ -59,9 +59,9 @@ const Navbar = () => {
     
       <nav class="navbar navbar-expand-lg p-3">
   <div class="container">
-    <Link class="navbar-brand" to="/">
+    <Link class="navbar-brand" to="/" data-aos="fade-down"  data-aos-duration="800" data-aos-delay="1000">
       <img src={logo2} alt="logo" className='site_logo' />
-    </Link>
+    </Link> 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
