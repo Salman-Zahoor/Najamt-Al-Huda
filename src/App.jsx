@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
 import Footer from './components/Footer'
@@ -19,20 +18,11 @@ import Help from './constainers/appStack/Help.jsx'
 import Privacy from './constainers/appStack/Privacy.jsx'
 import ServicesAdmin from "./constainers/appStack/admin/ServicesAdmin.jsx"
 import Category from "./constainers/appStack/admin/Category.jsx"
-import AOS from 'aos';
-import 'aos/dist/aos.css'; 
+import Bookings from './constainers/appStack/admin/Bookings.jsx'
 
 
 function App() {
    const location = useLocation();
-   useEffect(() => {
-    AOS.init({
-      duration: 1000, 
-      easing: 'ease-in-out', 
-      once: true,
-    });
-  }, []);
-
 
    const theme = createTheme({
     typography: {
@@ -70,6 +60,7 @@ function App() {
       <Route path='/employees' element={<Employees/>}/>
       <Route path='/adminServices' element={<ServicesAdmin/>}/>
       <Route path='/category' element={<Category/>}/>
+      <Route path='/bookings' element={<Bookings/>}/>
       </Route>
     </Routes>
     <Footer/>

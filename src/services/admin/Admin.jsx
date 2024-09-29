@@ -6,8 +6,8 @@ import Api from "../index"
 export const loginAdmin = (params) => {
     return Api(`${endPoints.loginAdmin}`, params, requestType.POST,null) 
 }
-export const getAllServices = (token) => {
-    return Api(`${endPoints.getAllServices}`, null, requestType.GET,token) 
+export const getAllServices = (token,page) => {
+    return Api(`${endPoints.getAllServices}?page=${page}`, null, requestType.GET,token) 
 }
 export const addServices = (token,body) => {
     return Api(`${endPoints.addServices}`, body, requestType.POST,token) 
@@ -19,8 +19,8 @@ export const deleteService = (token,id) => {
     return Api(`${endPoints.deleteService}/${id}`, null, requestType.DELETE,token) 
 }
 
-export const getAllCategories = (token) => {
-    return Api(`${endPoints.getAllCategories}`, null, requestType.GET,token) 
+export const getAllCategories = (token,page) => {
+    return Api(`${endPoints.getAllCategories}?page=${page}`, null, requestType.GET,token) 
 }
 
 export const updateCategory = (token,id,body) => {
@@ -31,4 +31,8 @@ export const createCategory = (token,body) => {
 }
 export const deleteCategory = (token,id) => {
     return Api(`${endPoints.deleteCategory}/${id}`, null, requestType.DELETE,token) 
+}
+
+export const getAllBookings = (token,page) => {
+    return Api(`${endPoints.getAllBookings}?page=${page}`, null, requestType.GET,token) 
 }
