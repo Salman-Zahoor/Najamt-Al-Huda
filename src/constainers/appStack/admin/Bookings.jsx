@@ -264,7 +264,6 @@ const Bookings = () => {
         // let res = await axios.post("https://pizzafollia.com/upload.php", form);
         if (res.status == 200) {
           setIsLoading(false);
-          console.log(res, "urlllllllllllllll");
           setInputValues({
             ...inputValues,
             image: res?.data?.url,
@@ -661,19 +660,19 @@ const Bookings = () => {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row" align="center">
-                      {item.bookingId}
+                      {item?.bookingId}
                     </TableCell>
                     <TableCell component="th" scope="row" align="center">
-                      {item.serviceId?.name}
+                      {item?.serviceId?.name}
                     </TableCell>
-                    <TableCell align="center">{item.price}</TableCell>
-                    <TableCell align="center">{item.employeeId?.name}</TableCell>
-                    <TableCell align="center">{item.email}</TableCell>
-                    <TableCell align="center">{item.phone}</TableCell>
-                    <TableCell align="center">{item.address}</TableCell>
-                    <TableCell align="center">{item.serviceDate}</TableCell>
-                    <TableCell align="center">{item.serviceTime}</TableCell>
-                    <TableCell align="center">{item.status}</TableCell>
+                    <TableCell align="center">{item?.price}</TableCell>
+                    <TableCell align="center">{item?.employeeId?.name}</TableCell>
+                    <TableCell align="center">{item?.email}</TableCell>
+                    <TableCell align="center">{item?.phone}</TableCell>
+                    <TableCell align="center">{item?.address}</TableCell>
+                    <TableCell align="center">{item?.serviceDate}</TableCell>
+                    <TableCell align="center">{item?.serviceTime}</TableCell>
+                    <TableCell align="center">{item?.status}</TableCell>
                    
                     <TableCell align="center">
                       <div

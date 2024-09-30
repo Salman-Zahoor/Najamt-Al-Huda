@@ -60,6 +60,9 @@ export const deleteBanners = (token,id) =>{
     export const getSingleServiceData = (id) =>{
         return Api(`${endPoints.getServiceDetailsById}/${id}`, null, requestType.GET, null)
     }
+    export const addBooking = (params) =>{
+        return Api(`${endPoints.addBooking}`, params, requestType.POST, null)
+    }
 
 
     // EMPOYEES CLIENT SIDE
