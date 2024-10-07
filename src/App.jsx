@@ -39,6 +39,10 @@ function App() {
     },
   });
    const isNavbarVisible = location.pathname !== '/admin/login' && location.pathname !== '/'
+
+    const footerRoutes = ['/', '/services','/about-us','/team', '/contact','/products/:id','/help&support', '/privacy&policy'] 
+    const isFooterVisible = footerRoutes.includes(location.pathname)
+
   return (
     <ThemeProvider theme={theme}>
     <AppProvider>
@@ -63,7 +67,7 @@ function App() {
       <Route path='/bookings' element={<Bookings/>}/>
       </Route>
     </Routes>
-    <Footer/>
+    {isFooterVisible && <Footer/>}
     </AppProvider>
 
      </ThemeProvider>

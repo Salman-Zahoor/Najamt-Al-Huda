@@ -31,7 +31,15 @@ import {
   getEmployees,
   updateEmployee,
 } from "../../../services/employee/Employee";
+
+import { addServices, deleteService, getAllServices, updateService } from "../../../services/admin/Admin";
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import remove from "../../../assets/remove.png"
+import add from "../../../assets/add.png"
+
 import { addServices, deleteService, getAllCategories, getAllServices, updateService } from "../../../services/admin/Admin";
+
 
 const ServicesAdmin = () => {
   const { user } = useContext(AppContext);
@@ -440,7 +448,7 @@ const ServicesAdmin = () => {
       if (willDelete) {
         productDelete(id);
       } else {
-        swal("Your Employee is safe!");
+        swal("Your Service is safe!");
       }
     });
   };
@@ -482,19 +490,19 @@ const ServicesAdmin = () => {
 
           <div className="top-section text-center pt-3 mb-5">
             <div className="container">
-              <div className="row">
+              <div className="row d-flex align-items-center justify-content-space-between">
                 <div className="col-md-6">
-                  <div className=" d-flex align-items-center gap-1">
+                  <div className=" d-flex align-items-center justify-content-start gap-1">
                     <HomeIcon />
                     <Link to="/dashboard" className="mt-1">
-                      Dashboard /{" "}
+                      Dashboard /
                     </Link>
                     <span className="  fs-3">Servies</span>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="text-end">
-                    <Buttons name="Add Employee" onClick={toggle} />
+                    <Buttons name="Add Services" onClick={toggle} />
                   </div>
                 </div>
               </div>
@@ -502,7 +510,7 @@ const ServicesAdmin = () => {
           </div>
 
           <div className="add-product-modal ">
-            <Modal isOpen={modal} toggle={toggle} className="pt-5 w-100">
+            <Modal isOpen={modal} toggle={toggle} className=" w-100">
               <ModalHeader toggle={toggle}>ADD Services</ModalHeader>
               <ModalBody
                 className="p-4"
@@ -517,14 +525,14 @@ const ServicesAdmin = () => {
                       src={inputValues.image}
                       alt="product image"
                       className="img-fluid rounded-circle"
-                      height={"100px"}
+                      height={"200px"}
                       width={"120px"}
                     />
                   </div>
                 ) : (
                   <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
                     <i onClick={handleImageUpload}>
-                      <CameraAltIcon className="camera-icon" />
+                      <CameraAltIcon className="camera-icon" style={{width:'100px', height:'150px'}} />
                     </i>
                   </div>
                 )}
@@ -541,7 +549,9 @@ const ServicesAdmin = () => {
                 />
 
                 <div className="text-fields mt-3">
-                  <TextFeilds
+                  <div className="row">
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="Service Title"
                     size="small"
                     value={inputValues.name}
@@ -551,8 +561,9 @@ const ServicesAdmin = () => {
                     error={!!nameError}
                     helperText={nameError}
                   />
-
-                  <TextFeilds
+                    </div>
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="Price"
                     size="small"
                     id="price"
@@ -563,6 +574,11 @@ const ServicesAdmin = () => {
                     name="price"
                     type={"numeric"}
                   />
+                    </div>
+                  </div>
+                  
+                 <div className="row">
+                  <div className="col-md-6">
                   <TextFeilds
                     label="discount"
                     size="small"
@@ -574,6 +590,8 @@ const ServicesAdmin = () => {
                     name="discount"
                     type={"numeric"}
                   />
+                  </div>
+                  <div className="col-md-6">
                   <select
                     class="form-select"
                     aria-label="Default select example"
@@ -589,7 +607,12 @@ const ServicesAdmin = () => {
                       return <option key={ind} value={value?._id}>{value?.name}</option>
                     })}
                   </select>
-                  <div class="mb-3 mt-3">
+                  </div>
+                 </div>
+                  
+                   <div className="row">
+                    <div className="col-md-12">
+                    <div class="mb-3">
                     <textarea
                       class="form-control"
                       id="description"
@@ -602,10 +625,14 @@ const ServicesAdmin = () => {
                       helperText={descError}
                     ></textarea>
                   </div>
+                    </div>
+                   </div>
                   {inputValues?.faqs?.map((item, ind) => {
                     return (
                       <React.Fragment key={ind}>
-                        <TextFeilds
+                        <div className="row">
+                          <div className="col-md-6">
+                          <TextFeilds
                           label="Question"
                           size="small"
                           id={`question-${ind}`}
@@ -613,7 +640,9 @@ const ServicesAdmin = () => {
                           onChange={(e) => handleOnChangeUpdate(e, ind,"faqs")}
                           name="question"
                         />
-                        <TextFeilds
+                          </div>
+                          <div className="col-md-6">
+                          <TextFeilds
                           label="Answer"
                           size="small"
                           id={`answer-${ind}`}
@@ -621,44 +650,68 @@ const ServicesAdmin = () => {
                           onChange={(e) => handleOnChangeUpdate(e, ind,"faqs")}
                           name="answer"
                         />
+                          </div>
+                        </div>
+                        
+                        
 
+                  <div className="d-flex align-items-center justify-content-end gap-3">
                   <div onClick={()=>handleRemove(ind,"faqs")}>
-                    <Buttons name="Remove Faqs" />
+                    {/* <Buttons name="Remove Faqs" /> */}
+                    <img src={remove} alt="remove-icon" width={20} style={{cursor:"pointer"}} />
+                  </div>
+                  <div onClick={handleOnAdd}>
+                    {/* <Buttons name="Add More Faqs" /> */}
+                    {/* <AddIcon/> */}
+                    <img src={add} alt="remove-icon" width={20} style={{cursor:"pointer"}} />
+                  </div>
                   </div>
                       </React.Fragment>
                     );
                   })}
 
-                  <div onClick={handleOnAdd}>
-                    <Buttons name="Add More Faqs" />
-                  </div>
+                
 
                   {inputValues?.features?.map((item, ind) => {
                     return (
                       <React.Fragment key={ind}>
-                        <TextFeilds
+                        <div className="row">
+                          <div className="col-md-12">
+                          <TextFeilds
                           label="feature"
+                          className="w-100 mt-4"
                           size="small"
                           id={`feature-${ind}`}
                           value={item?.feature}
                           onChange={(e) => handleOnChangeUpdate(e, ind,"features")}
                           name="feature"
                         />
+                          </div>
+                          
+                        </div>
+                        
+                  <div className="d-flex align-items-center justify-content-end gap-3">
                   <div onClick={()=>handleRemove(ind,"features")}>
-                    <Buttons name="Remove Feature" />
+                    {/* <Buttons name="Remove Feature" /> */}
+                    <img src={remove} alt="remove-icon" width={20} style={{cursor:"pointer"}} />
+                  </div>
+                  <div onClick={handleOnAddFeature}>
+                    {/* <Buttons name="Add More Features" /> */}
+                    <img src={add} alt="remove-icon" width={20} style={{cursor:"pointer"}} />
+                  </div>
                   </div>
                       </React.Fragment>
                     );
                   })}
 
-                  <div onClick={handleOnAddFeature}>
-                    <Buttons name="Add More Features" />
-                  </div>
+                 
 
                   {inputValues?.priceOptions?.map((item, ind) => {
                     return (
                       <React.Fragment key={ind}>
-                        <TextFeilds
+                        <div className="row mt-3">
+                          <div className="col-md-6">
+                          <TextFeilds
                           label="Option"
                           size="small"
                           id={`option-${ind}`}
@@ -666,7 +719,9 @@ const ServicesAdmin = () => {
                           onChange={(e) => handleOnChangeUpdate(e, ind,"priceOptions")}
                           name="option"
                         />
-                        <TextFeilds
+                          </div>
+                          <div className="col-md-6">
+                          <TextFeilds
                           label="Price"
                           size="small"
                           id={`price-${ind}`}
@@ -674,16 +729,25 @@ const ServicesAdmin = () => {
                           onChange={(e) => handleOnChangeUpdate(e, ind,"priceOptions")}
                           name="price"
                         />
+                          </div>
+                        </div>
+                        
+                        
+                  <div className="d-flex align-items-center justify-content-end gap-3">
                   <div onClick={()=>handleRemove(ind,"priceOptions")}>
-                    <Buttons name="Remove Price Options" />
+                    {/* <Buttons name="Remove Price Options" /> */}
+                    <img src={remove} alt="remove-icon" width={20} style={{cursor:"pointer"}} />
+                  </div>
+                  <div onClick={handleOnAddPriceOpt}>
+                    {/* <Buttons name="Add More Options" /> */}
+                    <img src={add} alt="remove-icon" width={20} style={{cursor:"pointer"}} />
+                  </div>
                   </div>
                       </React.Fragment>
                     );
                   })}
 
-                  <div onClick={handleOnAddPriceOpt}>
-                    <Buttons name="Add More Options" />
-                  </div>
+                  
                 </div>
               </ModalBody>
               <ModalFooter>
@@ -698,7 +762,7 @@ const ServicesAdmin = () => {
             <Modal
               isOpen={updateModal}
               toggle={() => updateToggle(null)}
-              className="pt-5 w-100"
+              className=" w-100"
             >
               <ModalHeader toggle={() => updateToggle(null)}>
                 Update Service
@@ -714,16 +778,16 @@ const ServicesAdmin = () => {
                   >
                     <img
                       src={inputValues.image}
-                      alt="product image"
-                      className="img-fluid rounded-circle"
-                      height={"100px"}
-                      width={"120px"}
+                      alt="product image rounded"
+                      className="w-100"
+                      height={"200px"}
+                      width={"200px"}
                     />
                   </div>
                 ) : (
                   <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
                     <i onClick={handleImageUpload}>
-                      <CameraAltIcon className="camera-icon" />
+                      <CameraAltIcon className="camera-icon bg-dark" />
                     </i>
                   </div>
                 )}
@@ -740,7 +804,9 @@ const ServicesAdmin = () => {
                 />
 
                 <div className="text-fields mt-3">
-                  <TextFeilds
+                  <div className="row">
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="Service Title"
                     size="small"
                     value={inputValues.name}
@@ -750,8 +816,9 @@ const ServicesAdmin = () => {
                     error={!!nameError}
                     helperText={nameError}
                   />
-
-                  <TextFeilds
+                    </div>
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="Price"
                     size="small"
                     id="price"
@@ -762,7 +829,11 @@ const ServicesAdmin = () => {
                     name="price"
                     type={"numeric"}
                   />
-                  <TextFeilds
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="discount"
                     size="small"
                     id="discount"
@@ -773,7 +844,9 @@ const ServicesAdmin = () => {
                     name="discount"
                     type={"numeric"}
                   />
-                  <select
+                    </div>
+                    <div className="col-md-6">
+                    <select
                     class="form-select"
                     aria-label="Default select example"
                     value={inputValues.category}
@@ -787,7 +860,9 @@ const ServicesAdmin = () => {
                     <option value="Saloon">Saloon</option>
                     <option value="Workshop">Workshop</option>
                   </select>
-                  <div class="mb-3 mt-3">
+                    </div>
+                  </div>
+                  <div class="mb-3">
                     <textarea
                       class="form-control"
                       id="description"
@@ -803,7 +878,9 @@ const ServicesAdmin = () => {
                   {inputValues?.faqs?.map((item, ind) => {
                     return (
                       <React.Fragment key={ind}>
-                        <TextFeilds
+                        <div className="row mt-4">
+                          <div className="col-md-6">
+                          <TextFeilds
                           label="Question"
                           size="small"
                           id={`question-${ind}`}
@@ -811,7 +888,9 @@ const ServicesAdmin = () => {
                           onChange={(e) => handleOnChangeUpdate(e, ind,"faqs")}
                           name="question"
                         />
-                        <TextFeilds
+                          </div>
+                          <div className="col-md-6">
+                          <TextFeilds
                           label="Answer"
                           size="small"
                           id={`answer-${ind}`}
@@ -819,17 +898,25 @@ const ServicesAdmin = () => {
                           onChange={(e) => handleOnChangeUpdate(e, ind,"faqs")}
                           name="answer"
                         />
+                          </div>
+                        </div>
+                        
+                       
 
-                  <div onClick={()=>handleRemove(ind,"faqs")}>
+                 <div className="d-flex align-items-center justify-content-center gap-3 mb-4">
+                 <div className="text-end" onClick={()=>handleRemove(ind,"faqs")}>
                     <Buttons name="Remove Faqs" />
+                    {/* <img src={remove} alt="remove-icon" width={20} style={{cursor:"pointer"}} /> */}
                   </div>
+                  <div onClick={handleOnAdd}>
+                    <Buttons name="Add More Faqs" />
+                  </div>
+                 </div>
                       </React.Fragment>
                     );
                   })}
 
-                  <div onClick={handleOnAdd}>
-                    <Buttons name="Add More Faqs" />
-                  </div>
+                  
 
                   {inputValues?.features?.map((item, ind) => {
                     return (
@@ -841,22 +928,28 @@ const ServicesAdmin = () => {
                           value={item?.feature}
                           onChange={(e) => handleOnChangeUpdate(e, ind,"features")}
                           name="feature"
+                          className='w-100'
                         />
+                  <div className="d-flex align-items-center justify-content-center gap-3">
                   <div onClick={()=>handleRemove(ind,"features")}>
                     <Buttons name="Remove Feature" />
+                  </div>
+                  <div onClick={handleOnAddFeature}>
+                    <Buttons name="Add More Features" />
+                  </div>
                   </div>
                       </React.Fragment>
                     );
                   })}
 
-                  <div onClick={handleOnAddFeature}>
-                    <Buttons name="Add More Features" />
-                  </div>
+                 
 
                   {inputValues?.priceOptions?.map((item, ind) => {
                     return (
                       <React.Fragment key={ind}>
-                        <TextFeilds
+                        <div className="row mt-4">
+                          <div className="col-md-6">
+                          <TextFeilds
                           label="Option"
                           size="small"
                           id={`option-${ind}`}
@@ -864,7 +957,9 @@ const ServicesAdmin = () => {
                           onChange={(e) => handleOnChangeUpdate(e, ind,"priceOptions")}
                           name="option"
                         />
-                        <TextFeilds
+                          </div>
+                          <div className="col-md-6">
+                          <TextFeilds
                           label="Price"
                           size="small"
                           id={`price-${ind}`}
@@ -872,16 +967,23 @@ const ServicesAdmin = () => {
                           onChange={(e) => handleOnChangeUpdate(e, ind,"priceOptions")}
                           name="price"
                         />
-                  <div onClick={()=>handleRemove(ind,"priceOptions")}>
+                          </div>
+                        </div>
+                       
+                       <div className="d-flex align-items-center justify-content-center gap-3">
+                       <div onClick={()=>handleRemove(ind,"priceOptions")}>
                     <Buttons name="Remove Price Options" />
                   </div>
+                  <div onClick={handleOnAddPriceOpt}>
+                    <Buttons name="Add More Options" />
+                  </div>
+                       </div>
+                  
                       </React.Fragment>
                     );
                   })}
 
-                  <div onClick={handleOnAddPriceOpt}>
-                    <Buttons name="Add More Options" />
-                  </div>
+                  
                 </div>
               </ModalBody>
               <ModalFooter>
@@ -924,7 +1026,7 @@ const ServicesAdmin = () => {
                           <img
                             src={item.image}
                             alt="product image"
-                            className="img-fluid  rounded-circle"
+                            className="  rounded-circle"
                             height={"40px"}
                             width={"40px"}
                           />
@@ -953,14 +1055,16 @@ const ServicesAdmin = () => {
             </Table>
           </TableContainer>
 
-          <Pagination
-            className="pagination"
+         <div className="d-flex align-items-center justify-content-center mt-3">
+         <Pagination
+            className="pagination text-center"
             total={totalPages}
             current={currentPage}
             onChange={(page) => {
               setCurrentPage(page);
             }}
           />
+         </div>
         </div>
       </NavigationDrawer>
     </>

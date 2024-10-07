@@ -44,6 +44,9 @@ import {
 import { AppContext } from "../../context";
 import profile from "../../assets/makeup.jpg";
 import logo from "../../assets/logo2.png";
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import CategoryIcon from '@mui/icons-material/Category';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 
 
 
@@ -86,17 +89,17 @@ export default function NavigationDrawer(props) {
       label: "Dashboard",
     },
     {
-      icon: <Dashboard/>,
+      icon: <GroupAddIcon/>,
       path: "/employees",
       label: "Employees",
     },
     {
-      icon: <Dashboard/>,
+      icon: <MiscellaneousServicesIcon/>,
       path: "/adminServices",
-      label: "Srvices",
+      label: "Services",
     },
     {
-      icon: <Dashboard/>,
+      icon: <CategoryIcon/>,
       path: "/category",
       label: "Category",
     },

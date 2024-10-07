@@ -318,7 +318,7 @@ const Employees = () => {
       image: "",
       category:"",
     })
-    setModal(false);
+    setModal(true);
     setUpdateModal(false)
   }
 
@@ -379,10 +379,10 @@ const Employees = () => {
             <div className="container">
               <div className="row">
                 <div className="col-md-6">
-                  <div className=" d-flex align-items-center gap-1">
+                  <div className="d-flex align-items-center justify-content-start gap-1">
                     <HomeIcon />
                     <Link to="/dashboard" className="mt-1">
-                      Dashboard /{" "}
+                      Dashboard /
                     </Link>
                     <span className="  fs-3">Employees</span>
                   </div>
@@ -397,7 +397,7 @@ const Employees = () => {
           </div>
 
           <div className="add-product-modal ">
-            <Modal isOpen={modal} toggle={toggle} className="pt-5 w-100">
+            <Modal isOpen={modal} toggle={toggle} className=" w-100">
               <ModalHeader toggle={toggle}>ADD Employees</ModalHeader>
               <ModalBody
                 className="p-4"
@@ -435,7 +435,9 @@ const Employees = () => {
                 />
 
                 <div className="text-fields mt-3">
-                  <TextFeilds
+                  <div className="row">
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="Employee Name"
                     size="small"
                     value={inputValues.name}
@@ -445,8 +447,9 @@ const Employees = () => {
                     error={!!nameError}
                     helperText={nameError}
                   />
-
-                  <TextFeilds
+                    </div>
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="Email"
                     size="small"
                     id="price"
@@ -456,7 +459,12 @@ const Employees = () => {
                     onChange={(e) => handleOnChange(e)}
                     name="email"
                   />
-                  <TextFeilds
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="Contact No"
                     size="small"
                     id="discount"
@@ -467,7 +475,9 @@ const Employees = () => {
                     name="contactNo"
                     type={"numeric"}
                   />
-                  <TextFeilds
+                    </div>
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="Profession"
                     size="small"
                     id="discount"
@@ -477,7 +487,12 @@ const Employees = () => {
                     onChange={(e) => handleOnChange(e)}
                     name="profession"
                   />
-                   <select
+                    </div>
+                  </div>
+                  
+                  <div className="row">
+                    <div className="col-md-12">
+                    <select
                     class="form-select"
                     aria-label="Default select example"
                     value={inputValues.category}
@@ -491,6 +506,14 @@ const Employees = () => {
                     <option value="Saloon">Saloon</option>
                     <option value="Workshop">Workshop</option>
                   </select>
+                    </div>
+                    
+                  </div>
+
+                 
+                  
+                 
+                   
                   <div class="mb-3 mt-3">
                     <textarea
                       class="form-control"
@@ -518,7 +541,7 @@ const Employees = () => {
 
 
           <div className="add-product-modal ">
-            <Modal isOpen={updateModal} toggle={()=>updateToggle(null)} className="pt-5 w-100">
+            <Modal isOpen={updateModal} toggle={()=>updateToggle(null)} className=" w-100">
               <ModalHeader toggle={()=>updateToggle(null)}>Update Employees</ModalHeader>
               <ModalBody
                 className="p-4"
@@ -530,9 +553,10 @@ const Employees = () => {
                    <img
                             src={inputValues.image}
                             alt="product image"
-                            className="img-fluid rounded-circle"
-                            height={"120px"}
-                            width={"120px"}
+                            className=""
+                            height={"200px"}
+                            width={"200px"}
+                            style={{borderRadius:'20px'}}
                           />
                </div>
                 :
@@ -555,8 +579,10 @@ const Employees = () => {
                   helperText={imageError}
                 />
 
-                <div className="text-fields mt-3">
-                  <TextFeilds
+                <div className="text-fields mt-5">
+                  <div className="row">
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="Employee Name"
                     size="small"
                     value={inputValues.name}
@@ -566,8 +592,9 @@ const Employees = () => {
                     error={!!nameError}
                     helperText={nameError}
                   />
-
-                  <TextFeilds
+                    </div>
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="Email"
                     size="small"
                     id="price"
@@ -577,7 +604,12 @@ const Employees = () => {
                     onChange={(e) => handleOnChange(e)}
                     name="email"
                   />
-                  <TextFeilds
+                    </div>
+                  </div>
+                  
+                  <div className="row mt-3">
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="Contact No"
                     size="small"
                     id="discount"
@@ -588,7 +620,9 @@ const Employees = () => {
                     name="contactNo"
                     type={"numeric"}
                   />
-                  <TextFeilds
+                    </div>
+                    <div className="col-md-6">
+                    <TextFeilds
                     label="Profession"
                     size="small"
                     id="discount"
@@ -598,7 +632,11 @@ const Employees = () => {
                     onChange={(e) => handleOnChange(e)}
                     name="profession"
                   />
-                   <select
+                    </div>
+                  </div>
+                  <div className="row mt-2">
+                    <div className="col-md-12">
+                    <select
                     class="form-select"
                     aria-label="Default select example"
                     value={inputValues.category}
@@ -612,6 +650,14 @@ const Employees = () => {
                     <option value="Saloon1">Saloon</option>
                     <option value="Workshop">Workshop</option>
                   </select>
+                    </div>
+                    <div className="col-md-6"></div>
+                  </div>
+
+                  
+                 
+                  
+                   
                   <div class="mb-3 mt-3">
                     <textarea
                       class="form-control"
@@ -668,7 +714,7 @@ const Employees = () => {
                           <img
                             src={item.image}
                             alt="product image"
-                            className="img-fluid  rounded-circle"
+                            className=" rounded-circle"
                             height={"40px"}
                             width={"40px"}
                           />
