@@ -91,7 +91,7 @@ const Login = () => {
         <div className="container-fluid">
           <div className="row min-vh-100 ">
             <div className="col-md-7 p-0  login-bg  d-flex justify-content-center align-items-center  ">
-              <div className="left-side text-center">
+              <div className="left-side text-center d-flex justify-content-center align-items-center flex-column">
                 <img src={logo} alt="image" className='' />
                 <div className="logo-para w-50 mx-auto">
                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora temporibus molestias labore debitis id ea cumque expedita vitae quod soluta!</p>

@@ -210,7 +210,7 @@ const Category = () => {
       if (willDelete) {
         productDelete(id);
       } else {
-        swal("Your Employee is safe!");
+        swal("Your Category is safe!");
       }
     });
   };
@@ -235,7 +235,7 @@ const Category = () => {
             <div className="container">
               <div className="row">
                 <div className="col-md-6">
-                  <div className=" d-flex align-items-center gap-1">
+                  <div className=" d-flex align-items-center justify-content-start gap-1">
                     <HomeIcon />
                     <Link to="/dashboard" className="mt-1">
                       Dashboard /{" "}
@@ -245,7 +245,7 @@ const Category = () => {
                 </div>
                 <div className="col-md-6">
                   <div className="text-end">
-                    <Buttons name="Add Employee" onClick={toggle} />
+                    <Buttons name="Add Category" onClick={toggle} />
                   </div>
                 </div>
               </div>
@@ -259,9 +259,12 @@ const Category = () => {
                 className="p-4"
                 style={{ maxHeight: "60vh", overflowY: "auto" }}
               >
-                <div className="text-fields mt-3">
+               <div className="row">
+                <div className="col-md-12">
+                <div className="text-fields mt-3 w-100">
                   <TextFeilds
                     label="Category Title"
+                    className='w-100'
                     size="small"
                     value={inputValues.name}
                     onChange={(e) => handleOnChange(e)}
@@ -271,6 +274,8 @@ const Category = () => {
                     helperText={nameError}
                   />
                 </div>
+                </div>
+               </div>
               </ModalBody>
               <ModalFooter>
                 <div onClick={handleAddProductss}>
@@ -281,14 +286,17 @@ const Category = () => {
           </div>
           <div className="add-product-modal ">
             <Modal isOpen={updateModal} toggle={()=>updateToggle(null)} className="pt-5 w-100">
-              <ModalHeader toggle={()=>updateToggle(null)}>Update Employees</ModalHeader>
+              <ModalHeader toggle={()=>updateToggle(null)}>Update Category</ModalHeader>
               <ModalBody
                 className="p-4"
                 style={{ maxHeight: "60vh", overflowY: "auto" }}
               >
-                <div className="text-fields mt-3">
+                <div className="row">
+                  <div className="col-md-12">
+                  <div className="text-fields mt-3">
                   <TextFeilds
                     label="Category Title"
+                    className='w-100'
                     size="small"
                     value={inputValues.name}
                     onChange={(e) => handleOnChange(e)}
@@ -297,6 +305,8 @@ const Category = () => {
                     error={!!nameError}
                     helperText={nameError}
                   />       
+                </div>
+                  </div>
                 </div>
               </ModalBody>
               <ModalFooter>
@@ -345,7 +355,7 @@ const Category = () => {
               </TableBody>
             </Table>
           </TableContainer>
-
+          <div className="d-flex align-items-center justify-content-center mt-3">
           <Pagination
             className="pagination"
             total={totalPages}
@@ -354,6 +364,7 @@ const Category = () => {
               setCurrentPage(page);
             }}
           />
+          </div>
         </div>
       </NavigationDrawer>
     </>
