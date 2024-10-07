@@ -31,11 +31,15 @@ import {
   getEmployees,
   updateEmployee,
 } from "../../../services/employee/Employee";
+
 import { addServices, deleteService, getAllServices, updateService } from "../../../services/admin/Admin";
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import remove from "../../../assets/remove.png"
 import add from "../../../assets/add.png"
+
+import { addServices, deleteService, getAllCategories, getAllServices, updateService } from "../../../services/admin/Admin";
+
 
 const ServicesAdmin = () => {
   const { user } = useContext(AppContext);
@@ -56,7 +60,7 @@ const ServicesAdmin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-
+  const [categories,setCategoires]=useState([])
   const [inputValues, setInputValues] = useState({
     id: "",
     name: "",
@@ -382,6 +386,7 @@ const ServicesAdmin = () => {
   };
 
   const toggle = () => {
+    handleGetAllCategories();
     setInputValues({
       id: "",
       name: "",
@@ -413,6 +418,7 @@ const ServicesAdmin = () => {
   };
 
   const updateToggle = (item) => {
+    handleGetAllCategories();
     if (item) {
       setUpdateModal(!updateModal);
       setInputValues({
@@ -420,7 +426,7 @@ const ServicesAdmin = () => {
         name: item?.name,
         description: item?.description,
         image: item?.image,
-        category: item?.category,
+        category: item?.category?.name,
         price:item?.price,
         priceOptions:item?.priceOptions,
         faqs:item?.faqs,
@@ -447,6 +453,24 @@ const ServicesAdmin = () => {
     });
   };
 
+  const handleGetAllCategories=()=>{
+    getAllCategories(user.token)
+      .then((res) => {
+        // console.log(res?.data?.data, "productssssss")
+        setIsLoading(false);
+        if (res.status === 200) {
+          let data = res?.data?.data;
+          setCategoires(data);
+        }
+      })
+      .catch((error) => {
+        // toast.error(error);
+        setIsLoading(false)
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
   return (
     <>
       <NavigationDrawer>
@@ -579,8 +603,9 @@ const ServicesAdmin = () => {
                     helperText={catError}
                   >
                     <option selected>Category</option>
-                    <option value="Saloon">Saloon</option>
-                    <option value="Workshop">Workshop</option>
+                    {categories?.map((value,ind)=>{
+                      return <option key={ind} value={value?._id}>{value?.name}</option>
+                    })}
                   </select>
                   </div>
                  </div>
@@ -991,7 +1016,7 @@ const ServicesAdmin = () => {
                       {item.name}
                     </TableCell>
                     <TableCell align="center">{item?.price} AED</TableCell>
-                    <TableCell align="center">{item.category}</TableCell>
+                    <TableCell align="center">{item?.category?.name}</TableCell>
                     <TableCell align="center">
                       {item?.description?.slice(0, 20)}
                     </TableCell>

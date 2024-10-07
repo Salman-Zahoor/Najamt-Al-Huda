@@ -103,6 +103,11 @@ export default function NavigationDrawer(props) {
       path: "/category",
       label: "Category",
     },
+    {
+      icon: <Dashboard/>,
+      path: "/bookings",
+      label: "Bookings",
+    },
     
     
     

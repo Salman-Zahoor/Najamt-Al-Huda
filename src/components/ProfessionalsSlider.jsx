@@ -5,7 +5,6 @@ import BasicDateTimePicker from "./DateAndTime";
 import { checkBooking, getEmployeesClientSide } from "../services/products/Products";
 import logo2 from "../assets/logo2.png"
 const ProfessionalsSlider = ({teamId, setTeamId,setSelectedDateTime,selectedDateTime,isAutoAssign,setIsAutoAssign}) => {
-  console.log(teamId, 'neeeeew')
   const [activeIndex, setActiveIndex] = useState(-1); 
   const [team, setTeam] = useState([]); 
 
@@ -64,9 +63,11 @@ const ProfessionalsSlider = ({teamId, setTeamId,setSelectedDateTime,selectedDate
       setActiveIndex(index);
       setIsAutoAssign(true)
       return
-    }
+    }else{
     setActiveIndex(index);
-    setTeamId(id); 
+    setTeamId(id)
+    setIsAutoAssign(false)
+    }; 
   };
  
  

@@ -8,8 +8,9 @@ import Typography from "@mui/material/Typography";
 import Faqs from "./Faqs";
 import ProfessionalsSlider from "./ProfessionalsSlider";
 import PaymentMethod from "./PaymentMethod";
-import { checkBooking } from "../services/products/Products";
+import { addBooking, checkBooking } from "../services/products/Products";
 import { message } from "antd";
+import { toast } from "react-toastify";
 
 const steps = ["Service Info", "Appointment Schedule", "Payment Gateway"];
 
@@ -19,6 +20,7 @@ export default function HorizontalLinearStepper({ singlePageData }) {
   const [teamId, setTeamId] = React.useState(null);
   const [selectedDateTime, setSelectedDateTime] = React.useState(null);
   const [isAutoAssign, setIsAutoAssign] = React.useState(true);
+  const [message,setMessage]=React.useState("")
   const [userDetails, setUserDetails] = React.useState({
     name: "",
     email: "",
@@ -34,6 +36,43 @@ export default function HorizontalLinearStepper({ singlePageData }) {
   };
 
   const handleNext = () => {
+    if (activeStep=== 2) {
+      const {name,email,phone,address}=userDetails
+      if (name ==="") {
+        alert("Name is required")
+        return
+      } if (email ==="") {
+        alert("Email is required")
+        return
+      } if (phone ==="") {
+        alert("Phone is required")
+        return
+      } if (address ==="") {
+        alert("address is required")
+        return
+      }
+      let body={
+        employeeId:teamId,
+        serviceDate:new Date(selectedDateTime),
+        serviceTime:new Date(selectedDateTime),
+        serviceId:singlePageData?._id,
+        date:new Date(),
+        bookingId:Math.floor(100000 + Math.random() * 900000),
+        price:singlePageData?.price,
+        name,
+        email,
+        phone,
+        address
+      }
+      addBooking(body).then((response)=> {
+        if (response?.status==200) {
+          alert("Appointment booked successfully")
+          setMessage("To confirm your appointment, please pay the amount shared in the QR code or sent to your email address.")
+        }
+      }).catch((error)=>{
+
+      })
+    }
     if (activeStep === 1 && !selectedDateTime) {
       message.error('Please select a time and date')
       return;
@@ -75,12 +114,16 @@ export default function HorizontalLinearStepper({ singlePageData }) {
   const handleCheckBooking = () => {
     let payload = {
       selectedTime: selectedDateTime,
-      employeeId: teamId,
+      employeeId: isAutoAssign ? null  : teamId,
       autoAssign: isAutoAssign,
     };
     checkBooking(payload)
       .then((res) => {
-        console.log(res, "hey-resssssssssssssssssss");
+        if (res?.status==200) {
+         if (res?.data?.employeeId) {
+          setTeamId(res?.data?.employeeId)
+         } 
+        }       
       })
       .catch((error) => {
         console.log(error);
@@ -111,11 +154,11 @@ export default function HorizontalLinearStepper({ singlePageData }) {
       {activeStep === steps.length ? (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
+            {message}
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset}>Reset</Button>
+            <Button onClick={handleReset}>Go to home</Button>
           </Box>
         </React.Fragment>
       ) : (
