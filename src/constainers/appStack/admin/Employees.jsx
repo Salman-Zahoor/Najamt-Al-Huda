@@ -191,7 +191,7 @@ const Employees = () => {
   const handleAddProductss = () => {
     const { name, email, description, profession, image, contactNo,category } =
       inputValues;
-
+      console.log(inputValues, "sasas")
     let body = {
       name,
       email,

@@ -90,7 +90,7 @@ const Dashboard = () => {
             <div className="container mb-5">
               <div className="row  mt-5 pt-3 d-flex align-items-center justify-content-center">
                 {cardData?.map((item, index) => (
-                  <div className="col-md-4" key={index}>
+                  <div className="col-md-4 mb-2 mb-md-0" key={index}>
                     <div className="progress-card p-3 ">
                       <div className="d-flex align-items-center justify-content-between">
                         <h5>{item?.label}</h5>

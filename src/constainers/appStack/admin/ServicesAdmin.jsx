@@ -32,7 +32,7 @@ import {
   updateEmployee,
 } from "../../../services/employee/Employee";
 
-import { addServices, deleteService, getAllServices, updateService } from "../../../services/admin/Admin";
+// import { addServices, deleteService, getAllServices, updateService } from "../../../services/admin/Admin";
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import remove from "../../../assets/remove.png"
