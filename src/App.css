@@ -236,7 +236,7 @@ button.category-button {
 }
 
 .home-container{
-  background: url('./assets/make-up.webp');
+  background: url('https://i.ibb.co/k2QKJHc/make-up.jpg');
   background-position:center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -452,13 +452,13 @@ img.pro-1 {
   min-height: 100vh;
 }
 .about-container{
-background: url('./assets/about-bg.webp');
+background: url('https://i.ibb.co/6w9ggMM/about-bg.png');
 background-position: center center;
 background-size: cover;
 background-repeat: no-repeat;
 }
 .service-container{
-  background: url('./assets/overlay.webp');
+  background: url('https://i.ibb.co/c6nWmjR/overlay.png');
   background-position: center center;
   background-size: cover;
 }
@@ -469,7 +469,7 @@ background-repeat: no-repeat;
 
 /* service page */
 .service-page-container{
-  background: url('./assets/hero-bg.webp');
+  background: url('https://i.ibb.co/QKV6876/hero-bg.jpg');
   background-position:center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -614,7 +614,7 @@ img.single-image {
 }
 /* about page */
 .about-page-container{
-  background: url('./assets/hero1.webp');
+  background: url('https://i.ibb.co/f24MzPR/hero1.jpg');
   /* background-position: center; */
   background-size: cover;
   background-repeat: no-repeat;
