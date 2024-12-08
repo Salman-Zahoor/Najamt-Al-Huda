@@ -46,7 +46,18 @@ const Employees = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-
+  const [inputValues, setInputValues] = useState({
+    id:"",
+    name: "",
+    email: "",
+    description: "",
+    contactNo: "",
+    profession: "",
+    image: "",
+    category:"",
+  });
+  console.log(inputValues?.image, "imageees");
+  
   const [options, setOptions] = useState([
     {
       title: "",
@@ -60,16 +71,7 @@ const Employees = () => {
     },
   ]);
 
-  const [inputValues, setInputValues] = useState({
-    id:"",
-    name: "",
-    email: "",
-    description: "",
-    contactNo: "",
-    profession: "",
-    image: "",
-    category:"",
-  });
+ 
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -117,7 +119,6 @@ const Employees = () => {
     setIsLoading(true);
     getEmployees(user.token, currentPage)
       .then((res) => {
-        // console.log(res?.data?.data, "productssssss")
         setIsLoading(false);
         if (res.status === 200) {
           let data = res?.data?.data;
@@ -170,11 +171,10 @@ const Employees = () => {
       setIsLoading(true);
       updateEmployee(user.token,inputValues?.id,body)
         .then((res) => {
-          console.log(res,"resppppppppppppppp");
           setIsLoading(false);
           if (res.status === 200) {
             getEmployeesData();
-            toggle();
+            setUpdateModal(false)
             toast.success(res?.data?.message);
           }else{
             setIsLoading(false);
@@ -318,7 +318,7 @@ const Employees = () => {
       image: "",
       category:"",
     })
-    setModal(true);
+    setModal(!modal);
     setUpdateModal(false)
   }
 
@@ -403,36 +403,35 @@ const Employees = () => {
                 className="p-4"
                 style={{ maxHeight: "60vh", overflowY: "auto" }}
               >
-                {
-               inputValues?.image ? 
-               <div className=" d-flex align-items-center justify-content-center" onClick={handleImageUpload}>
-                   <img
-                            src={inputValues.image}
-                            alt="product image"
-                            className="img-fluid rounded-circle"
-                            height={"100px"}
-                            width={"120px"}
-                          />
-               </div>
-                :
-                <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
-                  <i onClick={handleImageUpload}>
-                    <CameraAltIcon className="camera-icon" />
-                  </i>
-                </div>
-                  
+                 {
+                  inputValues?.image ?
+                  <div className="d-flex align-items-center justify-content-center" onClick={handleImageUpload}>
+                    <img
+                      src={inputValues.image}
+                      alt="product image"
+                      className="img-fluid rounded-circle"
+                      height={"100px"}
+                      width={"120px"}
+                    />
+                  </div>
+                  :
+                  <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
+                    <i onClick={handleImageUpload}>
+                      <CameraAltIcon className="camera-icon" />
+                    </i>
+                  </div>
                 }
-                {/* Hidden input for file selection */}
-                <input
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  ref={fileInputRef}
-                  onChange={handleFileSelect}
-                  id="image"
-                  error={!!imageError}
-                  helperText={imageError}
-                />
+      
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    ref={fileInputRef}
+                    onChange={handleFileSelect}
+                    id="image"
+                    error={!!imageError}
+                    helperText={imageError}
+                  />
 
                 <div className="text-fields mt-3">
                   <div className="row">
@@ -541,8 +540,8 @@ const Employees = () => {
 
 
           <div className="add-product-modal ">
-            <Modal isOpen={updateModal} toggle={()=>updateToggle(null)} className=" w-100">
-              <ModalHeader toggle={()=>updateToggle(null)}>Update Employees</ModalHeader>
+            <Modal isOpen={updateModal} toggle={()=>updateToggle()} className=" w-100">
+              <ModalHeader toggle={()=>updateToggle()}>Update Employees</ModalHeader>
               <ModalBody
                 className="p-4"
                 style={{ maxHeight: "60vh", overflowY: "auto" }}

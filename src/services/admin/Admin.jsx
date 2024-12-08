@@ -36,3 +36,7 @@ export const deleteCategory = (token,id) => {
 export const getAllBookings = (token,page) => {
     return Api(`${endPoints.getAllBookings}?page=${page}`, null, requestType.GET,token) 
 }
+
+export const updateStatus = (id,body,token) => {
+    return Api(`${endPoints.statusUpdate}/${id}`, body, requestType.PUT,token) 
+}
