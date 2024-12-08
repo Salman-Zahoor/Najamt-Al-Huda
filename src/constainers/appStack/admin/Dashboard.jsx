@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -9,9 +9,31 @@ import icon2 from "../../../assets/icon2.png";
 import icon3 from "../../../assets/icon3.png";
 import NavigationDrawer from "../../../components/navigationDrawer/index";
 import BookingChart from "../../../components/BookingChart";
+import { getDashboardData } from "../../../services/admin/Admin";
 
 
 const Dashboard = () => {
+  const [cardsData, setCardsData] = useState([]);
+    console.log(cardsData, "datatatatata");
+    
+  useEffect(()=>{
+    handleCardData()
+  },[])
+
+ const handleCardData = ()=>{
+  getDashboardData().then((res)=>{
+    if(res?.status === 200){
+      const data = res?.data?.data
+      console.log(data, "mainnn");
+      
+      setCardsData(data)
+    }
+   }).catch((error)=>{
+    console.log(error)
+   })
+ }
+
+
   const data = [
     {
       name: "Page A",
@@ -89,22 +111,16 @@ const Dashboard = () => {
         <div className="dashboard_page vh-100">
             <div className="container mb-5">
               <div className="row  mt-5 pt-3 d-flex align-items-center justify-content-center">
-                {cardData?.map((item, index) => (
-                  <div className="col-md-4 mb-2 mb-md-0" key={index}>
+                {/* {cardData?.map((item, index) => ( */}
+                  <div className="col-md-4 mb-2 mb-md-0">
                     <div className="progress-card p-3 ">
                       <div className="d-flex align-items-center justify-content-between">
-                        <h5>{item?.label}</h5>
-                        {/* <img
-                          src={icon}
-                          alt="icon"
-                          width={30}
-                          height={30}
-                          style={{ filter: `drop-shadow(0 0 0 ${item.fill})` }}
-                        /> */}
-                        {item?.icon}
+                        <h5>Bookings</h5>
+                        <img src={icon3} alt="icon1" width={30}
+                            height={30} />
                       </div>
-                      <p className="fs-1 mt-2" style={{ color: item.fill }}>
-                        {item?.count}
+                      <p className="fs-1 mt-2" style={{ color:"#00CCDD" }}>
+                      {cardsData?.allBookings}
                       </p>
                       <ResponsiveContainer
                         width="100%"
@@ -125,21 +141,87 @@ const Dashboard = () => {
                           <Area
                             type="monotone"
                             dataKey="uv"
-                            stroke={item.fill}
-                            fill={item.fill}
+                            stroke="#00CCDD"
+                            fill="#00CCDD"
                           />
                         </AreaChart>
                       </ResponsiveContainer>
                     </div>
                   </div>
-                ))}
+                  <div className="col-md-4 mb-2 mb-md-0">
+                    <div className="progress-card p-3 ">
+                      <div className="d-flex align-items-center justify-content-between">
+                        <h5>Employees</h5>
+                        <img src={icon2} alt="icon1" width={30} height={30} />
+                      </div>
+                      <p className="fs-1 mt-2" style={{ color:"#87A2FF" }}>
+                      {cardsData?.allEmployee}
+                      </p>
+                      <ResponsiveContainer
+                        width="100%"
+                        height="20%"
+                        className="mx-auto"
+                      >
+                        <AreaChart
+                          width={500}
+                          height={400}
+                          data={data}
+                          margin={{
+                            top: 0,
+                            right: 0,
+                            left: 0,
+                            bottom: 0,
+                          }}
+                        >
+                          <Area
+                            type="monotone"
+                            dataKey="uv"
+                            stroke="#87A2FF"
+                            fill="#87A2FF"
+                          />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                  <div className="col-md-4 mb-2 mb-md-0">
+                    <div className="progress-card p-3 ">
+                      <div className="d-flex align-items-center justify-content-between">
+                        <h5>Services</h5>
+                        <img src={icon1} alt="icon1" width={30} height={30} />
+                      </div>
+                      <p className="fs-1 mt-2" style={{ color:"#8FD14F" }}>
+                      {cardsData?.allServices}
+                      </p>
+                      <ResponsiveContainer
+                        width="100%"
+                        height="20%"
+                        className="mx-auto"
+                      >
+                        <AreaChart
+                          width={500}
+                          height={400}
+                          data={data}
+                          margin={{
+                            top: 0,
+                            right: 0,
+                            left: 0,
+                            bottom: 0,
+                          }}
+                        >
+                          <Area
+                            type="monotone"
+                            dataKey="uv"
+                            stroke="#8FD14F"
+                            fill="#8FD14F"
+                          />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                {/* ))} */}
               </div>
             </div>
-             
-             <BookingChart/>
-            
-          
-          
+             <BookingChart cardsData={cardsData}/>
         </div>
       </NavigationDrawer>
     </>

@@ -1,5 +1,5 @@
 import axios from "axios";
-let baseUrl = "https://najamt-server.vercel.app/api/v1/";
+let baseUrl = "https://najamt-server-final.vercel.app/api/v1/";
 // let baseUrl = "http://192.168.100.28:5000/api/v1/"; 
 
 const api = async (path, params, method,token) => {

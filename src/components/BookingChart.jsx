@@ -45,14 +45,22 @@ const data = [
     amt: 2100,
   },
 ];
-const BookingChart = () => {
+
+  
+
+
+const BookingChart = ({cardsData}) => {
+  // const data = cardsData?.bookingsChartData.map((res) => );
+  // console.log(data, "charrrrrrrt");
+  
+  
   return (
    <>
   <ResponsiveContainer width="80%" height="60%" className="mx-auto">
         <BarChart
           width={500}
           height={300}
-          data={data}
+          data={cardsData?.bokingsChartData}
           margin={{
             top: 5,
             right: 0,
@@ -61,12 +69,12 @@ const BookingChart = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis  dataKey="numberofbookings"  />
+          <YAxis dataKey="numberofbookings"/>
           <Tooltip />
           <Legend />
-          <Bar dataKey="pv" fill="#FEBD59" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-          <Bar dataKey="uv" fill="#FEBD89" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+          <Bar dataKey="numberofbookings" fill="#FEBD59" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+          {/* <Bar dataKey="uv" fill="#FEBD89" activeBar={<Rectangle fill="gold" stroke="purple" />} /> */}
         </BarChart>
       </ResponsiveContainer>
    </>

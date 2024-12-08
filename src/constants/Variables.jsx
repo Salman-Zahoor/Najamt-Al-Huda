@@ -49,6 +49,6 @@ export const endPoints = {
     // Status
     statusUpdate:"updateBooking",
 
-    // contact us form
     contactUs:"contactUs",
+    adminDashboard:"adminDashboard",
 };

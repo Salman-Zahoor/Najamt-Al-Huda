@@ -47,3 +47,7 @@ export const contactUsForm = (body) => {
     return Api(`${endPoints.contactUs}`, body, requestType.POST,null) 
 }
 
+export const getDashboardData = () => {
+    return Api(`${endPoints.adminDashboard}`, null, requestType.GET,null) 
+}
+
