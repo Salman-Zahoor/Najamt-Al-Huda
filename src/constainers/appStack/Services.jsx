@@ -83,6 +83,7 @@ const Services = () => {
 
   return (
     <>
+      
       <div className="service-page-container">
         <div className="hero-container">
           <Navbar />
@@ -126,7 +127,7 @@ const Services = () => {
               {getAllServices?.length > 0 ? (
                 getAllServices.map((product, index) => (
                   <div className="col-md-4 mb-5" key={index}>
-                    <div class="card " style={{ width: "18rem" }}>
+                    <div class="card w-100" style={{ width: "18rem" }}>
                       <img
                         src={product?.image}
                         class="card-img-top"

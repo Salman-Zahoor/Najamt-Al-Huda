@@ -24,8 +24,8 @@ const ServiceContainer = () => {
         <div className="container d-flex align-items-center justify-content-center">
             <div className="row d-flex align-items-center justify-content-center">
             <div className="col-md-4">
-            <div class="card" data-aos="fade-up"
-     data-aos-duration="800" style={{width:"18rem"}}>
+            <div class="card w-100" data-aos="fade-up"
+              data-aos-duration="800" style={{width:"18rem"}}>
             <img src={hair} class="card-img-top" alt="..."/>
             <div class="card-body p-3"> 
                 <div className="d-flex align-items-center justify-content-between">
@@ -47,7 +47,7 @@ const ServiceContainer = () => {
             </div>
             </div>
             <div className="col-md-4">
-            <div class="card" data-aos="fade-up"
+            <div class="card w-100" data-aos="fade-up"
      data-aos-duration="1000" style={{width:"18rem"}}>
             <img src={massage} class="card-img-top" alt="..."/>
             <div class="card-body p-3"> 
@@ -70,7 +70,7 @@ const ServiceContainer = () => {
             </div>
             </div>
             <div className="col-md-4">
-            <div class="card" data-aos="fade-up"
+            <div class="card w-100" data-aos="fade-up"
      data-aos-duration="1200" style={{width:"18rem"}}>
             <img src={skin} class="card-img-top" alt="..."/>
             <div class="card-body p-3"> 

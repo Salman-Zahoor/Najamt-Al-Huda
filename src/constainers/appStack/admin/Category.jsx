@@ -125,7 +125,7 @@ const Category = () => {
           setIsLoading(false);
           if (res.status === 200) {
             getEmployeesData();
-            toggle();
+            setUpdateModal(false)
             toast.success(res?.data?.message);
           }else{
             setIsLoading(false);

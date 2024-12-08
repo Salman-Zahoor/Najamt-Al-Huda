@@ -16,28 +16,28 @@ const WhyChooseUsContainer = () => {
         <div className="why-us-container mt-3">
           <div className="container">
             <div className="row">
-              <div className="col-md-3 ">
+              <div className="col-md-3 d-flex align-items-center justify-content-center mb-3 ">
                 <div className="our-card p-3 text-center d-flex align-items-center justify-content-center flex-column" data-aos="fade-right"  data-aos-duration="500" data-aos-delay="500">
                 <i class="fa-solid fa-star location"></i>
                 <h5 className="fw-bold">Top rated professionals</h5>
                 <p className="pb-2">Our professionals are reliable & well-trained, with an average rating of 4.78 out of 5!</p>
                 </div>
               </div>
-              <div className="col-md-3 ">
+              <div className="col-md-3 d-flex align-items-center justify-content-center mb-3">
                 <div className="our-card p-3 text-center d-flex align-items-center justify-content-center flex-column" data-aos="fade-right"  data-aos-duration="700">
                 <i class="fa-regular fa-calendar-check location "></i>
                 <h5 className="fw-bold">Same-day availability</h5>
                 <p className="pb-3">Book in less than 60 seconds, and even select same-day slots.</p>
                 </div>
               </div>
-              <div className="col-md-3 ">
+              <div className="col-md-3 d-flex align-items-center justify-content-center mb-3">
                 <div className="our-card p-3 text-center d-flex align-items-center justify-content-center flex-column" data-aos="fade-right"  data-aos-duration="800">
                 <i class="fa-solid fa-ranking-star location"></i>
                 <h5 className="fw-bold">Top quality</h5>
                 <p className="pb-3">Our professionals are equipped with the best tools.</p>
                 </div>
               </div>
-              <div className="col-md-3 ">
+              <div className="col-md-3 d-flex align-items-center justify-content-center mb-3">
                 <div className="our-card p-3 text-center d-flex align-items-center justify-content-center flex-column" data-aos="fade-right"  data-aos-duration="900">
                 <i class="fa-solid fa-mask location"></i>
                 <h5 className="fw-bold">Super app</h5>
