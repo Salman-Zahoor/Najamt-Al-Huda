@@ -120,6 +120,7 @@ const Services = () => {
         <ServiceSlider
           getAllServices={getAllServices}
           setGetAllServices={setGetAllServices}
+          handleUserAllServices={handleUserAllServices}
         />
         <div className="service_cards">
           <div className="container d-flex align-items-center justify-content-center">

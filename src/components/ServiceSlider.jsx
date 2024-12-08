@@ -6,7 +6,7 @@ import { getUserCategories, getUserServiceByCategory } from '../services/product
 // import { clientCategory } from '../services/products/Products';
 // import { breakpoints } from '@mui/system';
 
-const ServiceSlider = ({setGetAllServices}) => {
+const ServiceSlider = ({setGetAllServices,handleUserAllServices}) => {
   const [userGetCat, setUserGetCat] = useState([])
 
   const settings = {
@@ -75,7 +75,7 @@ const ServiceSlider = ({setGetAllServices}) => {
           <div className='p-3'>
               <button
                 className="category-button"
-                // onClick={()=>handleOnClickCategory(item._id)}
+                onClick={()=>handleUserAllServices()}
               >
                 All
               </button>
