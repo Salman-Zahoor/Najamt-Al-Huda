@@ -1,5 +1,6 @@
+import { endPoints, requestType } from "../../constants/Variables";
 import Api from "../index";
-import { endPoints, requestType } from "../../constants/variables";
+
 
 
 // Login
