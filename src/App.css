@@ -132,6 +132,7 @@ a {
   border: 1px dotted var(--black);
   transition: all 0.3s ease-in;
 }
+
 .team-card:hover{
   background-color: var(--white);
   width: 130px;
@@ -236,7 +237,7 @@ button.category-button {
 }
 
 .home-container{
-  background: url('./assets/make-up.webp');
+  background: url('https://i.ibb.co/k2QKJHc/make-up.jpg');
   background-position:center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -338,7 +339,11 @@ ul.lang-change{
 nav.navbar.navbar-expand-lg.p-3 {
   margin-top: -0.8rem !important;
 }
-
+.form-select:focus {
+  border-color: gray !important;
+  outline: 0;
+  box-shadow: none !important;
+}
 .about-content {
   /* min-width: 363px; */
   height: 400px;
@@ -452,13 +457,13 @@ img.pro-1 {
   min-height: 100vh;
 }
 .about-container{
-background: url('./assets/about-bg.webp');
+background: url('https://i.ibb.co/6w9ggMM/about-bg.png');
 background-position: center center;
 background-size: cover;
 background-repeat: no-repeat;
 }
 .service-container{
-  background: url('./assets/overlay.webp');
+  background: url('https://i.ibb.co/c6nWmjR/overlay.png');
   background-position: center center;
   background-size: cover;
 }
@@ -469,7 +474,7 @@ background-repeat: no-repeat;
 
 /* service page */
 .service-page-container{
-  background: url('./assets/hero-bg.webp');
+  background: url('https://i.ibb.co/QKV6876/hero-bg.jpg');
   background-position:center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -614,7 +619,7 @@ img.single-image {
 }
 /* about page */
 .about-page-container{
-  background: url('./assets/hero1.webp');
+  background: url('https://i.ibb.co/f24MzPR/hero1.jpg');
   /* background-position: center; */
   background-size: cover;
   background-repeat: no-repeat;
@@ -736,8 +741,76 @@ padding: 15px;
 
 
 
-@media screen and (max-width: 480px){
+@media screen and (max-width: 500px){
   .MuiDrawer-root.MuiDrawer-docked.css-1r4mfv4-MuiDrawer-docked {
-    display: none;
+    display: none !important;
+}
+.about-content{
+  margin-bottom: 20px !important;
+}
+.about-image {
+  margin-top: 10px;
+}
+.card.w-100{
+  margin-bottom: 15px;
+}
+.why-us{
+  margin-bottom: 40px;
+  margin-top: 40px;
+}
+.team-container{
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+.map-embedded{
+  margin-bottom: 20px;
+}
+.map-embedded iframe{
+  width: 400px;
+  height: 250px;
+  display: flex !important;
+  align-items: center ;
+  justify-content: center;
+  margin: auto;
+}
+.privacy{
+  display: flex;
+  align-items: center;
+  justify-content: center !important;
+}
+p.footer-para{
+  text-align: center;
+}
+h1.our-pro-head{
+  font-size: 50px;
+}
+.team-cards{
+  margin-bottom: 50px;
+}
+.location-card {
+  margin-bottom: 20px;
+}
+.location-card.book-appoin i{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: left !important;
+}
+button.slick-arrow.slick-prev {
+  display: none !important;
+}
+button.slick-arrow.slick-next {
+  display: none !important;
+}
+.css-1oqqzyl-MuiContainer-root {
+  width: 100%;
+  margin-left: auto;
+  box-sizing: border-box;
+  margin-right: auto;
+  display: block;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+.price-card {
+  margin-top: 20px;
 }
 }

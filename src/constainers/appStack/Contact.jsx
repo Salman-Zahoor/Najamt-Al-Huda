@@ -27,7 +27,7 @@ const Contact = () => {
             <div className="row d-flex align-items-center justify-content-center">
               <div className="col-md-6">
                  <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-6 map-embedded">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3722544.6272144164!2d51.305971177361656!3d24.33612786894189!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5e48dfb1ab12bd%3A0x33d32f56c0080aa7!2sUnited%20Arab%20Emirates!5e0!3m2!1sen!2sus!4v1715191153632!5m2!1sen!2sus" width="550" height="274" style={{border:0, borderRadius:"10px"}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                   </div>
                  </div>
@@ -63,7 +63,7 @@ const Contact = () => {
                  </div>
                   </div> 
                   <div className="col-md-6">
-                  <div className="location-card w-100 d-flex align-items-center text-start justify-content-center p-3 gap-2 bg-white">
+                  <div className="location-card book-appoin w-100 d-flex align-items-center text-start justify-content-center p-3 gap-2 bg-white">
                   <i class="fa-solid fa-calendar-check fs-2 location"></i>
                     <h5>Book Appointment</h5>
                  </div>

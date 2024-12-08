@@ -167,30 +167,30 @@ const ServicesAdmin = () => {
     let hasError = false;
   
     // Validate required fields
-    if (name.trim() === "") {
+    if (name === "") {
       toast.error("Name is required");
       hasError = true;
-    } else if (category.trim() === "") {
+    } else if (category === "") {
       toast.error("Category is required");
       hasError = true;
-    } else if (image.trim() === "") {
+    } else if (image === "") {
       toast.error("Image is required");
       hasError = true;
-    } else if (description.trim() === "") {
+    } else if (description === "") {
       toast.error("Description is required");
       hasError = true;
-    } else if (price.trim() === "") {
+    } else if (price === "") {
       toast.error("Price is required");
       hasError = true;  
     }
     // Validate FAQs
     for (let i = 0; i < faqs.length; i++) {
-      if (!faqs[i].question.trim()) {
+      if (!faqs[i].question) {
         toast.error(`Question is required for FAQ #${i + 1}`);
         hasError = true;
         return
       }
-      if (!faqs[i].answer.trim()) {
+      if (!faqs[i].answer) {
         toast.error(`Answer is required for FAQ #${i + 1}`);
         hasError = true;
         return
@@ -205,7 +205,6 @@ const ServicesAdmin = () => {
     setIsLoading(true);
     updateService(user.token,inputValues?.id,body)
       .then((res) => {
-        console.log(res, "response");
         setIsLoading(false);
         if (res.status === 200) {
           getEmployeesData();
@@ -232,35 +231,35 @@ const ServicesAdmin = () => {
     let hasError = false;
   
     // Validate required fields
-    if (name.trim() === "") {
+    if (name === "") {
       toast.error("Name is required");
       hasError = true;
       return
-    } else if (category.trim() === "") {
+    } else if (category === "") {
       toast.error("Category is required");
       hasError = true;
       return
-    } else if (image.trim() === "") {
+    } else if (image === "") {
       toast.error("Image is required");
       hasError = true;
       return
-    } else if (description.trim() === "") {
+    } else if (description === "") {
       toast.error("Description is required");
       hasError = true;
       return
-    } else if (price.trim() === "") {
+    } else if (price === "") {
       toast.error("Price is required");
       hasError = true;  
       return
     }
     // Validate FAQs
     for (let i = 0; i < faqs.length; i++) {
-      if (!faqs[i].question.trim()) {
+      if (!faqs[i].question) {
         toast.error(`Question is required for FAQ #${i + 1}`);
         hasError = true;
         return
       }
-      if (!faqs[i].answer.trim()) {
+      if (!faqs[i].answer) {
         toast.error(`Answer is required for FAQ #${i + 1}`);
         hasError = true;
         return
@@ -761,10 +760,10 @@ const ServicesAdmin = () => {
           <div className="add-product-modal ">
             <Modal
               isOpen={updateModal}
-              toggle={() => updateToggle(null)}
+              toggle={() => updateToggle()}
               className=" w-100"
             >
-              <ModalHeader toggle={() => updateToggle(null)}>
+              <ModalHeader toggle={() => updateToggle()}>
                 Update Service
               </ModalHeader>
               <ModalBody

@@ -26,6 +26,7 @@ export default function HorizontalLinearStepper({ singlePageData }) {
     email: "",
     phone: "",
     address: "",
+    paymentType:""
   });
   const isStepOptional = (step) => {
     return step === 1;
@@ -37,7 +38,8 @@ export default function HorizontalLinearStepper({ singlePageData }) {
 
   const handleNext = () => {
     if (activeStep=== 2) {
-      const {name,email,phone,address}=userDetails
+      alert("called")
+      const {name,email,phone,address,paymentType}=userDetails
       if (name ==="") {
         alert("Name is required")
         return
@@ -48,6 +50,9 @@ export default function HorizontalLinearStepper({ singlePageData }) {
         alert("Phone is required")
         return
       } if (address ==="") {
+        alert("address is required")
+        return
+      } if (paymentType ==="") {
         alert("address is required")
         return
       }
@@ -62,7 +67,8 @@ export default function HorizontalLinearStepper({ singlePageData }) {
         name,
         email,
         phone,
-        address
+        address,
+        paymentType,
       }
       addBooking(body).then((response)=> {
         if (response?.status==200) {
@@ -119,6 +125,8 @@ export default function HorizontalLinearStepper({ singlePageData }) {
     };
     checkBooking(payload)
       .then((res) => {
+        console.log(res,"check bookingres");
+        
         if (res?.status==200) {
          if (res?.data?.employeeId) {
           setTeamId(res?.data?.employeeId)

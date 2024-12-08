@@ -44,5 +44,8 @@ export const endPoints = {
     updateCategory:"updateCategory",
     deleteCategory:"deleteCategory",
     getAllBookings:"getAllBookings",
-    addBooking:"addBooking"
+    addBooking:"addBooking",
+    
+    // Status
+    statusUpdate:"updateBooking"
 };

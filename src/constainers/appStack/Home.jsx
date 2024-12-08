@@ -55,7 +55,7 @@ const Home = (args) => {
       <div className="home-container">
         <div className="hero-container">
           <Navbar />
-          <div className="hero-content d-flex align-items-center justify-content-center flex-column">
+          <div className="hero-content d-flex align-items-center justify-content-center flex-column" data-aos="fade-down" data-aos-duration="1500">
             <div className="container">
               <div className="row ">
                 <div className="col-md-6 flex-column text-white">
