@@ -503,6 +503,7 @@ const Bookings = () => {
                   <TableCell align="center" className="fw-bold text-muted">Address</TableCell>
                   <TableCell align="center" className="fw-bold text-muted"> Date</TableCell>
                   <TableCell align="center" className="fw-bold text-muted"> Time</TableCell>
+                  <TableCell align="center" className="fw-bold text-muted">Payment Type</TableCell>
                   <TableCell align="center" className="fw-bold text-muted">Status</TableCell>
                   <TableCell align="center" className="fw-bold text-muted">Edit</TableCell>
                   {/* <TableCell align="center" className="fw-bold text-muted">Delete</TableCell> */}
@@ -527,6 +528,7 @@ const Bookings = () => {
                     <TableCell align="center">{item?.address}</TableCell>
                     <TableCell align="center">{item.formattedDate}</TableCell>
                     <TableCell align="center">{item.formattedTime}</TableCell>
+                    <TableCell align="center">{item?.paymentType}</TableCell>
                     <TableCell align="center">{item?.status}</TableCell>
                    
                     <TableCell align="center">
