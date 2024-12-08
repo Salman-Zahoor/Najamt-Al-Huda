@@ -24,7 +24,7 @@ const Team = () => {
             <div className="container">
               <div className="row ">
                 <div className="col-md-6 flex-column text-white">
-                  <h1 className="mt-5" data-aos="fade-down"  data-aos-duration="500" >OUR PROFESSIONALS</h1>
+                  <h1 className="mt-5 our-pro-head" data-aos="fade-down"  data-aos-duration="500" >OUR PROFESSIONALS</h1>
                 </div>
               </div>
             </div>

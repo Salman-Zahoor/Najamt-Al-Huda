@@ -25,6 +25,7 @@ const ServiceSlider = ({setGetAllServices}) => {
           slidesToShow: 1,
           slidesToScroll: 1,
           centerMode: false,
+          dots:false,
           centerPadding: "0%",
         }
       }

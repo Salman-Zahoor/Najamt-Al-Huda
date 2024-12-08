@@ -5,6 +5,8 @@ import "./App.css";
 import Footer from "./components/Footer";
 import AppProvider from "./context/index";
 import Loader from "./components/Loader.jsx";
+import 'aos/dist/aos.css';
+import Aos from "aos";
 
 const Home = lazy(() => import("./constainers/appStack/Home"));
 const Services = lazy(() => import("./constainers/appStack/Services"));
@@ -25,6 +27,13 @@ function App() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    Aos.init({
+      duration: 1000, 
+      easing: 'ease-in-out',
+      once: true, 
+    });
+  }, []);
   const theme = createTheme({
     typography: {
       fontFamily: ["Lato", "sans-serif"].join(","),

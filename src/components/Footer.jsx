@@ -58,10 +58,10 @@ const Footer = () => {
 
             <div className="bottom-footer ">
                 <div className="container">
-                    <div className="row ">
+                    <div className="row">
                         <div className="col-md-6">
-                            <div className="copy-right">
-                                <span className='text-white'>© 2024</span>
+                            <div className="copy-right text-white">
+                            <p className='footer-para'>&copy; {new Date().getFullYear()} Your Company Name. All rights reserved.</p>
                             </div>
                         </div>
                         <div className="col-md-6">

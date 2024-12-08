@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
+import Backdrop from '@mui/material/Backdrop';
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -26,7 +27,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import { Pagination } from "antd";
 import { addEmployee, deleteEmployee, getEmployees, updateEmployee } from "../../../services/employee/Employee";
-import { getAllBookings } from "../../../services/admin/Admin";
+import { getAllBookings, updateStatus } from "../../../services/admin/Admin";
 
 const Bookings = () => {
   const { user } = useContext(AppContext);
@@ -47,12 +48,60 @@ const Bookings = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [formattedData, setFormattedData] = useState([]);
+  const [inputValues, setInputValues] = useState([]);
+  const [status, setStatus] = useState("");
+
+  // console.log(inputValues?.id, "id");
+  
+   const handleUpdateStatus = () => {
+     const body= {
+      status:status,
+     }
+    updateStatus(inputValues.id,body,user.token).then((res)=>{
+        if(res.status === 200){
+          setUpdateModal(false)
+          toast.success("Booking Update Successfully")
+          getEmployeesData()
+        }
+    }).catch((error)=>{
+      console.log(error)
+      toast.success("Booking Update Successfully")
+      
+    })
+   }
 
 
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
+  }
+  useEffect(() => {
+  
+    const formatted = employeeData.map((item) => {
+      const formattedDate = new Date(item?.serviceDate).toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "numeric",
+        year: "numeric",
+      });
 
-// console.log('====================================');
-// console.log(employeeData,"employeeDataemployeeDataemployeeDataemployeeData");
-// console.log('====================================');
+      const formattedTime = new Date(item?.serviceDate).toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      });
+
+      return {
+        ...item,
+        formattedDate,
+        formattedTime,
+      };
+    });
+
+    setFormattedData(formatted);
+  }, [employeeData]);
+
+  
+
   const [options, setOptions] = useState([
     {
       title: "",
@@ -66,16 +115,7 @@ const Bookings = () => {
     },
   ]);
 
-  const [inputValues, setInputValues] = useState({
-    id:"",
-    name: "",
-    email: "",
-    description: "",
-    contactNo: "",
-    profession: "",
-    image: "",
-    category:"",
-  });
+ 
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -332,14 +372,17 @@ const Bookings = () => {
       setUpdateModal(!updateModal);
       setInputValues({
         id:item?._id,
-        name:item?.name,
+        bookingId:item?.bookingId,
+        price:item?.price,
+        serviceName:item?.serviceId?.name,
         email:item?.email,
-        description:item?.description,
-        contactNo:item?.contactNo,
-        profession:item?.profession,
-        image:item?.image,
-        category:item?.category,
-  
+        phone:item?.phone,
+        address:item?.address,
+        serviceDate:item?.formattedDate,
+        serviceTime:item?.formattedTime,
+        status:item?.status,
+        paymentType:item?.paymentType,
+        employeeName:item?.employeeId?.name,
       })
     }else{
       setUpdateModal(!updateModal)
@@ -384,7 +427,7 @@ const Bookings = () => {
             <div className="container">
               <div className="row">
                 <div className="col-md-6">
-                  <div className=" d-flex align-items-center gap-1">
+                  <div className=" d-flex align-items-center gap-1 justify-content-start">
                     <HomeIcon />
                     <Link to="/dashboard" className="mt-1">
                       Dashboard /{" "}
@@ -396,265 +439,33 @@ const Bookings = () => {
             </div>
           </div>
 
-          <div className="add-product-modal ">
-            <Modal isOpen={modal} toggle={toggle} className="pt-5 w-100">
-              <ModalHeader toggle={toggle}>ADD Employees</ModalHeader>
-              <ModalBody
-                className="p-4"
-                style={{ maxHeight: "60vh", overflowY: "auto" }}
-              >
-                {
-               inputValues?.image ? 
-               <div className=" d-flex align-items-center justify-content-center" onClick={handleImageUpload}>
-                   <img
-                            src={inputValues.image}
-                            alt="product image"
-                            className="img-fluid rounded-circle"
-                            height={"100px"}
-                            width={"120px"}
-                          />
-               </div>
-                :
-                <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
-                  <i onClick={handleImageUpload}>
-                    <CameraAltIcon className="camera-icon" />
-                  </i>
-                </div>
-                  
-                }
-                {/* Hidden input for file selection */}
-                <input
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  ref={fileInputRef}
-                  onChange={handleFileSelect}
-                  id="image"
-                  error={!!imageError}
-                  helperText={imageError}
-                />
-
-                <div className="text-fields mt-3">
-                  <TextFeilds
-                    label="Employee Name"
-                    size="small"
-                    value={inputValues.name}
-                    onChange={(e) => handleOnChange(e)}
-                    name="name"
-                    id="name"
-                    error={!!nameError}
-                    helperText={nameError}
-                  />
-
-                  <TextFeilds
-                    label="Email"
-                    size="small"
-                    id="price"
-                    error={!!priceError}
-                    helperText={priceError}
-                    value={inputValues.email}
-                    onChange={(e) => handleOnChange(e)}
-                    name="email"
-                  />
-                  <TextFeilds
-                    label="Contact No"
-                    size="small"
-                    id="discount"
-                    error={!!discountError}
-                    helperText={discountError}
-                    value={inputValues.contactNo}
-                    onChange={(e) => handleOnChange(e)}
-                    name="contactNo"
-                    type={"numeric"}
-                  />
-                  <TextFeilds
-                    label="Profession"
-                    size="small"
-                    id="discount"
-                    error={!!discountError}
-                    helperText={discountError}
-                    value={inputValues.profession}
-                    onChange={(e) => handleOnChange(e)}
-                    name="profession"
-                  />
-                   <select
-                    class="form-select"
-                    aria-label="Default select example"
-                    value={inputValues.category}
-                    name="category"
-                    onChange={(e) => handleOnChange(e)}
-                    id="category"
-                    error={!!catError}
-                    helperText={catError}
-                  >
-                    <option selected>Category</option>
-                    <option value="Saloon">Saloon</option>
-                    <option value="Workshop">Workshop</option>
-                  </select>
-                  <div class="mb-3 mt-3">
-                    <textarea
-                      class="form-control"
-                      id="description"
-                      placeholder="Description"
-                      rows="3"
-                      value={inputValues.description}
-                      onChange={(e) => handleOnChange(e)}
-                      name="description"
-                      error={!!descError}
-                      helperText={descError}
-                    ></textarea>
-                  </div>
-                 
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <div onClick={handleAddProductss}>
-                  <Buttons name="Create" />
-                </div>
-              </ModalFooter>
-            </Modal>
-          </div>
+     
 
 
 
           <div className="add-product-modal ">
-            <Modal isOpen={updateModal} toggle={()=>updateToggle(null)} className="pt-5 w-100">
-              <ModalHeader toggle={()=>updateToggle(null)}>Update Employees</ModalHeader>
-              <ModalBody
-                className="p-4"
-                style={{ maxHeight: "60vh", overflowY: "auto" }}
-              >
-                {
-               inputValues?.image ? 
-               <div className=" d-flex align-items-center justify-content-center" onClick={handleImageUpload}>
-                   <img
-                            src={inputValues.image}
-                            alt="product image"
-                            className="img-fluid rounded-circle"
-                            height={"120px"}
-                            width={"120px"}
-                          />
-               </div>
-                :
-                <div className="image-section bg-secondary d-flex align-items-center justify-content-center">
-                  <i onClick={handleImageUpload}>
-                    <CameraAltIcon className="camera-icon" />
-                  </i>
-                </div>
-                  
-                }
-                {/* Hidden input for file selection */}
-                <input
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  ref={fileInputRef}
-                  onChange={handleFileSelect}
-                  id="image"
-                  error={!!imageError}
-                  helperText={imageError}
-                />
-
-                <div className="text-fields mt-3">
-                  <TextFeilds
-                    label="Employee Name"
-                    size="small"
-                    value={inputValues.name}
-                    onChange={(e) => handleOnChange(e)}
-                    name="name"
-                    id="name"
-                    error={!!nameError}
-                    helperText={nameError}
-                  />
-
-                  <TextFeilds
-                    label="Email"
-                    size="small"
-                    id="price"
-                    error={!!priceError}
-                    helperText={priceError}
-                    value={inputValues.email}
-                    onChange={(e) => handleOnChange(e)}
-                    name="email"
-                  />
-                  <TextFeilds
-                    label="Contact No"
-                    size="small"
-                    id="discount"
-                    error={!!discountError}
-                    helperText={discountError}
-                    value={inputValues.contactNo}
-                    onChange={(e) => handleOnChange(e)}
-                    name="contactNo"
-                    type={"numeric"}
-                  />
-                  <TextFeilds
-                    label="Profession"
-                    size="small"
-                    id="discount"
-                    error={!!discountError}
-                    helperText={discountError}
-                    value={inputValues.profession}
-                    onChange={(e) => handleOnChange(e)}
-                    name="profession"
-                  />
-                   <select
-                    class="form-select"
-                    aria-label="Default select example"
-                    value={inputValues.category}
-                    name="category"
-                    onChange={(e) => handleOnChange(e)}
-                    id="category"
-                    error={!!catError}
-                    helperText={catError}
-                  >
-                    <option selected>Category</option>
-                    <option value="Saloon1">Saloon</option>
-                    <option value="Workshop">Workshop</option>
-                  </select>
-                  <div class="mb-3 mt-3">
-                    <textarea
-                      class="form-control"
-                      id="description"
-                      placeholder="Description"
-                      rows="3"
-                      value={inputValues.description}
-                      onChange={(e) => handleOnChange(e)}
-                      name="description"
-                      error={!!descError}
-                      helperText={descError}
-                    ></textarea>
-                  </div>
-                 
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <div onClick={handleUpdateProductss}>
-                  <Buttons name="Update" />
-                </div>
-              </ModalFooter>
-            </Modal>
+           
           </div>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Booking Id</TableCell>
-                  <TableCell align="center">Service Name</TableCell>
-                  <TableCell align="center">Service Charges</TableCell>
-                  <TableCell align="center">Assigned Employee</TableCell>
-                  <TableCell align="center">User Emial</TableCell>
-                  <TableCell align="center">User Contact No</TableCell>
-                  <TableCell align="center">User Address</TableCell>
-                  <TableCell align="center">Booking Date</TableCell>
-                  <TableCell align="center">Booking Time</TableCell>
-                  <TableCell align="center">Status</TableCell>
-                  <TableCell align="center">Edit</TableCell>
-                  <TableCell align="center">Delete</TableCell>
+                  <TableCell align="center" className="fw-bold text-muted" style={{width:"100px"}}>ID</TableCell>
+                  <TableCell align="center" className="fw-bold text-muted">Service </TableCell>
+                  <TableCell align="center" className="fw-bold text-muted">Charges</TableCell>
+                  <TableCell align="center" className="fw-bold text-muted">Employee</TableCell>
+                  <TableCell align="center" className="fw-bold text-muted">User Emial</TableCell>
+                  <TableCell align="center" className="fw-bold text-muted">Contact</TableCell>
+                  <TableCell align="center" className="fw-bold text-muted">Address</TableCell>
+                  <TableCell align="center" className="fw-bold text-muted"> Date</TableCell>
+                  <TableCell align="center" className="fw-bold text-muted"> Time</TableCell>
+                  <TableCell align="center" className="fw-bold text-muted">Status</TableCell>
+                  <TableCell align="center" className="fw-bold text-muted">Edit</TableCell>
+                  <TableCell align="center" className="fw-bold text-muted">Delete</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {employeeData.map((item, index) => (
+                {formattedData.map((item, index) => (
                   <TableRow
                     key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -662,20 +473,20 @@ const Bookings = () => {
                     <TableCell component="th" scope="row" align="center">
                       {item?.bookingId}
                     </TableCell>
-                    <TableCell component="th" scope="row" align="center">
+                    <TableCell scope="row" sx={{ width: '650px' }} align="center">
                       {item?.serviceId?.name}
                     </TableCell>
                     <TableCell align="center">{item?.price}</TableCell>
-                    <TableCell align="center">{item?.employeeId?.name}</TableCell>
+                    <TableCell align="center" >{item?.employeeId?.name}</TableCell>
                     <TableCell align="center">{item?.email}</TableCell>
                     <TableCell align="center">{item?.phone}</TableCell>
                     <TableCell align="center">{item?.address}</TableCell>
-                    <TableCell align="center">{item?.serviceDate}</TableCell>
-                    <TableCell align="center">{item?.serviceTime}</TableCell>
+                    <TableCell align="center">{item.formattedDate}</TableCell>
+                    <TableCell align="center">{item.formattedTime}</TableCell>
                     <TableCell align="center">{item?.status}</TableCell>
                    
                     <TableCell align="center">
-                      <div
+                      <div 
                         className="text-success edit-product "
                         onClick={()=>updateToggle(item)}
                       >
@@ -697,7 +508,7 @@ const Bookings = () => {
           </TableContainer>
 
           <Pagination
-            className="pagination"
+            className="pagination mt-3  d-flex align-items-center justify-content-center"
             total={totalPages}
             current={currentPage}
             onChange={(page) => {
@@ -705,6 +516,68 @@ const Bookings = () => {
             }}
           />
         </div>
+        <Modal isOpen={updateModal} toggle={()=>updateToggle()} className="" style={{maxWidth:"800px"}}>
+              <ModalHeader toggle={()=>updateToggle()}>Update Booking</ModalHeader>
+              <ModalBody
+                className=""
+                style={{ maxHeight: "60vh", overflowY: "auto", paddingLeft:"25px" }}
+              >
+                <div className="row">
+                  <div className="col-md-4">
+                   <span className="fw-bold">ID:</span>
+                   <p>{inputValues?.bookingId}</p>
+                  </div>
+                  <div className="col-md-6">
+                   <span className="fw-bold">Service:</span>
+                   <p>{inputValues?.serviceName}</p>
+                  </div>
+                  <div className="col-md-2">
+                   <span className="fw-bold">Charges:</span>
+                   <p>{inputValues?.price}</p>
+                  </div>
+                  <div className="col-md-4 mt-3">
+                   <span className="fw-bold">Employee:</span>
+                   <p>{inputValues?.employeeName}</p>
+                  </div>
+                  <div className="col-md-6 mt-3">
+                   <span className="fw-bold">User Email:</span>
+                   <p>{inputValues?.email}</p>
+                  </div>
+                  <div className="col-md-2 mt-3">
+                   <span className="fw-bold">Contact:</span>
+                   <p>{inputValues?.phone}</p>
+                  </div>
+                  <div className="col-md-4 mt-3">
+                   <span className="fw-bold">Date:</span>
+                   <p>{inputValues?.serviceDate}</p>
+                  </div>
+                  <div className="col-md-6 mt-3">
+                   <span className="fw-bold">Address:</span>
+                   <p>{inputValues?.address}</p>
+                  </div>
+                  <div className="col-md-2 mt-3">
+                   <span className="fw-bold">Time:</span>
+                   <p>{inputValues?.serviceTime}</p>
+                  </div>
+                  <div className="col-md-4 mt-3">
+                   <span className="fw-bold">Payment Type:</span>
+                   <p>{inputValues?.paymentType}</p>
+                  </div>
+                  <div className="col-md-6 mt-3">
+                   <span className="fw-bold">Status:</span>
+                   <select className="form-select" value={status} onChange={handleStatusChange}>
+                  <option value="confirm">Confirm</option>
+                  <option value="cancel">Cancel</option>
+                </select>
+                  </div>
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <div onClick={handleUpdateStatus}>
+                  <Buttons name="Update" />
+                </div>
+              </ModalFooter>
+            </Modal>  
       </NavigationDrawer>
     </>
   );
