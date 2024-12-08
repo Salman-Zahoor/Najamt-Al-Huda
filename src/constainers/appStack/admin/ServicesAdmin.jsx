@@ -32,13 +32,13 @@ import {
   updateEmployee,
 } from "../../../services/employee/Employee";
 
-import { addServices, deleteService, getAllServices, updateService } from "../../../services/admin/Admin";
+import { addServices, deleteService, getAllServices, updateService,getAllCategories, } from "../../../services/admin/Admin";
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import remove from "../../../assets/remove.png"
 import add from "../../../assets/add.png"
 
-import { addServices, deleteService, getAllCategories, getAllServices, updateService } from "../../../services/admin/Admin";
+// import { addServices, deleteService,  getAllServices, updateService } from "../../../services/admin/Admin";
 
 
 const ServicesAdmin = () => {
