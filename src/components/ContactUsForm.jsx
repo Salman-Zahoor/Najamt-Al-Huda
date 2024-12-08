@@ -3,8 +3,9 @@ import TextFeilds from "./TextFeilds";
 import { TextField } from "@mui/material";
 import Buttons from "./Buttons";
 import { contactUsForm } from "../services/admin/Admin";
-import { toast, ToastContainer } from "react-toastify";
 import Loader from "./Loader";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const ContactUsForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -90,6 +91,8 @@ const ContactUsForm = () => {
 
   return (
     <>
+  {isLoading && <Loader isLoading={isLoading} />}
+  <div className="">
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -101,7 +104,7 @@ const ContactUsForm = () => {
         pauseOnHover
         theme="light"
       />
-      {isLoading && <Loader isLoading={isLoading} />}
+      
       <div className="contact-form bg-white p-3">
         <div className="row">
           <div className="col-md-6">
@@ -174,6 +177,7 @@ const ContactUsForm = () => {
           className="w-100 send"
         />
       </div>
+  </div>
     </>
   );
 };
