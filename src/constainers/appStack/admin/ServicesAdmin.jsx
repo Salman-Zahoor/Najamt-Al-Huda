@@ -710,10 +710,7 @@ const ServicesAdmin = () => {
                       </React.Fragment>
                     );
                   })}
-
-                 
-
-                  {inputValues?.priceOptions?.map((item, ind) => {
+                  {/* {inputValues?.priceOptions?.map((item, ind) => {
                     return (
                       <React.Fragment key={ind}>
                         <div className="row mt-3">
@@ -742,19 +739,17 @@ const ServicesAdmin = () => {
                         
                   <div className="d-flex align-items-center justify-content-end gap-3">
                   <div onClick={()=>handleRemove(ind,"priceOptions")}>
-                    {/* <Buttons name="Remove Price Options" /> */}
+                    <Buttons name="Remove Price Options" />
                     <img src={remove} alt="remove-icon" width={20} style={{cursor:"pointer"}} />
                   </div>
                   <div onClick={handleOnAddPriceOpt}>
-                    {/* <Buttons name="Add More Options" /> */}
+                    <Buttons name="Add More Options" />
                     <img src={add} alt="remove-icon" width={20} style={{cursor:"pointer"}} />
                   </div>
                   </div>
                       </React.Fragment>
                     );
-                  })}
-
-                  
+                  })} */}
                 </div>
               </ModalBody>
               <ModalFooter>
