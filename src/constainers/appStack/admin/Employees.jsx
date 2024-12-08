@@ -244,33 +244,38 @@ const Employees = () => {
   const handleFileSelect = async (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
-      const imageCompressor = new ImageCompressor();
-      const compressedImage = await imageCompressor.compress(selectedFile, {
-        quality: 0.6, // Adjust the quality as needed (0.6 is just an example)
-        maxWidth: 800, // Set the maximum width of the compressed image
-        maxHeight: 600, // Set the maximum height of the compressed image
-      });
       setIsLoading(true);
-      const form = new FormData();
-      form.append("image", compressedImage);
+  
+      // Prepare the form data for Cloudinary
+      const formData = new FormData();
+      formData.append("file", selectedFile); // Attach the file directly
+      formData.append("upload_preset", "salman"); // Replace with your Cloudinary upload preset
+      formData.append("cloud_name", "ddg5474bs"); // Replace with your Cloudinary cloud name
+  
       try {
-        let res = await axios.post("https://amberstore.pk/upload.php", form);
-        // let res = await axios.post("https://pizzafollia.com/upload.php", form);
-        if (res.status == 200) {
+        // Upload the file to Cloudinary
+        const res = await axios.post(
+          "https://api.cloudinary.com/v1_1/ddg5474bs/image/upload", // Cloudinary endpoint
+          formData
+        );
+  
+        if (res.status === 200) {
           setIsLoading(false);
-          console.log(res, "urlllllllllllllll");
           setInputValues({
             ...inputValues,
-            image: res?.data?.url,
+            image: res.data.secure_url, // Cloudinary's uploaded image URL
           });
         } else {
           setIsLoading(false);
+          console.error("Failed to upload image");
         }
       } catch (error) {
+        console.error("Error uploading image to Cloudinary:", error);
         setIsLoading(false);
       }
     }
-  };
+  };  
+
 
   const handleRemove = (index) => {
     let mummy = [...options];
@@ -409,9 +414,9 @@ const Employees = () => {
                     <img
                       src={inputValues.image}
                       alt="product image"
-                      className="img-fluid rounded-circle"
-                      height={"100px"}
-                      width={"120px"}
+                      height={"200px"}
+                      width={"200px"}
+                      style={{borderRadius:'20px'}}
                     />
                   </div>
                   :

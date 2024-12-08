@@ -287,36 +287,80 @@ const Bookings = () => {
     fileInputRef.current.click();
   };
 
+  // const handleFileSelect = async (e) => {
+  //   const selectedFile = e.target.files[0];
+  //   if (selectedFile) {
+  //     const imageCompressor = new ImageCompressor();
+  //     const compressedImage = await imageCompressor.compress(selectedFile, {
+  //       quality: 0.6, // Adjust the quality as needed (0.6 is just an example)
+  //       maxWidth: 800, // Set the maximum width of the compressed image
+  //       maxHeight: 600, // Set the maximum height of the compressed image
+  //     });
+  //     setIsLoading(true);
+  //     const form = new FormData();
+  //     form.append("image", compressedImage);
+  //     try {
+  //       let res = await axios.post("https://amberstore.pk/upload.php", form);
+  //       // let res = await axios.post("https://pizzafollia.com/upload.php", form);
+  //       if (res.status == 200) {
+  //         setIsLoading(false);
+  //         setInputValues({
+  //           ...inputValues,
+  //           image: res?.data?.url,
+  //         });
+  //       } else {
+  //         setIsLoading(false);
+  //       }
+  //     } catch (error) {
+  //       setIsLoading(false);
+  //     }
+  //   }
+  // };
+
   const handleFileSelect = async (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       const imageCompressor = new ImageCompressor();
+  
+      // Compress the image
       const compressedImage = await imageCompressor.compress(selectedFile, {
-        quality: 0.6, // Adjust the quality as needed (0.6 is just an example)
+        quality: 0.6, // Adjust the quality as needed
         maxWidth: 800, // Set the maximum width of the compressed image
         maxHeight: 600, // Set the maximum height of the compressed image
       });
+  
       setIsLoading(true);
-      const form = new FormData();
-      form.append("image", compressedImage);
+  
+      // Prepare the form data for Cloudinary
+      const formData = new FormData();
+      formData.append("file", compressedImage); // Cloudinary expects the file under 'file'
+      formData.append("upload_preset", "your_upload_preset"); // Replace with your Cloudinary upload preset
+      formData.append("cloud_name", "your_cloud_name"); // Replace with your Cloudinary cloud name
+  
       try {
-        let res = await axios.post("https://amberstore.pk/upload.php", form);
-        // let res = await axios.post("https://pizzafollia.com/upload.php", form);
-        if (res.status == 200) {
+        // Post the file to Cloudinary
+        const res = await axios.post(
+          "https://api.cloudinary.com/v1_1/your_cloud_name/image/upload", // Cloudinary endpoint
+          formData
+        );
+  
+        if (res.status === 200) {
           setIsLoading(false);
           setInputValues({
             ...inputValues,
-            image: res?.data?.url,
+            image: res.data.secure_url, // Use Cloudinary's secure URL
           });
         } else {
           setIsLoading(false);
+          console.error("Cloudinary upload failed");
         }
       } catch (error) {
+        console.error("Error uploading to Cloudinary:", error);
         setIsLoading(false);
       }
     }
   };
-
+  
   const handleRemove = (index) => {
     let mummy = [...options];
     mummy.splice(index, 1);
