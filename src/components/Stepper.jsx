@@ -9,8 +9,10 @@ import Faqs from "./Faqs";
 import ProfessionalsSlider from "./ProfessionalsSlider";
 import PaymentMethod from "./PaymentMethod";
 import { addBooking, checkBooking } from "../services/products/Products";
-import { message } from "antd";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Loader from "./Loader";
+import { useNavigate } from "react-router-dom";
 
 const steps = ["Service Info", "Appointment Schedule", "Payment Gateway"];
 
@@ -20,14 +22,18 @@ export default function HorizontalLinearStepper({ singlePageData }) {
   const [teamId, setTeamId] = React.useState(null);
   const [selectedDateTime, setSelectedDateTime] = React.useState(null);
   const [isAutoAssign, setIsAutoAssign] = React.useState(true);
-  const [message,setMessage]=React.useState("")
+  const [message, setMessage] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
   const [userDetails, setUserDetails] = React.useState({
     name: "",
     email: "",
     phone: "",
     address: "",
-    paymentType:""
+    paymentType: "",
   });
+
+  const navigate = useNavigate();
+
   const isStepOptional = (step) => {
     return step === 1;
   };
@@ -36,53 +42,83 @@ export default function HorizontalLinearStepper({ singlePageData }) {
     return skipped.has(step);
   };
 
-  const handleNext = () => {
-    if (activeStep=== 2) {
-      alert("called")
-      const {name,email,phone,address,paymentType}=userDetails
-      if (name ==="") {
-        alert("Name is required")
-        return
-      } if (email ==="") {
-        alert("Email is required")
-        return
-      } if (phone ==="") {
-        alert("Phone is required")
-        return
-      } if (address ==="") {
-        alert("address is required")
-        return
-      } if (paymentType ==="") {
-        alert("address is required")
-        return
+  const handleNext = async () => {
+    setIsLoading(true);
+    if (activeStep === 2) {
+      const { name, email, phone, address, paymentType } = userDetails;
+    
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+      if (!name) {
+        toast.error("Name is required");
+        setIsLoading(false);
+        return;
       }
-      let body={
-        employeeId:teamId,
-        serviceDate:new Date(selectedDateTime),
-        serviceTime:new Date(selectedDateTime),
-        serviceId:singlePageData?._id,
-        date:new Date(),
-        bookingId:Math.floor(100000 + Math.random() * 900000),
-        price:singlePageData?.price,
+      if (!email) {
+        toast.error("Email is required");
+        setIsLoading(false);
+        return;
+      }
+      if (!emailRegex.test(email)) {
+        toast.error("Invalid email format");
+        setIsLoading(false);
+        return;
+      }
+      if (!phone) {
+        toast.error("Phone is required");
+        setIsLoading(false);
+        return;
+      }
+      if (!address) {
+        toast.error("Address is required");
+        setIsLoading(false);
+        return;
+      }
+      if (!paymentType) {
+        toast.error("Payment type is required");
+        setIsLoading(false);
+        return;
+      }
+    
+      const body = {
+        employeeId: teamId,
+        serviceDate: new Date(selectedDateTime),
+        serviceTime: new Date(selectedDateTime),
+        serviceId: singlePageData?._id,
+        date: new Date(),
+        bookingId: Math.floor(100000 + Math.random() * 900000),
+        price: singlePageData?.price,
         name,
         email,
         phone,
         address,
         paymentType,
-      }
-      addBooking(body).then((response)=> {
-        if (response?.status==200) {
-          alert("Appointment booked successfully")
-          setMessage("To confirm your appointment, please pay the amount shared in the QR code or sent to your email address.")
+      };
+    
+      try {
+        const response = await addBooking(body);
+        if (response?.status === 200) {
+          toast.success("Appointment booked successfully");
+          setMessage(
+            "To confirm your appointment, please pay the amount shared in the QR code or sent to your email address."
+          );
+          setTimeout(() => navigate("/"), 3000);
         }
-      }).catch((error)=>{
-
-      })
-    }
-    if (activeStep === 1 && !selectedDateTime) {
-      message.error('Please select a time and date')
+      } catch (error) {
+        toast.error("Failed to book appointment");
+      } finally {
+        setIsLoading(false);
+      }
       return;
     }
+    
+
+    if (activeStep === 1 && !selectedDateTime) {
+      toast.error("Please select a time and date");
+      setIsLoading(false);
+      return;
+    }
+
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -91,125 +127,101 @@ export default function HorizontalLinearStepper({ singlePageData }) {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
     handleCheckBooking();
+    setIsLoading(false);
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  // handle check booking
-  const handleCheckBooking = () => {
-    let payload = {
+  const handleCheckBooking = async () => {
+    const payload = {
       selectedTime: selectedDateTime,
-      employeeId: isAutoAssign ? null  : teamId,
+      employeeId: isAutoAssign ? null : teamId,
       autoAssign: isAutoAssign,
     };
-    checkBooking(payload)
-      .then((res) => {
-        console.log(res,"check bookingres");
-        
-        if (res?.status==200) {
-         if (res?.data?.employeeId) {
-          setTeamId(res?.data?.employeeId)
-         } 
-        }       
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      const res = await checkBooking(payload);
+      if (res?.status === 200 && res?.data?.employeeId) {
+        setTeamId(res?.data?.employeeId);
+      }
+    } catch (error) {
+      console.error("Error checking booking:", error);
+    }
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          // if (isStepOptional(index)) {
-          //   labelProps.optional = (
-          //     <Typography variant="caption">Optional</Typography>
-          //   );
-          // }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            {message}
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset}>Go to home</Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          {activeStep === 0 && <Faqs singlePageData={singlePageData} />}
-          {activeStep === 1 && (
-            <ProfessionalsSlider
-              setTeamId={setTeamId}
-              teamId={teamId}
-              selectedDateTime={selectedDateTime}
-              setSelectedDateTime={setSelectedDateTime}
-              isAutoAssign={isAutoAssign}
-              setIsAutoAssign={setIsAutoAssign}
-            />
-          )}
-          {activeStep === 2 && (
-            <PaymentMethod
-              userDetails={userDetails}
-              setUserDetails={setUserDetails}
-            />
-          )}
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
-            {/* {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
+    <>
+      {isLoading && <Loader isLoading={isLoading} />}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <Box sx={{ width: "100%" }}>
+        <Stepper activeStep={activeStep}>
+          {steps.map((label, index) => {
+            const stepProps = {};
+            const labelProps = {};
+            if (isStepSkipped(index)) {
+              stepProps.completed = false;
+            }
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+        {activeStep === steps.length ? (
+          <React.Fragment>
+            {/* <Typography sx={{ mt: 2, mb: 1 }}>{message}</Typography> */}
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            {activeStep === 0 && <Faqs singlePageData={singlePageData} />}
+            {activeStep === 1 && (
+              <ProfessionalsSlider
+                setTeamId={setTeamId}
+                teamId={teamId}
+                selectedDateTime={selectedDateTime}
+                setSelectedDateTime={setSelectedDateTime}
+                isAutoAssign={isAutoAssign}
+                setIsAutoAssign={setIsAutoAssign}
+              />
+            )}
+            {activeStep === 2 && (
+              <PaymentMethod
+                userDetails={userDetails}
+                setUserDetails={setUserDetails}
+              />
+            )}
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Button
+                color="inherit"
+                disabled={activeStep === 0 || isLoading}
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+              >
+                Back
               </Button>
-            )} */}
-
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? "Finish" : "Next"}
-            </Button>
-          </Box>
-        </React.Fragment>
-      )}
-    </Box>
+              <Box sx={{ flex: "1 1 auto" }} />
+              <Button
+                onClick={handleNext}
+                disabled={isLoading}
+              >
+                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              </Button>
+            </Box>
+          </React.Fragment>
+        )}
+      </Box>
+    </>
   );
 }
