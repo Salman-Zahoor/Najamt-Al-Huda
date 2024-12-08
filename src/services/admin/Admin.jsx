@@ -40,3 +40,10 @@ export const getAllBookings = (token,page) => {
 export const updateStatus = (id,body,token) => {
     return Api(`${endPoints.statusUpdate}/${id}`, body, requestType.PUT,token) 
 }
+
+
+// CONTACT US FORM
+export const contactUsForm = (body) => {
+    return Api(`${endPoints.contactUs}`, body, requestType.POST,null) 
+}
+

@@ -32,10 +32,13 @@ import AboutContainer from "../../components/AboutContainer";
 import ServiceContainer from "../../components/ServiceContainer";
 import WhyChooseUsContainer from "../../components/WhyChooseUsContainer";
 import TeamContainer from "../../components/TeamContainer";
+import Loader from "../../components/Loader";
+import ContactUsForm from "../../components/ContactUsForm";
 
 
 const Home = (args) => {
   const [modal, setModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const toggle = () => setModal(!modal);
 
@@ -50,8 +53,12 @@ const Home = (args) => {
   // },[])
 
    
+  useEffect(()=>{
+    setIsLoading(true)
+  },[isLoading])
   return (
     <>
+    {isLoading && <Loader/>}
       <div className="home-container">
         <div className="hero-container">
           <Navbar />
@@ -99,42 +106,7 @@ const Home = (args) => {
                 </div>
               </div>
               <div className="col-md-5">
-               <div className="contact-form bg-white p-3">
-                  <div className="row">
-                    <div className="col-md-6">
-                 <TextFeilds id="f-name" type="text"  label="First Name" className="w-100 border-text" name="f-name"  />
-                    </div>
-                    <div className="col-md-6">
-                    <TextFeilds id="l-name" type="text"  label="Last Name" className="w-100" name="l-name"  />
-                    </div>
-                  </div>
-                  <div className="row mt-2">
-                    <div className="col-md-12">
-                 <TextFeilds id="email" type="email"  label="Email" className="w-100" name="email"  />
-                    </div>
-                  </div>
-                  <div className="row mt-2">
-                    <div className="col-md-12">
-                 <TextFeilds id="phone" type="text"  label="Phone" className="w-100" name="phone"  />
-                    </div>
-                  </div>
-                  <div className="row mt-2">
-                    <div className="col-md-12">
-                      <TextField
-                      id="outlined-multiline-flexible"
-                      label="Multiline"
-                      multiline
-                      rows={8}
-                      type="text"
-                      className="w-100 mb-3"
-                    />
-                    </div>
-                  </div>
-                  <Buttons
-                  name="Send"
-                  className="w-100 send"
-                  />
-                </div>
+              <ContactUsForm/>
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import {useTheme} from "@mui/material";
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import {
   Box,
   Toolbar,
@@ -104,7 +105,7 @@ export default function NavigationDrawer(props) {
       label: "Category",
     },
     {
-      icon: <Dashboard/>,
+      icon: <BookmarkIcon/>,
       path: "/bookings",
       label: "Bookings",
     },

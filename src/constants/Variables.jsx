@@ -47,5 +47,8 @@ export const endPoints = {
     addBooking:"addBooking",
     
     // Status
-    statusUpdate:"updateBooking"
+    statusUpdate:"updateBooking",
+
+    // contact us form
+    contactUs:"contactUs",
 };

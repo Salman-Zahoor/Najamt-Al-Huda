@@ -30,7 +30,7 @@ const ServiceContainer = () => {
             <div class="card-body p-3"> 
                 <div className="d-flex align-items-center justify-content-between">
                 <h5 class=" pt-2 ">Hair</h5>
-                <span className="price fw-bold">AED 50.00</span>
+                {/* <span className="price fw-bold">AED 50.00</span> */}
                 </div>
             <ul class=" card-ul pt-1">
                 <li class="">Iron With Curls</li>
@@ -53,7 +53,7 @@ const ServiceContainer = () => {
             <div class="card-body p-3"> 
                 <div className="d-flex align-items-center justify-content-between">
                 <h5 class=" pt-2 ">Massage</h5>
-                <span className="price fw-bold">AED 50.00</span>
+                {/* <span className="price fw-bold">AED 50.00</span> */}
                 </div>
             <ul class="card-ul pt-1">
                 <li class="">Head & Foot Massage</li>
@@ -76,7 +76,7 @@ const ServiceContainer = () => {
             <div class="card-body p-3"> 
                 <div className="d-flex align-items-center justify-content-between">
                 <h5 class=" pt-2 ">Skin Service</h5>
-                <span className="price fw-bold">AED 50.00</span>
+                {/* <span className="price fw-bold">AED 50.00</span> */}
                 </div>
             <ul class=" card-ul pt-1">
                 <li class="">Facial Whitening</li>

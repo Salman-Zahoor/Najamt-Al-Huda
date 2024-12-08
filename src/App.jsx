@@ -25,73 +25,65 @@ const Privacy = lazy(() => import("./constainers/appStack/Privacy.jsx"));
 
 function App() {
   const location = useLocation();
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     Aos.init({
-      duration: 1000, 
-      easing: 'ease-in-out',
-      once: true, 
+      duration: 1000,
+      easing: "ease-in-out",
+      once: true,
     });
   }, []);
+  useEffect(()=> {
+
+    setIsLoading(true)
+  },[isLoading])
+
   const theme = createTheme({
     typography: {
       fontFamily: ["Lato", "sans-serif"].join(","),
     },
   });
 
-  const footerRoutes = [
-    "/",
-    "/services",
-    "/about-us",
-    "/team",
-    "/contact",
-    "/products/:id",
-    "/help&support",
-    "/privacy&policy",
+
+  const adminRoutes = [
+    "/dashboard",
+    "/employees",
+    "/adminServices",
+    "/category",
+    "/bookings",
+    "admin/login",
   ];
-  const isFooterVisible = footerRoutes.includes(location.pathname);
 
-  useEffect(() => {
-    // Set loading to true on route change
-    setLoading(true);
-
-    const timeout = setTimeout(() => {
-      // Set loading to false after a delay to simulate loading
-      setLoading(false);
-    }, 500); // Adjust delay based on your needs
-
-    return () => clearTimeout(timeout); // Cleanup timeout on unmount
-  }, [location]);
+  const isFooterVisible = !adminRoutes.some((route) =>
+    location.pathname.startsWith(route)
+  );
+ 
 
   return (
     <ThemeProvider theme={theme}>
       <AppProvider>
-        {loading ? (
-          <Loader />
-        ) : (
-          <Suspense fallback={<Loader />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/about-us" element={<AboutUs />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/products/:id" element={<SingleProduct />} />
-              <Route path="/help&support" element={<Help />} />
-              <Route path="/privacy&policy" element={<Privacy />} />
+        <Suspense fallback={<Loader isLoading={isLoading}/>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/products/:id" element={<SingleProduct />} />
+            <Route path="/help&support" element={<Help />} />
+            <Route path="/privacy&policy" element={<Privacy />} />
 
-              {/* Dashboard Routes */}
-              <Route path="admin/login" element={<Login />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/employees" element={<Employees />} />
-              <Route path="/adminServices" element={<ServicesAdmin />} />
-              <Route path="/category" element={<Category />} />
-              <Route path="/bookings" element={<Bookings />} />
-            </Routes>
-            {isFooterVisible && <Footer />}
-          </Suspense>
-        )}
+            {/* Dashboard Routes */}
+            <Route path="admin/login" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/employees" element={<Employees />} />
+            <Route path="/adminServices" element={<ServicesAdmin />} />
+            <Route path="/category" element={<Category />} />
+            <Route path="/bookings" element={<Bookings />} />
+          </Routes>
+        </Suspense>
+        {isFooterVisible && <Footer />}
       </AppProvider>
     </ThemeProvider>
   );

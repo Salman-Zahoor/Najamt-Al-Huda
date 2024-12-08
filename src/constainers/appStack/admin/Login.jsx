@@ -134,7 +134,7 @@ const Login = () => {
                 name='LOGIN'
                 onClick={loginUser}
                 />
-                <div className="d-flex align-items-center justify-content-between mt-2">
+                {/* <div className="d-flex align-items-center justify-content-between mt-2">
                 <div className="remember-me">
                 <input  type='checkbox' />
                 <span className="">Remember me</span>
@@ -142,7 +142,7 @@ const Login = () => {
                 <div className="forgot-password">
                   <span className="forgot-password text-primary fw-bold">Forgot Password!</span>
                 </div>
-                </div>
+                </div> */}
                </div>
               </div>
             </div>

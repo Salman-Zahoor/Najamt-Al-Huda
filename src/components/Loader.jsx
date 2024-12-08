@@ -3,7 +3,7 @@ import loader from "../assets/loader.gif";
 import { BounceLoader } from "react-spinners";
 
 const Loader = ({ isLoading }) => {
-  let [color, setColor] = useState("#000");
+  let [color, setColor] = useState("#FFD03E");
 
   return (
     <div
@@ -17,7 +17,7 @@ const Loader = ({ isLoading }) => {
         position: "fixed",
         top: 0,
         left: 0,
-        backgroundColor: "rgba(255, 255, 255, 0.8)", 
+        backgroundColor: "#ffffff", 
         zIndex: 1000,
       }}
     >

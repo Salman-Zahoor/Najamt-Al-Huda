@@ -461,7 +461,7 @@ const Bookings = () => {
                   <TableCell align="center" className="fw-bold text-muted"> Time</TableCell>
                   <TableCell align="center" className="fw-bold text-muted">Status</TableCell>
                   <TableCell align="center" className="fw-bold text-muted">Edit</TableCell>
-                  <TableCell align="center" className="fw-bold text-muted">Delete</TableCell>
+                  {/* <TableCell align="center" className="fw-bold text-muted">Delete</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -493,14 +493,14 @@ const Bookings = () => {
                         <BorderColorIcon />
                       </div>
                     </TableCell>
-                    <TableCell align="center">
+                    {/* <TableCell align="center">
                       <div
                         className="text-danger edit-product"
                         onClick={() => deleteToggle(item._id)}
                       >
                         <DeleteIcon />
                       </div>
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

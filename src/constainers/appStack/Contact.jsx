@@ -3,6 +3,7 @@ import Navbar from '../../components/Navbar'
 import TextFeilds from '../../components/TextFeilds'
 import TextField from '@mui/material/TextField';
 import Buttons from '../../components/Buttons';
+import ContactUsForm from '../../components/ContactUsForm';
 
 const Contact = () => {
   return (
@@ -72,43 +73,8 @@ const Contact = () => {
                  </div>
                 
               </div>
-              <div className="col-md-6">
-               <div className="contact-form bg-white p-3">
-                  <div className="row">
-                    <div className="col-md-6">
-                 <TextFeilds id="f-name" type="text"  label="First Name" className="w-100 border-text" name="f-name"  />
-                    </div>
-                    <div className="col-md-6">
-                    <TextFeilds id="l-name" type="text"  label="Last Name" className="w-100" name="l-name"  />
-                    </div>
-                  </div>
-                  <div className="row mt-2">
-                    <div className="col-md-12">
-                 <TextFeilds id="email" type="email"  label="Email" className="w-100" name="email"  />
-                    </div>
-                  </div>
-                  <div className="row mt-2">
-                    <div className="col-md-12">
-                 <TextFeilds id="phone" type="text"  label="Phone" className="w-100" name="phone"  />
-                    </div>
-                  </div>
-                  <div className="row mt-2">
-                    <div className="col-md-12">
-                      <TextField
-                      id="outlined-multiline-flexible"
-                      label="Multiline"
-                      multiline
-                      rows={8}
-                      type="text"
-                      className="w-100 mb-3"
-                    />
-                    </div>
-                  </div>
-                  <Buttons
-                  name="Send"
-                  className="w-100 send"
-                  />
-                </div>
+              <div className="col-md-5">
+               <ContactUsForm/>
               </div>
             </div>
           </div>
